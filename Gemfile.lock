@@ -20,6 +20,7 @@ GEM
       sinatra (= 2.1.0)
       tilt (~> 2.0)
     tilt (2.0.10)
+    webrick (1.7.0)
 
 PLATFORMS
   x86_64-darwin-19
@@ -27,6 +28,7 @@ PLATFORMS
 DEPENDENCIES
   sinatra (= 2.1.0)
   sinatra-contrib (= 2.1.0)
+  webrick (~> 1.7)
 
 BUNDLED WITH
    2.2.3

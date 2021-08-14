@@ -8,6 +8,7 @@ GEM
     rack-protection (2.1.0)
       rack
     ruby2_keywords (0.0.4)
+    sequel (5.47.0)
     sinatra (2.1.0)
       mustermann (~> 1.0)
       rack (~> 2.2)
@@ -27,6 +28,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  sequel (= 5.47.0)
   sinatra (= 2.1.0)
   sinatra-contrib (= 2.1.0)
   webrick (~> 1.7)

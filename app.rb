@@ -2,9 +2,9 @@ require 'sinatra'
 require "sinatra/reloader" if development?
 
 get '/' do
-  'Hello world!'
+  'Рейтинги МАИИ'
 end
 
-get "/:model/teams" do |model|
+get "/:model/" do |model|
   "Showing teams for #{model}"
 end

@@ -1,22 +1,24 @@
 <h3><%= @model_name %></h3>
-<table>
+<div class="mx-8 my-16">
+<table class="shadow-lg bg-white">
   <thead>
   <tr>
-    <th>ID</th>
-    <th>Команда</th>
-    <th>Рейтинг</th>
-    <th>Дельта</th>
+    <th class="bg-blue-100 border text-left px-8 py-4">ID</th>
+    <th class="bg-blue-100 border text-left px-8 py-4">Команда</th>
+    <th class="bg-blue-100 border text-left px-8 py-4">Рейтинг</th>
+    <th class="bg-blue-100 border text-left px-8 py-4">Дельта</th>
   </tr>
   </thead>
 
   <tbody>
   <% @teams.each do |team| %>
-    <tr>
-      <td><%= team['team_id'] %></td>
-      <td><%= team['name'] %></td>
-      <td><%= team['rating'] %></td>
-      <td><%= team['rating_change'] %></td>
+    <tr class="border py-2 hover:bg-gray-100">
+      <td class="border px-8 py-2"><%= team['team_id'] %></td>
+      <td class="border px-8"><%= team['name'] %></td>
+      <td class="text-center border"><%= team['rating'] %></td>
+      <td class="text-center border"><%= team['rating_change'] %></td>
     </tr>
   <% end %>
   </tbody>
 </table>
+</div>

@@ -4,7 +4,6 @@ ruby '3.0.1'
 
 gem 'rails', '~> 6.1.4'
 gem 'puma', '~> 5.0'
-gem 'sequel', '5.47.0'
 gem 'pg', '1.2.3'
 
 gem 'bootsnap', '>= 1.4.4', require: false

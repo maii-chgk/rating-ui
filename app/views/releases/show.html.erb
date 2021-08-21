@@ -1,0 +1,22 @@
+<h3><%= @model_name %></h3>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Команда</th>
+    <th>Рейтинг</th>
+    <th>Дельта</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @teams.each do |team| %>
+    <tr>
+      <td><%= team['team_id'] %></td>
+      <td><%= team['name'] %></td>
+      <td><%= team['rating'] %></td>
+      <td><%= team['rating_change'] %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

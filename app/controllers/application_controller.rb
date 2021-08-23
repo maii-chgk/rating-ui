@@ -4,8 +4,8 @@ class ApplicationController < ActionController::Base
   private
 
   def validate_model_name
-    unless params[:model] =~ /\A[a-zA-Z_]+\z/
-      render text: "Такой модели нет", content_type: 'text/plain', status: :bad_request
+    unless params[:model].blank? || params[:model] =~ /\A[a-zA-Z_]+\z/
+      render plain: "Такой модели нет", status: :bad_request
     end
   end
 end

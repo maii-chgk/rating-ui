@@ -1,8 +1,9 @@
 <h3><%= @model_name %></h3>
-<div class="mx-8 my-16">
+<div class="mx-4 my-4">
 <table class="shadow-lg bg-white">
   <thead>
   <tr>
+    <th class="bg-blue-100 border text-left px-8 py-4">Место</th>
     <th class="bg-blue-100 border text-left px-8 py-4">ID</th>
     <th class="bg-blue-100 border text-left px-8 py-4">Команда</th>
     <th class="bg-blue-100 border text-left px-8 py-4">Рейтинг</th>
@@ -11,8 +12,9 @@
   </thead>
 
   <tbody>
-  <% @teams.each do |team| %>
+  <% @teams.each_with_index do |team, place| %>
     <tr class="border py-2 hover:bg-gray-100">
+      <td class="text-center border px-8 py-2"><%= place + 1 %></td>
       <td class="border px-8 py-2"><%= team['team_id'] %></td>
       <td class="border px-8"><%= team['name'] %></td>
       <td class="text-center border"><%= team['rating'] %></td>

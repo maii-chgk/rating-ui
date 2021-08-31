@@ -1,4 +1,6 @@
 class Model < ApplicationRecord
+  include Cacheable
+
   def all_teams_for_release(release_id)
     sql = <<~SQL
       select team_id, t.title as name, r.rating, r.rating_change
@@ -7,7 +9,8 @@ class Model < ApplicationRecord
       where release_details_id = $1
       order by r.rating desc
     SQL
-    ActiveRecord::Base.connection.exec_query(sql, "", [[nil, release_id]])
+
+    exec_query_with_cache(query: sql, params: [nil, release_id], cache_key: release_id)
   end
 
   def all_teams_for_latest_release
@@ -19,6 +22,7 @@ class Model < ApplicationRecord
       join (select max(date) as max_date from #{name}.release_details) rd_max on rd.date = rd_max.max_date
       order by r.rating desc
     SQL
-    ActiveRecord::Base.connection.exec_query(sql)
+
+    exec_query_with_cache(query: sql, cache_key: "#{id}#latest")
   end
 end

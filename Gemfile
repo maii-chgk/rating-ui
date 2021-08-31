@@ -7,7 +7,8 @@ gem 'puma', '~> 5.0'
 gem 'pg', '1.2.3'
 gem "tailwindcss-rails", "~> 0.4.1"
 gem 'bootsnap', '>= 1.4.4', require: false
-gem 'newrelic_rpm'
+gem 'redis'
+gem 'hiredis'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

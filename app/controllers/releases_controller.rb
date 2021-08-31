@@ -1,7 +1,10 @@
 class ReleasesController < ApplicationController
+  DEFAULT_MODEL = "b".freeze
+
   def show
-    @model_name = current_model.name
-    @teams = current_model.all_teams_for_release(params[:release_id])
+    @model_id = current_model.id
+    @release_id = params[:release_id]
+    @teams = current_model.all_teams_for_release(@release_id)
   end
 
   def latest
@@ -10,6 +13,6 @@ class ReleasesController < ApplicationController
   end
 
   def current_model
-    Model.find_by(name: params[:model])
+    Model.find_by(name: params[:model] || DEFAULT_MODEL)
   end
 end

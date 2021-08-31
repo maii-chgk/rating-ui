@@ -72,4 +72,5 @@ Rails.application.configure do
   end
 
   config.assets.compile = false
+  config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'], password: ENV['REDIS_PASSWORD'] }
 end

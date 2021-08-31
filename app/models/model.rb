@@ -23,6 +23,6 @@ class Model < ApplicationRecord
       order by r.rating desc
     SQL
 
-    exec_query_with_cache(query: sql, cache_key: "#{id}#latest")
+    exec_query_with_cache(query: sql, cache_key: "#{id}/latest")
   end
 end

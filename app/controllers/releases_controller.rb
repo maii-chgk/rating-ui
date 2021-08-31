@@ -8,6 +8,8 @@ class ReleasesController < ApplicationController
   end
 
   def latest
+    @model_id = current_model.id
+    @release_id = :latest
     @teams = current_model.all_teams_for_latest_release
     render :show
   end

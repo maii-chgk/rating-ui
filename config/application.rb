@@ -34,5 +34,6 @@ module RatingUi
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+    config.action_controller.default_url_options = { :trailing_slash => true }
   end
 end

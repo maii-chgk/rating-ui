@@ -1,5 +1,22 @@
-<div class="mx-4 my-4 flex">
-  <% cache "release/#{@model_id}/#{@release_id}" do %>
-    <%= render "release" %>
-  <% end %>
+<div class="flex">
+  <div class="flex-col mx-4 my-4">
+  <div class="flex-row">
+    <div>
+      <label>Релиз от <%= @release_date %></label>
+    </div>
+
+    <div>
+      <% cache "release_dropdown/#{@model_name}" do %>
+        <%= render "release_dropdown" %>
+      <% end %>
+    </div>
+
+  </div>
+
+  <div class="flex-row my-2">
+    <% cache "release/#{@model_name}/#{@release_id}" do %>
+      <%= render "release" %>
+    <% end %>
+  </div>
+  </div>
 </div>

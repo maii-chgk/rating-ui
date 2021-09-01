@@ -10,7 +10,7 @@ class Model < ApplicationRecord
       order by r.rating desc
     SQL
 
-    exec_query_with_cache(query: sql, params: [nil, release_id], cache_key: release_id)
+    exec_query_with_cache(query: sql, params: [nil, release_id], cache_key: "#{name}/#{release_id}")
   end
 
   def all_teams_for_latest_release
@@ -23,6 +23,26 @@ class Model < ApplicationRecord
       order by r.rating desc
     SQL
 
-    exec_query_with_cache(query: sql, cache_key: "#{id}/latest")
+    exec_query_with_cache(query: sql, cache_key: "#{name}/latest")
+  end
+
+  def all_releases
+    sql = <<~SQL
+      select date, id
+      from #{name}.release_details
+      order by date desc
+    SQL
+
+    exec_query_with_cache(query: sql, cache_key: "#{name}/all_releases")
+  end
+
+  def latest_release
+    sql = <<~SQL
+      select date, id
+      from #{name}.release_details
+      where date = (select max(date) as max_date from #{name}.release_details)
+    SQL
+
+    exec_query_with_cache(query: sql, cache_key: "#{name}/latest_release_details").to_a.first
   end
 end

@@ -9,6 +9,7 @@ gem "tailwindcss-rails", "~> 0.4.1"
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'redis'
 gem 'hiredis'
+gem 'rails-i18n', '~> 6.0.0'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

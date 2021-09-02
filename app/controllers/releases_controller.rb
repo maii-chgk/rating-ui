@@ -7,14 +7,15 @@ class ReleasesController < ApplicationController
   end
 
   def latest
-    @release_id = current_model.latest_release["id"]
+    @release_id = current_model.latest_release_id
     render_release
   end
 
   def render_release
     @model_name = current_model.name
-    @all_releases = current_model.all_releases
-    @release_date = l(@all_releases.find { |r| r['id'] == @release_id }['date'].to_date)
+    all_releases = current_model.all_releases
+    @release_date = all_releases.find { |r| r['id'] == @release_id }['date']
+    @releases_in_dropdown = all_releases.map(&:values)
     @teams = current_model.all_teams_for_release(@release_id)
     render :show
   end

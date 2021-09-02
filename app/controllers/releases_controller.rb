@@ -1,4 +1,6 @@
 class ReleasesController < ApplicationController
+  before_action :force_trailing_slash, only: :latest
+
   DEFAULT_MODEL = "b".freeze
 
   def show

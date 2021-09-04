@@ -2,10 +2,6 @@
   <div class="flex-col mx-4 my-4">
   <div class="flex-row">
     <div>
-      <label>Релиз от <%= @release_date %></label>
-    </div>
-
-    <div>
       <% cache "release_dropdown/#{@model_name}" do %>
         <%= render "release_dropdown" %>
       <% end %>

@@ -1,16 +1,25 @@
 class Model < ApplicationRecord
   include Cacheable
 
-  def teams_for_release(release_id)
+  def teams_for_release(release_id, top_place: 1, bottom_place: 100)
     sql = <<~SQL
-      select team_id, t.title as name, r.rating, r.rating_change
-      from #{name}.releases r
-      left join public.rating_team t on r.team_id = t.id 
-      where release_details_id = $1
-      order by r.rating desc
+      with ranked as (
+          select rank() over (order by rating desc) as place, team_id, rating, rating_change
+          from random.releases
+          where release_details_id = $1
+      )
+      
+      select r.*, t.title as name, town.title as city
+      from ranked r
+      left join public.rating_team t on r.team_id = t.id
+      left join public.rating_town town on town.id = t.town_id
+      where r.place >= $2 and r.place <= $3
+      order by r.place;
     SQL
 
-    exec_query_with_cache(query: sql, params: [nil, release_id], cache_key: "#{name}/#{release_id}")
+    exec_query_with_cache(query: sql,
+      params: [[nil, release_id], [nil, top_place], [nil, bottom_place]],
+      cache_key: "#{name}/#{release_id}/#{top_place}-#{bottom_place}")
   end
 
   def all_releases

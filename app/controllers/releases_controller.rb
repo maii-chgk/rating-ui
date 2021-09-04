@@ -18,7 +18,7 @@ class ReleasesController < ApplicationController
     all_releases = current_model.all_releases
     @release_date = all_releases.find { |r| r['id'] == @release_id }['date']
     @releases_in_dropdown = all_releases.map(&:values)
-    @teams = current_model.all_teams_for_release(@release_id)
+    @teams = current_model.teams_for_release(@release_id)
     render :show
   end
 

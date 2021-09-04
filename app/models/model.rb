@@ -1,7 +1,7 @@
 class Model < ApplicationRecord
   include Cacheable
 
-  def teams_for_release(release_id, top_place: 1, bottom_place: 100)
+  def teams_for_release(release_id:, top_place:, bottom_place:)
     sql = <<~SQL
       with ranked as (
           select rank() over (order by rating desc) as place, team_id, rating, rating_change

@@ -14,10 +14,7 @@ class ReleasesController < ApplicationController
   end
 
   def render_release
-    all_releases = current_model.all_releases
-    release = all_releases.find { |r| r['id'] == @release_id }
-    @release_date = release['date'] unless release.nil?
-    @releases_in_dropdown = all_releases.map(&:values)
+    @releases_in_dropdown = list_releases_for_dropdown
 
     @teams = current_model.teams_for_release(release_id: @release_id,
       top_place: top_place,
@@ -44,5 +41,9 @@ class ReleasesController < ApplicationController
 
   def bottom_place
     @bottom_place = (clean_params[:to] || 100).to_i
+  end
+
+  def list_releases_for_dropdown
+    @releases_in_dropdown = current_model.all_releases.map(&:values)
   end
 end

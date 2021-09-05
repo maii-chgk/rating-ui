@@ -2,7 +2,7 @@
   <div class="flex-col mx-4 my-4">
     <div class="flex-row">
       <div>
-        <% cache "release_dropdown/#{@model_name}" do %>
+        <% cache "release_dropdown/#{@model_name}/#{@release_id}" do %>
           <%= render "release_dropdown" %>
         <% end %>
       </div>

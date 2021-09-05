@@ -29,9 +29,7 @@ class Model < ApplicationRecord
       order by date desc
     SQL
 
-    releases = exec_query_with_cache(query: sql, cache_key: "#{name}/all_releases").to_a
-    releases.each { |release| release['date'] = I18n.l(release['date'].to_date) }
-    releases
+    exec_query_with_cache(query: sql, cache_key: "#{name}/all_releases").to_a
   end
 
   def latest_release_id

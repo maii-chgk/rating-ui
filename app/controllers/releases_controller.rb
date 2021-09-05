@@ -44,6 +44,11 @@ class ReleasesController < ApplicationController
   end
 
   def list_releases_for_dropdown
-    @releases_in_dropdown = current_model.all_releases.map(&:values)
+    current_model.all_releases.map do |release|
+      [
+        I18n.l(release["date"].to_date),
+        release_path(release_id: release["id"])
+      ]
+    end
   end
 end

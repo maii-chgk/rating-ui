@@ -42,5 +42,7 @@ class Model < ApplicationRecord
     SQL
 
     exec_query_with_cache(query: sql, cache_key: "#{name}/latest_release_details").rows.first.first
+  rescue NoMethodError
+    -1
   end
 end

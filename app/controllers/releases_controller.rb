@@ -14,7 +14,6 @@ class ReleasesController < ApplicationController
   end
 
   def render_release
-    @model_name = current_model.name
     all_releases = current_model.all_releases
     release = all_releases.find { |r| r['id'] == @release_id }
     @release_date = release['date'] unless release.nil?
@@ -24,6 +23,10 @@ class ReleasesController < ApplicationController
       top_place: top_place,
       bottom_place: bottom_place)
 
+    @all_teams_count = current_model.count_all_teams_in_release(release_id: @release_id)
+
+    @model_name = current_model.name
+
     render :show
   end
 
@@ -32,14 +35,14 @@ class ReleasesController < ApplicationController
   end
 
   def clean_params
-    params.permit(:release_id, :from, :to)
+    params.permit(:model, :release_id, :from, :to)
   end
 
   def top_place
-    clean_params[:from] || 1
+    @top_place = (clean_params[:from] || 1).to_i
   end
 
   def bottom_place
-    clean_params[:to] || 100
+    @bottom_place = (clean_params[:to] || 100).to_i
   end
 end

@@ -45,4 +45,16 @@ class Model < ApplicationRecord
   rescue NoMethodError
     -1
   end
+
+  def count_all_teams_in_release(release_id:)
+    sql = <<~SQL
+      select count(*)
+      from #{name}.releases
+      where release_details_id = $1
+    SQL
+
+    exec_query_with_cache(query: sql, params: [[nil, release_id]], cache_key: "#{name}/#{release_id}/count").rows.first.first
+  rescue NoMethodError
+    0
+  end
 end

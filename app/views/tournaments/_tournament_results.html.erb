@@ -1,0 +1,23 @@
+<table class="shadow-lg bg-white">
+  <thead>
+  <tr>
+    <th class="bg-blue-100 border text-left px-8 py-4">Место</th>
+    <th class="bg-blue-100 border text-left px-8 py-4">Команда</th>
+    <th class="bg-blue-100 border text-center px-8 py-4">Взятые</th>
+    <th class="bg-blue-100 border text-center px-8 py-4">Рейтинг</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @tournament_results.each do |result| %>
+    <tr class="border py-2 hover:bg-gray-100">
+      <td class="border px-4 py-2 text-center"><%= round_place(result['place']) %></td>
+      <td class="border px-4 py-2">
+        <%= link_to(result['team_name'], team_path(team_id: result['team_id'])) %>
+      </td>
+      <td class="border px-4 py-2 text-center"><%= result['points'] %></td>
+      <td class="border px-4 py-2 text-center"><%= result['rating'] %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

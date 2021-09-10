@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   get ":model", to: "releases#latest", as: "latest"
   get ":model/:release_id", to: "releases#show", as: "release"
   get ":model/team/:team_id", to: "teams#show", as: "team"
+  get ":model/tournament/:tournament_id", to: "tournaments#show", as: "tournament"
 end

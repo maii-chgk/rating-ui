@@ -58,7 +58,7 @@ class Model < ApplicationRecord
 
   def team_tournaments(team_id:)
     sql = <<~SQL
-      select tr.tournament_id as id, t.title as name, t.end_datetime as date,
+      select t.id as id, t.title as name, t.end_datetime as date,
         r.position as place, tr.rating_change as rating
       from public.rating_tournament t
       left join public.rating_result r on r.team_id = $1 and r.tournament_id = t.id

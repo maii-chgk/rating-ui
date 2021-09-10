@@ -1,21 +1,22 @@
 <table class="shadow-lg bg-white">
   <thead>
   <tr>
-    <th class="bg-blue-100 border text-left px-8 py-4">Дата</th>
-    <th class="bg-blue-100 border text-left px-8 py-4">Турнир</th>
-    <th class="bg-blue-100 border text-center px-8 py-4">Место</th>
-    <th class="bg-blue-100 border text-center px-8 py-4">Рейтинг</th>
+    <th class="bg-blue-100 border text-center px-2 py-2">Дата</th>
+    <th class="bg-blue-100 border text-center px-2">Турнир</th>
+    <th class="bg-blue-100 border text-center px-2">Место</th>
+    <th class="bg-blue-100 border text-center px-2">Рейтинг</th>
   </tr>
   </thead>
 
   <tbody>
   <% @tournaments.each do |tournament| %>
     <tr class="border py-2 hover:bg-gray-100">
-      <td class="border px-4 py-2"><%= I18n.l(tournament["date"].to_date, format: :short) %></td>
-      <td class="border px-4 py-2">
-        <%= link_to(tournament['name'], tournament_path(tournament_id: tournament['id'])) %></td>
-      <td class="border px-4 py-2 text-center"><%= round_place(tournament['place']) %></td>
-      <td class="border px-4 py-2 text-center"><%= tournament['rating'] %></td>
+      <td class="border px-2 py-2"><%= I18n.l(tournament["date"].to_date, format: :short) %></td>
+      <td class="border px-2">
+        <%= link_to(tournament['name'], tournament_path(tournament_id: tournament['id'])) %>
+      </td>
+      <td class="border px-2 text-center"><%= round_place(tournament['place']) %></td>
+      <td class="border px-2 text-center"><%= tournament['rating'] %></td>
     </tr>
   <% end %>
   </tbody>

@@ -34,7 +34,7 @@ ru:
     formats:
 #      default: "%-d %B %Y"
       long: "%-d %B %Y года"
-      short: "%-d %b"
+      short: "%d.%m.%Y"
       default: "%-d %B %Y года"
     month_names:
       -

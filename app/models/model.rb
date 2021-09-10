@@ -60,13 +60,14 @@ class Model < ApplicationRecord
     sql = <<~SQL
       select tr.tournament_id, t.title as name, t.end_datetime as date,
         r.position as place, tr.rating_change as rating
-      from #{name}.tournament_results tr
-      left join public.rating_tournament t on tr.tournament_id = t.id
-      left join public.rating_result r on r.team_id = tr.team_id and r.tournament_id = tr.tournament_id
-      where team_id = $1
+      from public.rating_tournament t
+      left join public.rating_result r on r.team_id = $1 and r.tournament_id = t.id
+      left join #{name}.tournament_results tr on tr.tournament_id = t.id
+      where r.team_id = $1
+      order by t.end_datetime desc
     SQL
 
-    exec_query_with_cache(query: sql, params: [[nil, team_id]], cache_key: "#{name}/#{team_id}/tournaments").rows
+    exec_query_with_cache(query: sql, params: [[nil, team_id]], cache_key: "#{name}/#{team_id}/tournaments").to_a
   end
 
   def team_details(team_id:)

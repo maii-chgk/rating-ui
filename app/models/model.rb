@@ -58,12 +58,15 @@ class Model < ApplicationRecord
 
   def team_tournaments(team_id:)
     sql = <<~SQL
-      select tr.tournament_id, t.title as name, t.end_datetime as date,
+      select t.id as id, t.title as name, t.end_datetime as date,
         r.position as place, tr.rating_change as rating
       from public.rating_tournament t
       left join public.rating_result r on r.team_id = $1 and r.tournament_id = t.id
       left join #{name}.tournament_results tr on tr.tournament_id = t.id
+      left join public.rating_typeoft rtype on t.typeoft_id = rtype.id
       where r.team_id = $1
+        and r.position != 0
+        and rtype.id in (1, 2, 3, 4, 6)
       order by t.end_datetime desc
     SQL
 
@@ -79,5 +82,29 @@ class Model < ApplicationRecord
     SQL
 
     exec_query_with_cache(query: sql, params: [[nil, team_id]], cache_key: "#{name}/#{team_id}/details").rows.first
+  end
+
+  def tournament_results(tournament_id:)
+    sql = <<~SQL
+      select r.position as place, r.total as points, 
+        r.team_title as team_name, r.team_id,
+        tr.rating_change as rating
+      from public.rating_result r
+      left join random.tournament_results tr on tr.tournament_id = $1
+      where r.tournament_id = $1
+      order by position, r.team_id
+    SQL
+
+    exec_query_with_cache(query: sql, params: [[nil, tournament_id]], cache_key: "#{name}/#{tournament_id}/results").to_a
+  end
+
+  def tournament_details(tournament_id:)
+    sql = <<~SQL
+      select t.title as name, start_datetime, end_datetime
+      from public.rating_tournament t
+      where t.id = $1
+    SQL
+
+    exec_query_with_cache(query: sql, params: [[nil, tournament_id]], cache_key: "#{name}/#{tournament_id}/details").rows.first
   end
 end

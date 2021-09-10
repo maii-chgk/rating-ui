@@ -6,13 +6,14 @@
           <%= render "release_dropdown" %>
         <% end %>
       </div>
-
     </div>
+
     <div class="flex-row my-2">
       <% cache "release_paging/#{@model_name}/#{@release_id}/#{@top_place}-#{@bottom_place}" do %>
         <%= render "paging" %>
       <% end %>
     </div>
+
     <div class="flex-row my-2">
       <% cache "release/#{@model_name}/#{@release_id}/#{@top_place}-#{@bottom_place}" do %>
         <%= render "release" %>

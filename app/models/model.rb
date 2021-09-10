@@ -55,4 +55,29 @@ class Model < ApplicationRecord
   rescue NoMethodError
     0
   end
+
+  def team_tournaments(team_id:)
+    sql = <<~SQL
+      select tr.tournament_id, t.title as name, t.end_datetime as date,
+        r.position as place, tr.rating_change as rating
+      from public.rating_tournament t
+      left join public.rating_result r on r.team_id = $1 and r.tournament_id = t.id
+      left join #{name}.tournament_results tr on tr.tournament_id = t.id
+      where r.team_id = $1
+      order by t.end_datetime desc
+    SQL
+
+    exec_query_with_cache(query: sql, params: [[nil, team_id]], cache_key: "#{name}/#{team_id}/tournaments").to_a
+  end
+
+  def team_details(team_id:)
+    sql = <<~SQL
+      select t.title as name, town.title as city
+      from public.rating_team t
+      left join public.rating_town town on t.town_id = town.id
+      where t.id = $1
+    SQL
+
+    exec_query_with_cache(query: sql, params: [[nil, team_id]], cache_key: "#{name}/#{team_id}/details").rows.first
+  end
 end

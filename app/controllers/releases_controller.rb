@@ -1,7 +1,7 @@
 class ReleasesController < ApplicationController
   before_action :force_trailing_slash, only: :latest
 
-  DEFAULT_MODEL = "b".freeze
+  include InModel
 
   def show
     @release_id = clean_params[:release_id].to_i
@@ -25,10 +25,6 @@ class ReleasesController < ApplicationController
     @model_name = current_model.name
 
     render :show
-  end
-
-  def current_model
-    Model.find_by(name: params[:model] || DEFAULT_MODEL)
   end
 
   def clean_params

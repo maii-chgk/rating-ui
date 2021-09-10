@@ -1,22 +1,20 @@
 <table class="shadow-lg bg-white">
   <thead>
   <tr>
-    <th class="bg-blue-100 border text-left px-8 py-4">Место</th>
-    <th class="bg-blue-100 border text-left px-8 py-4">ID</th>
-    <th class="bg-blue-100 border text-left px-8 py-4">Команда</th>
-    <th class="bg-blue-100 border text-left px-8 py-4">Город</th>
-    <th class="bg-blue-100 border text-left px-8 py-4">Рейтинг</th>
-    <th class="bg-blue-100 border text-left px-8 py-4">Дельта</th>
+    <th class="bg-blue-100 border text-left px-4 py-4">Место</th>
+    <th class="bg-blue-100 border text-left px-4 py-4">Команда</th>
+    <th class="bg-blue-100 border text-left px-4 py-4">Город</th>
+    <th class="bg-blue-100 border text-left px-4 py-4">Рейтинг</th>
+    <th class="bg-blue-100 border text-left px-4 py-4">Дельта</th>
   </tr>
   </thead>
 
   <tbody>
   <% @teams.each do |team| %>
     <tr class="border py-2 hover:bg-gray-100">
-      <td class="text-center border px-8 py-2"><%= team['place'] %></td>
-      <td class="border px-8 py-2"><%= team['team_id'] %></td>
-      <td class="border px-8"><%= link_to(team['name'], team_path(team_id: team['team_id'])) %></td>
-      <td class="border px-8"><%= team['city'] %></td>
+      <td class="text-center border py-2"><%= team['place'] %></td>
+      <td class="border px-4"><%= link_to(team['name'], team_path(team_id: team['team_id'])) %></td>
+      <td class="border px-4"><%= team['city'] %></td>
       <td class="text-center border"><%= team['rating'] %></td>
       <td class="text-center border"><%= team['rating_change'] %></td>
     </tr>

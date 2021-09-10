@@ -65,6 +65,7 @@ class Model < ApplicationRecord
       left join #{name}.tournament_results tr on tr.tournament_id = t.id
       left join public.rating_typeoft rtype on t.typeoft_id = rtype.id
       where r.team_id = $1
+        and r.position != 0
         and rtype.id in (1, 2, 3, 4, 6)
       order by t.end_datetime desc
     SQL
@@ -91,7 +92,7 @@ class Model < ApplicationRecord
       from public.rating_result r
       left join random.tournament_results tr on tr.tournament_id = $1
       where r.tournament_id = $1
-      order by position
+      order by position, r.team_id
     SQL
 
     exec_query_with_cache(query: sql, params: [[nil, tournament_id]], cache_key: "#{name}/#{tournament_id}/results").to_a

@@ -1,9 +1,11 @@
-<% if player['flag'] == 'Б' %>
-  <p class="font-bold">
-<% elsif player['flag'] == 'Л' %>
-  <p class="italic">
-<% else %>
-  <p>
+<% if player['player_id'].present? %>
+  <% if player['flag'] == 'Б' || player['flag'] == 'К' %>
+    <p class="font-bold">
+  <% elsif player['flag'] == 'Л' %>
+    <p class="italic">
+  <% else %>
+    <p>
+  <% end %>
+    <%= link_to(player['name'], player_path(player_id: player['player_id'])) %>
+  </p>
 <% end %>
-  <%= player['name'] %>
-</p>

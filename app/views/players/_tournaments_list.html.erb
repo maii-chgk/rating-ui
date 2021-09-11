@@ -1,0 +1,27 @@
+<table class="shadow-lg bg-white table-fixed">
+  <thead>
+  <tr>
+    <th class="bg-blue-100 border text-center px-2 py-2 w-1/8">Дата</th>
+    <th class="bg-blue-100 border text-center px-2 w-1/4">Турнир</th>
+    <th class="bg-blue-100 border text-center px-2 w-1/4">Команда</th>
+    <th class="bg-blue-100 border text-center px-2 w-1/8">Место</th>
+    <th class="bg-blue-100 border text-center px-2 w-1/8">Рейтинг</th>
+    <th class="bg-blue-100 border text-center px-2 w-1/8">Дельта</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @tournaments.each do |tournament| %>
+    <tr class="border py-2 hover:bg-gray-100">
+      <td class="border px-2 py-2 text-center"><%= I18n.l(tournament["date"].to_date, format: :short) %></td>
+      <td class="border px-2">
+        <%= link_to(tournament['name'], tournament_path(tournament_id: tournament['id'])) %>
+      </td>
+      <td class="border px-2 text-left"><%= tournament['team_name'] %></td>
+      <td class="border px-2 text-center"><%= round_place(tournament['place']) %></td>
+      <td class="border px-2 text-center"><%= tournament['rating'] %></td>
+      <td class="border px-2 text-center"><%= tournament['rating_change'] %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

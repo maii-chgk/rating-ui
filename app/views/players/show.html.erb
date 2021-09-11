@@ -1,0 +1,8 @@
+<div class="text-center py-6 text-xl">
+  <h1><%= @name %></h1>
+</div>
+<div class="py-2">
+  <% cache "player_tournaments_list/#{@model_name}/#{@player_id}" do %>
+    <%= render "tournaments_list" %>
+  <% end %>
+</div>

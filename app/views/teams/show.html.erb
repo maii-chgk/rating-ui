@@ -2,7 +2,7 @@
   <h1><%= @name %> (<%= @city %>)</h1>
 </div>
 <div class="py-2 px-4">
-  <% cache "tournaments_list/#{@model_name}/#{@team_id}" do %>
+  <% cache "team_tournaments_list/#{@model_name}/#{@team_id}" do %>
     <%= render "tournaments_list" %>
   <% end %>
 </div>

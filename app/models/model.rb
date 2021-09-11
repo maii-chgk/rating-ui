@@ -128,4 +128,33 @@ class Model < ApplicationRecord
 
     exec_query_with_cache(query: sql, params: [[nil, tournament_id]], cache_key: "#{name}/#{tournament_id}/details").rows.first
   end
+
+  def player_details(player_id:)
+    sql = <<~SQL
+      select p.first_name || ' ' || last_name as name
+      from public.rating_player p
+      where p.id = $1
+    SQL
+
+    exec_query_with_cache(query: sql, params: [[nil, player_id]], cache_key: "#{name}/#{player_id}/details").rows.first.first
+  end
+
+  def player_tournaments(player_id:)
+    sql = <<~SQL
+      select t.id as id, t.title as name, t.end_datetime as date,
+          rr.team_title as team_name, rr.position as place, ro.flag,
+          rating.rating, rating.rating_change
+      from public.rating_tournament t
+      left join random.tournament_results rating on rating.tournament_id = t.id
+      left join public.rating_result rr on rr.tournament_id = t.id
+      left join public.rating_oldrating ro on ro.result_id = rr.id
+      left join public.rating_typeoft rtype on t.typeoft_id = rtype.id
+      where ro.player_id = $1
+          and rr.position != 0
+          and rtype.id in (1, 2, 3, 4, 6)
+      order by t.end_datetime desc
+    SQL
+
+    exec_query_with_cache(query: sql, params: [[nil, player_id]], cache_key: "#{name}/#{player_id}/tournaments").to_a
+  end
 end

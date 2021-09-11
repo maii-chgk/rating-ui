@@ -84,6 +84,27 @@ class Model < ApplicationRecord
     exec_query_with_cache(query: sql, params: [[nil, team_id]], cache_key: "#{name}/#{team_id}/details").rows.first
   end
 
+  def team_players(team_id:)
+    sql = <<~SQL
+      select rr.tournament_id, p.id as player_id,
+          p.first_name || ' ' || last_name as name,
+          roster.flag
+      from public.rating_result rr
+      left join public.rating_oldrating roster on roster.result_id = rr.id
+      left join public.rating_player p on roster.player_id = p.id
+      where rr.team_id = $1
+      order by rr.tournament_id, roster.flag, p.last_name
+    SQL
+
+    result = exec_query_with_cache(query: sql,
+      params: [[nil, team_id]],
+      cache_key: "#{name}/#{team_id}/players")
+
+    result.each_with_object(Hash.new { |h, k| h[k] = [] }) do |row, hash|
+      hash[row['tournament_id']] << row
+    end
+  end
+
   def tournament_results(tournament_id:)
     sql = <<~SQL
       select r.position as place, r.total as points, 

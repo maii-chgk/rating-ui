@@ -3,6 +3,7 @@
   <tr>
     <th class="bg-blue-100 border text-center px-2 py-2">Место</th>
     <th class="bg-blue-100 border text-center px-2">Команда</th>
+    <th class="bg-blue-100 border text-center px-2">Состав</th>
     <th class="bg-blue-100 border text-center px-2">Взятые</th>
     <th class="bg-blue-100 border text-center px-2">Рейтинг</th>
   </tr>
@@ -11,9 +12,12 @@
   <tbody>
   <% @tournament_results.each do |result| %>
     <tr class="border py-2 hover:bg-gray-100">
-      <td class="border px-2 py-2 text-center"><%= round_place(result['place']) %></td>
+      <td class="border px-2 text-center"><%= round_place(result['place']) %></td>
       <td class="border px-2">
         <%= link_to(result['team_name'], team_path(team_id: result['team_id'])) %>
+      </td>
+      <td class="border px-2 py-2 text-left">
+        <%= render partial: "shared/roster", collection: result['players'], as: :player %>
       </td>
       <td class="border px-2 text-center"><%= result['points'] %></td>
       <td class="border px-2 text-center"><%= result['rating'] %></td>

@@ -1,0 +1,9 @@
+<% if player['flag'] == 'Б' %>
+  <p class="font-bold">
+<% elsif player['flag'] == 'Л' %>
+  <p class="italic">
+<% else %>
+  <p>
+<% end %>
+  <%= player['name'] %>
+</p>

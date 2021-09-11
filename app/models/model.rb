@@ -142,8 +142,8 @@ class Model < ApplicationRecord
   def player_tournaments(player_id:)
     sql = <<~SQL
       select t.id as id, t.title as name, t.end_datetime as date,
-          rr.team_title as team_name, rr.position as place, ro.flag,
-          rating.rating, rating.rating_change
+          rr.team_title as team_name, rr.position as place, rr.team_id,
+          ro.flag, rating.rating, rating.rating_change
       from public.rating_tournament t
       left join random.tournament_results rating on rating.tournament_id = t.id
       left join public.rating_result rr on rr.tournament_id = t.id

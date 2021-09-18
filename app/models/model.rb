@@ -5,7 +5,7 @@ class Model < ApplicationRecord
     sql = <<~SQL
       with ranked as (
           select rank() over (order by rating desc) as place, team_id, rating, rating_change
-          from random.releases
+          from #{name}.releases
           where release_details_id = $1
       )
       
@@ -111,7 +111,7 @@ class Model < ApplicationRecord
         r.team_title as team_name, r.team_id,
         tr.rating_change as rating
       from public.rating_result r
-      left join random.tournament_results tr on tr.tournament_id = $1
+      left join #{name}.tournament_results tr on tr.tournament_id = $1
       where r.tournament_id = $1
       order by position, r.team_id
     SQL
@@ -166,7 +166,7 @@ class Model < ApplicationRecord
           rr.team_title as team_name, rr.position as place, rr.team_id,
           ro.flag, rating.rating, rating.rating_change
       from public.rating_tournament t
-      left join random.tournament_results rating on rating.tournament_id = t.id
+      left join #{name}.tournament_results rating on rating.tournament_id = t.id
       left join public.rating_result rr on rr.tournament_id = t.id
       left join public.rating_oldrating ro on ro.result_id = rr.id
       left join public.rating_typeoft rtype on t.typeoft_id = rtype.id

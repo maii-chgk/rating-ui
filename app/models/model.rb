@@ -62,7 +62,8 @@ class Model < ApplicationRecord
         r.position as place, tr.rating_change as rating
       from public.rating_tournament t
       left join public.rating_result r on r.team_id = $1 and r.tournament_id = t.id
-      left join #{name}.tournament_results tr on tr.tournament_id = t.id
+      left join #{name}.tournament_results tr 
+        on tr.tournament_id = t.id and r.team_id = tr.team_id
       left join public.rating_typeoft rtype on t.typeoft_id = rtype.id
       where r.team_id = $1
         and r.position != 0
@@ -111,7 +112,8 @@ class Model < ApplicationRecord
         r.team_title as team_name, r.team_id,
         tr.rating_change as rating
       from public.rating_result r
-      left join #{name}.tournament_results tr on tr.tournament_id = $1
+      left join #{name}.tournament_results tr 
+        on r.team_id = tr.team_id and tr.tournament_id = $1
       where r.tournament_id = $1
       order by position, r.team_id
     SQL

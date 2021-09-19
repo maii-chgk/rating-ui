@@ -110,7 +110,7 @@ class Model < ApplicationRecord
     sql = <<~SQL
       select r.position as place, r.total as points, 
         r.team_title as team_name, r.team_id,
-        tr.rating_change as rating
+        tr.rating as rating, tr.rating_change as rating_change
       from public.rating_result r
       left join #{name}.tournament_results tr 
         on r.team_id = tr.team_id and tr.tournament_id = $1

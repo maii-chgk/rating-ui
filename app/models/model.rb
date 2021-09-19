@@ -67,7 +67,7 @@ class Model < ApplicationRecord
         on tr.tournament_id = t.id and r.team_id = tr.team_id
       where r.team_id = $1
         and r.position != 0
-        and (t_old_rating_flag.in_old_rating = true or tr.rating is not null)
+        and (t_old_rating_flag.in_old_rating = true or t.maii_rating = true)
       order by t.end_datetime desc
     SQL
 
@@ -174,7 +174,7 @@ class Model < ApplicationRecord
       left join #{name}.tournament_results rating on rating.tournament_id = t.id and rating.team_id = rr.team_id
       where ro.player_id = $1
           and rr.position != 0
-          and (t_old_rating_flag.in_old_rating = true or rating.rating is not null)
+          and (t_old_rating_flag.in_old_rating = true or t.maii_rating = true)
       order by t.end_datetime desc
     SQL
 

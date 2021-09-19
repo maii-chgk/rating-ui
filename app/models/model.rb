@@ -61,13 +61,13 @@ class Model < ApplicationRecord
       select t.id as id, t.title as name, t.end_datetime as date,
         r.position as place, tr.rating, tr.rating_change
       from public.rating_tournament t
+      left join public.tournaments t_old_rating_flag on t.id = t_old_rating_flag.id
       left join public.rating_result r on r.team_id = $1 and r.tournament_id = t.id
       left join #{name}.tournament_results tr 
         on tr.tournament_id = t.id and r.team_id = tr.team_id
-      left join public.rating_typeoft rtype on t.typeoft_id = rtype.id
       where r.team_id = $1
         and r.position != 0
-        and rtype.id in (1, 2, 3, 4, 6)
+        and (t_old_rating_flag.in_old_rating = true or tr.rating is not null)
       order by t.end_datetime desc
     SQL
 
@@ -168,13 +168,13 @@ class Model < ApplicationRecord
           rr.team_title as team_name, rr.position as place, rr.team_id,
           ro.flag, rating.rating, rating.rating_change
       from public.rating_tournament t
+      left join public.tournaments t_old_rating_flag on t.id = t_old_rating_flag.id
       left join public.rating_result rr on rr.tournament_id = t.id
       left join public.rating_oldrating ro on ro.result_id = rr.id
       left join #{name}.tournament_results rating on rating.tournament_id = t.id and rating.team_id = rr.team_id
-      left join public.rating_typeoft rtype on t.typeoft_id = rtype.id
       where ro.player_id = $1
           and rr.position != 0
-          and rtype.id in (1, 2, 3, 4, 6)
+          and (t_old_rating_flag.in_old_rating = true or rating.rating is not null)
       order by t.end_datetime desc
     SQL
 

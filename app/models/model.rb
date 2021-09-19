@@ -59,10 +59,13 @@ class Model < ApplicationRecord
   def team_tournaments(team_id:)
     sql = <<~SQL
       select t.id as id, t.title as name, t.end_datetime as date,
-        r.position as place, tr.rating, tr.rating_change
+        r.position as place,
+        coalesce(tr.rating, ror.b) as rating, 
+        coalesce(tr.rating_change, ror.d) as rating_change
       from public.rating_tournament t
       left join public.tournaments t_old_rating_flag on t.id = t_old_rating_flag.id
       left join public.rating_result r on r.team_id = $1 and r.tournament_id = t.id
+      left join public.rating_oldteamrating ror on ror.result_id = r.id
       left join #{name}.tournament_results tr 
         on tr.tournament_id = t.id and r.team_id = tr.team_id
       where r.team_id = $1
@@ -165,12 +168,14 @@ class Model < ApplicationRecord
   def player_tournaments(player_id:)
     sql = <<~SQL
       select t.id as id, t.title as name, t.end_datetime as date,
-          rr.team_title as team_name, rr.position as place, rr.team_id,
-          ro.flag, rating.rating, rating.rating_change
+          rr.team_title as team_name, rr.position as place, rr.team_id, ro.flag, 
+          coalesce(rating.rating, ror.b) as rating, 
+          coalesce(rating.rating_change, ror.d) as rating_change
       from public.rating_tournament t
       left join public.tournaments t_old_rating_flag on t.id = t_old_rating_flag.id
       left join public.rating_result rr on rr.tournament_id = t.id
       left join public.rating_oldrating ro on ro.result_id = rr.id
+      left join public.rating_oldteamrating ror on ror.result_id = rr.id
       left join #{name}.tournament_results rating on rating.tournament_id = t.id and rating.team_id = rr.team_id
       where ro.player_id = $1
           and rr.position != 0

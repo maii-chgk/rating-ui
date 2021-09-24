@@ -5,7 +5,7 @@ class Model < ApplicationRecord
     sql = <<~SQL
       with ranked as (
           select rank() over (order by rating desc) as place, team_id, rating, rating_change
-          from #{name}.releases
+          from #{name}.team_rating
           where release_details_id = $1
       )
       
@@ -47,7 +47,7 @@ class Model < ApplicationRecord
   def count_all_teams_in_release(release_id:)
     sql = <<~SQL
       select count(*)
-      from #{name}.releases
+      from #{name}.team_rating
       where release_details_id = $1
     SQL
 

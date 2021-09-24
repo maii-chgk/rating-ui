@@ -5,8 +5,8 @@ class Model < ApplicationRecord
     sql = <<~SQL
       with ranked as (
           select rank() over (order by rating desc) as place, team_id, rating, rating_change
-          from #{name}.releases
-          where release_details_id = $1
+          from #{name}.team_rating
+          where release_id = $1
       )
       
       select r.*, t.title as name, town.title as city
@@ -25,7 +25,7 @@ class Model < ApplicationRecord
   def all_releases
     sql = <<~SQL
       select date, id
-      from #{name}.release_details
+      from #{name}.release
       order by date desc
     SQL
 
@@ -35,11 +35,11 @@ class Model < ApplicationRecord
   def latest_release_id
     sql = <<~SQL
       select id
-      from #{name}.release_details
-      where date = (select max(date) as max_date from #{name}.release_details)
+      from #{name}.release
+      where date = (select max(date) as max_date from #{name}.release)
     SQL
 
-    exec_query_with_cache(query: sql, cache_key: "#{name}/latest_release_details").rows.first.first
+    exec_query_with_cache(query: sql, cache_key: "#{name}/latest_release").rows.first.first
   rescue NoMethodError
     -1
   end
@@ -47,8 +47,8 @@ class Model < ApplicationRecord
   def count_all_teams_in_release(release_id:)
     sql = <<~SQL
       select count(*)
-      from #{name}.releases
-      where release_details_id = $1
+      from #{name}.team_rating
+      where release_id = $1
     SQL
 
     exec_query_with_cache(query: sql, params: [[nil, release_id]], cache_key: "#{name}/#{release_id}/count").rows.first.first
@@ -74,7 +74,7 @@ class Model < ApplicationRecord
       left join public.tournaments t_old_rating_flag on t.id = t_old_rating_flag.id
       left join public.rating_result r on r.team_id = $1 and r.tournament_id = t.id
       left join public.rating_oldteamrating ror on ror.result_id = r.id
-      left join #{name}.tournament_results tr 
+      left join #{name}.tournament_result tr 
         on tr.tournament_id = t.id and r.team_id = tr.team_id
       where r.team_id = $1
         and r.position != 0
@@ -123,7 +123,7 @@ class Model < ApplicationRecord
         r.team_title as team_name, r.team_id,
         tr.rating as rating, tr.rating_change as rating_change
       from public.rating_result r
-      left join #{name}.tournament_results tr 
+      left join #{name}.tournament_result tr 
         on r.team_id = tr.team_id and tr.tournament_id = $1
       where r.tournament_id = $1
       order by position, r.team_id
@@ -192,7 +192,7 @@ class Model < ApplicationRecord
       left join public.rating_result rr on rr.tournament_id = t.id
       left join public.rating_oldrating ro on ro.result_id = rr.id
       left join public.rating_oldteamrating ror on ror.result_id = rr.id
-      left join #{name}.tournament_results rating on rating.tournament_id = t.id and rating.team_id = rr.team_id
+      left join #{name}.tournament_result rating on rating.tournament_id = t.id and rating.team_id = rr.team_id
       where ro.player_id = $1
           and rr.position != 0
           and (t_old_rating_flag.in_old_rating = true or t.maii_rating = true)

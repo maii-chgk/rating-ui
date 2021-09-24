@@ -25,7 +25,7 @@ class Model < ApplicationRecord
   def all_releases
     sql = <<~SQL
       select date, id
-      from #{name}.release_details
+      from #{name}.release
       order by date desc
     SQL
 
@@ -35,11 +35,11 @@ class Model < ApplicationRecord
   def latest_release_id
     sql = <<~SQL
       select id
-      from #{name}.release_details
-      where date = (select max(date) as max_date from #{name}.release_details)
+      from #{name}.release
+      where date = (select max(date) as max_date from #{name}.release)
     SQL
 
-    exec_query_with_cache(query: sql, cache_key: "#{name}/latest_release_details").rows.first.first
+    exec_query_with_cache(query: sql, cache_key: "#{name}/latest_release").rows.first.first
   rescue NoMethodError
     -1
   end

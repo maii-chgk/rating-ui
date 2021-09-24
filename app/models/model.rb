@@ -60,8 +60,16 @@ class Model < ApplicationRecord
     sql = <<~SQL
       select t.id as id, t.title as name, t.end_datetime as date,
         r.position as place,
-        coalesce(tr.rating, ror.b) as rating, 
-        coalesce(tr.rating_change, ror.d) as rating_change
+        case 
+          when t.maii_rating = true then tr.rating
+          when t_old_rating_flag.in_old_rating = true then ror.b
+          else null
+        end as rating,
+        case 
+          when t.maii_rating = true then tr.rating_change
+          when t_old_rating_flag.in_old_rating = true then ror.d
+          else null
+        end as rating_change
       from public.rating_tournament t
       left join public.tournaments t_old_rating_flag on t.id = t_old_rating_flag.id
       left join public.rating_result r on r.team_id = $1 and r.tournament_id = t.id
@@ -169,8 +177,16 @@ class Model < ApplicationRecord
     sql = <<~SQL
       select t.id as id, t.title as name, t.end_datetime as date,
           rr.team_title as team_name, rr.position as place, rr.team_id, ro.flag, 
-          coalesce(rating.rating, ror.b) as rating, 
-          coalesce(rating.rating_change, ror.d) as rating_change
+          case 
+            when t.maii_rating = true then rating.rating
+            when t_old_rating_flag.in_old_rating = true then ror.b
+            else null
+          end as rating,
+          case 
+            when t.maii_rating = true then rating.rating_change
+            when t_old_rating_flag.in_old_rating = true then ror.d
+            else null
+          end as rating_change
       from public.rating_tournament t
       left join public.tournaments t_old_rating_flag on t.id = t_old_rating_flag.id
       left join public.rating_result rr on rr.tournament_id = t.id

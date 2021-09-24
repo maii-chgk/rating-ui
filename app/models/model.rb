@@ -66,7 +66,7 @@ class Model < ApplicationRecord
       left join public.tournaments t_old_rating_flag on t.id = t_old_rating_flag.id
       left join public.rating_result r on r.team_id = $1 and r.tournament_id = t.id
       left join public.rating_oldteamrating ror on ror.result_id = r.id
-      left join #{name}.tournament_results tr 
+      left join #{name}.tournament_result tr 
         on tr.tournament_id = t.id and r.team_id = tr.team_id
       where r.team_id = $1
         and r.position != 0
@@ -115,7 +115,7 @@ class Model < ApplicationRecord
         r.team_title as team_name, r.team_id,
         tr.rating as rating, tr.rating_change as rating_change
       from public.rating_result r
-      left join #{name}.tournament_results tr 
+      left join #{name}.tournament_result tr 
         on r.team_id = tr.team_id and tr.tournament_id = $1
       where r.tournament_id = $1
       order by position, r.team_id
@@ -176,7 +176,7 @@ class Model < ApplicationRecord
       left join public.rating_result rr on rr.tournament_id = t.id
       left join public.rating_oldrating ro on ro.result_id = rr.id
       left join public.rating_oldteamrating ror on ror.result_id = rr.id
-      left join #{name}.tournament_results rating on rating.tournament_id = t.id and rating.team_id = rr.team_id
+      left join #{name}.tournament_result rating on rating.tournament_id = t.id and rating.team_id = rr.team_id
       where ro.player_id = $1
           and rr.position != 0
           and (t_old_rating_flag.in_old_rating = true or t.maii_rating = true)

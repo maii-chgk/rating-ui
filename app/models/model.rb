@@ -6,7 +6,7 @@ class Model < ApplicationRecord
       with ranked as (
           select rank() over (order by rating desc) as place, team_id, rating, rating_change
           from #{name}.team_rating
-          where release_details_id = $1
+          where release_id = $1
       )
       
       select r.*, t.title as name, town.title as city
@@ -48,7 +48,7 @@ class Model < ApplicationRecord
     sql = <<~SQL
       select count(*)
       from #{name}.team_rating
-      where release_details_id = $1
+      where release_id = $1
     SQL
 
     exec_query_with_cache(query: sql, params: [[nil, release_id]], cache_key: "#{name}/#{release_id}/count").rows.first.first

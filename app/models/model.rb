@@ -164,6 +164,27 @@ class Model < ApplicationRecord
     exec_query_with_cache(query: sql, params: [[nil, tournament_id]], cache_key: "#{name}/#{tournament_id}/details").rows.first
   end
 
+  def tournaments_list
+    sql = <<~SQL
+      with winners as (
+          select tr.tournament_id, max(rating) as max_rating
+          from #{name}.tournament_result tr
+          group by tr.tournament_id
+      )
+      
+      select t.id, t.title as name, type.title as type, t.end_datetime as date,
+             w.max_rating as rating
+      from public.rating_tournament t
+      left join winners w on t.id = w.tournament_id
+      left join public.rating_typeoft type on type.id = t.typeoft_id
+      where t.maii_rating = true
+        and t.end_datetime <= now() + interval '1 month'
+      order by date desc
+    SQL
+
+    exec_query_with_cache(query: sql, params: nil, cache_key: "#{name}/tournaments_list").to_a
+  end
+
   def player_details(player_id:)
     sql = <<~SQL
       select p.first_name || ' ' || last_name as name

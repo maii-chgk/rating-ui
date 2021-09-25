@@ -10,4 +10,8 @@ class TournamentsController < ApplicationController
     all_players = current_model.tournament_players(tournament_id: @tournament_id)
     @tournament_results.each { |tr| tr['players'] = all_players[tr['team_id']]}
   end
+
+  def index
+    @tournaments = current_model.tournaments_list
+  end
 end

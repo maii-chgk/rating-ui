@@ -7,6 +7,9 @@
     <th class="bg-blue-100 border text-center px-2">Взятые</th>
     <th class="bg-blue-100 border text-center px-2">Рейтинг</th>
     <th class="bg-blue-100 border text-center px-2">Дельта</th>
+    <th class="bg-blue-100 border text-center px-2">Прогноз</th>
+    <th class="bg-blue-100 border text-center px-2">D1</th>
+    <th class="bg-blue-100 border text-center px-2">D2</th>
   </tr>
   </thead>
 
@@ -23,6 +26,9 @@
       <td class="border px-2 text-center"><%= result['points'] %></td>
       <td class="border px-2 text-center"><%= result['rating'] %></td>
       <td class="border px-2 text-center"><%= result['rating_change'] %></td>
+      <td class="border px-2 text-center"><%= result['forecast'] %></td>
+      <td class="border px-2 text-center"><%= result['d1'] %></td>
+      <td class="border px-2 text-center"><%= result['d2'] %></td>
     </tr>
   <% end %>
   </tbody>

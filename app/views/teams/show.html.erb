@@ -7,3 +7,9 @@
     <%= render "tournaments_list" %>
   <% end %>
 </div>
+<h4 class="text-l text-center py-2">Турниры до МАИИ</h4>
+<div class="py-2 px-4">
+  <% cache "old_team_tournaments_list/#{@model_name}/#{@team_id}" do %>
+    <%= render "old_tournaments_list" %>
+  <% end %>
+</div>

@@ -1,0 +1,24 @@
+<% @title="Рейтинг МАИИ" %>
+<div class="flex">
+  <div class="flex-col mx-4 my-4">
+    <div class="flex-row">
+      <div>
+        <% cache "player_release_dropdown/#{@model_name}/#{@release_id}" do %>
+          <%= render "release_dropdown" %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="flex-row my-2">
+      <% cache "player_release_paging/#{@model_name}/#{@release_id}/#{@top_place}-#{@bottom_place}" do %>
+        <%= render "paging" %>
+      <% end %>
+    </div>
+
+    <div class="flex-row my-2">
+      <% cache "player_release/#{@model_name}/#{@release_id}/#{@top_place}-#{@bottom_place}" do %>
+        <%= render "player_release" %>
+      <% end %>
+    </div>
+  </div>
+</div>

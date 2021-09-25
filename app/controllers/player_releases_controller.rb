@@ -1,4 +1,4 @@
-class ReleasesController < ApplicationController
+class PlayerReleasesController < ApplicationController
   before_action :force_trailing_slash
 
   include InModel
@@ -7,11 +7,11 @@ class ReleasesController < ApplicationController
     @release_id = clean_params[:release_id] || current_model.latest_release_id
     @releases_in_dropdown = list_releases_for_dropdown
 
-    @teams = current_model.teams_for_release(release_id: @release_id,
+    @players = current_model.players_for_release(release_id: @release_id,
       top_place: top_place,
       bottom_place: bottom_place)
 
-    @all_teams_count = current_model.count_all_teams_in_release(release_id: @release_id)
+    @all_players_count = current_model.count_all_players_in_release(release_id: @release_id)
 
     @model_name = current_model.name
   end
@@ -25,14 +25,14 @@ class ReleasesController < ApplicationController
   end
 
   def bottom_place
-    @bottom_place = (clean_params[:to] || 100).to_i
+    @bottom_place = (clean_params[:to] || 250).to_i
   end
 
   def list_releases_for_dropdown
     current_model.all_releases.map do |release|
       [
         I18n.l(release["date"].to_date),
-        release_path(release_id: release["id"])
+        player_release_path(release_id: release["id"])
       ]
     end
   end

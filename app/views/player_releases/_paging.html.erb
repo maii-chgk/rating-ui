@@ -1,0 +1,9 @@
+<%= link_to_previous_player_release_page(release_id: @release_id, current_top: @top_place, current_bottom: @bottom_place) %>
+
+<% (1..5).each do |page| %>
+  <%= link_to_player_release_page(release_id: @release_id, page: page, players_per_page: @bottom_place - @top_place + 1) %>
+<% end %>
+
+<%= link_to_last_player_release_page(release_id: @release_id, players_in_release: @all_players_count, players_per_page: @bottom_place - @top_place + 1) %>
+
+<%= link_to_next_player_release_page(release_id: @release_id, current_top: @top_place, current_bottom: @bottom_place) %>

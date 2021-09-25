@@ -56,6 +56,38 @@ class Model < ApplicationRecord
     0
   end
 
+  def players_for_release(release_id:, top_place:, bottom_place:)
+    sql = <<~SQL
+      with ranked as (
+        select rank() over (order by rating desc) as place, player_id, rating, rating_change
+        from b.player_rating
+        where release_id = $1
+      )
+      
+      select r.*, p.first_name || ' ' || last_name as name
+      from ranked r
+      left join public.rating_player p on p.id = r.player_id
+      where r.place >= $2 and r.place <= $3
+      order by r.place;
+    SQL
+
+    exec_query_with_cache(query: sql,
+      params: [[nil, release_id], [nil, top_place], [nil, bottom_place]],
+      cache_key: "#{name}/#{release_id}/players/#{top_place}-#{bottom_place}")
+  end
+
+  def count_all_players_in_release(release_id:)
+    sql = <<~SQL
+      select count(*)
+      from #{name}.player_rating
+      where release_id = $1
+    SQL
+
+    exec_query_with_cache(query: sql, params: [[nil, release_id]], cache_key: "#{name}#{release_id}/players/count").rows.first.first
+  rescue NoMethodError
+    0
+  end
+
   def team_tournaments(team_id:)
     sql = <<~SQL
       select t.id as id, t.title as name, t.end_datetime as date,

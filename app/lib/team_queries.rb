@@ -1,25 +1,17 @@
 module TeamQueries
   def team_tournaments(team_id:)
     sql = <<~SQL
-      with ranked as (
-        select rank() over (partition by release_id order by rating desc) as place,
-               team_id, rating, rating_change, release_id
-        from #{name}.team_rating
-      )
-      
-      select rel.id as release_id, rel.date as release_date, rating.place as release_place,
-             rating.rating as release_rating, rating.rating_change as release_rating_change,
+      select rel.id as release_id,
              t.id as id, t.title as name, t.end_datetime as date,
-              r.position as place, tr.rating, tr.rating_change  
+             r.position as place, tr.rating, tr.rating_change  
       from #{name}.release rel
-      left join ranked rating on rating.team_id = $1 and rating.release_id = rel.id
       left join public.rating_tournament t on t.end_datetime < rel.date and t.end_datetime >= rel.date - interval '7 days'
       left join public.rating_result r on r.tournament_id = t.id
       left join #{name}.tournament_result tr on tr.tournament_id = t.id and r.team_id = tr.team_id
       where r.team_id = $1
           and r.position != 0
           and t.maii_rating = true
-      order by rel.date desc, t.end_datetime desc;
+      order by t.end_datetime desc;
     SQL
 
     exec_query_with_cache(query: sql, params: [[nil, team_id]], cache_key: "#{name}/#{team_id}/tournaments").to_a
@@ -81,8 +73,7 @@ module TeamQueries
         from #{name}.team_rating
       )
       
-      select rel.id as release_id, rel.date as release_date, rating.place as release_place,
-             rating.rating as release_rating, rating.rating_change as release_rating_change  
+      select rel.id, rel.date, rating.place, rating.rating, rating.rating_change  
       from #{name}.release rel
       left join ranked rating on rating.team_id = $1 and rating.release_id = rel.id
       order by rel.date desc;

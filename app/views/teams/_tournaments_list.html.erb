@@ -36,9 +36,7 @@
         <%= tournament.date %>
       </td>
       <td class="border px-1">
-        <% if tournament.tournament_id.present? %>
-          <%= link_to(tournament.name, tournament_path(tournament_id: tournament.tournament_id)) %>
-        <% end %>
+        <%= link_to(tournament.name, tournament_path(tournament_id: tournament.tournament_id)) %>
       </td>
       <td class="border px-1 py-2 text-left">
         <%= render partial: "shared/roster", collection: tournament.players, as: :player %>

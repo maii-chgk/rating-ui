@@ -2,7 +2,7 @@ class ReleaseTournamentPresenter
   attr_reader :release_id, :release_date, :release_place,
               :release_rating, :release_rating_change,
               :tournament_id, :name, :date,
-              :team_name, :place, :rating, :rating_change,
+              :team_name, :team_id, :place, :rating, :rating_change,
               :players
 
   attr_accessor :rows
@@ -18,6 +18,7 @@ class ReleaseTournamentPresenter
       @tournament_id = tournament["id"]
       @name = tournament["name"]
       @date = I18n.l(tournament["date"].to_date, format: :short)
+      @team_id = tournament["team_id"]
       @team_name = tournament["team_name"]
       @place = tournament["place"]
       @rating = tournament["rating"]

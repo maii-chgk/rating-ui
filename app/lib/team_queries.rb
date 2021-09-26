@@ -72,4 +72,22 @@ module TeamQueries
       hash[row['tournament_id']] << row
     end
   end
+
+  def team_releases(team_id:)
+    sql = <<~SQL
+      with ranked as (
+        select rank() over (partition by release_id order by rating desc) as place,
+               team_id, rating, rating_change, release_id
+        from #{name}.team_rating
+      )
+      
+      select rel.id as release_id, rel.date as release_date, rating.place as release_place,
+             rating.rating as release_rating, rating.rating_change as release_rating_change  
+      from #{name}.release rel
+      left join ranked rating on rating.team_id = $1 and rating.release_id = rel.id
+      order by rel.date desc;
+    SQL
+
+    exec_query_with_cache(query: sql, params: [[nil, team_id]], cache_key: "#{name}/#{team_id}/releases").to_a
+  end
 end

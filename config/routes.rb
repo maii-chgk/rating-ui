@@ -8,4 +8,6 @@ Rails.application.routes.draw do
   get ":model/player/:player_id", to: "players#show", as: "player"
   get ":model/players(/:release_id)", to: "player_releases#show", as: "player_release"
   get ":model(/:release_id)", to: "releases#show", as: "release"
+
+  root to: "releases#show", model: InModel::DEFAULT_MODEL
 end

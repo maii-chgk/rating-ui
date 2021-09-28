@@ -15,11 +15,16 @@ module PlayerQueries
           rr.team_title as team_name, rr.position as place, rr.team_id, ro.flag, 
           rating.rating, rating.rating_change
       from #{name}.release rel
-      left join public.rating_tournament t on t.end_datetime <= rel.date and t.end_datetime > rel.date - interval '7 days'
-      left join public.tournaments t_old_rating_flag on t.id = t_old_rating_flag.id
-      left join public.rating_result rr on rr.tournament_id = t.id
-      left join public.rating_oldrating ro on ro.result_id = rr.id
-      left join #{name}.tournament_result rating on rating.tournament_id = t.id and rating.team_id = rr.team_id
+      left join public.rating_tournament t 
+          on t.end_datetime < rel.date + interval '24 hours' and t.end_datetime >= rel.date - interval '6 days'
+      left join public.tournaments t_old_rating_flag 
+          on t.id = t_old_rating_flag.id
+      left join public.rating_result rr 
+          on rr.tournament_id = t.id
+      left join public.rating_oldrating ro 
+          on ro.result_id = rr.id
+      left join #{name}.tournament_result rating 
+          on rating.tournament_id = t.id and rating.team_id = rr.team_id
       where ro.player_id = $1
           and rr.position != 0
           and t.maii_rating = true

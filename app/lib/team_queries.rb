@@ -5,9 +5,12 @@ module TeamQueries
              t.id as id, t.title as name, t.end_datetime as date,
              r.position as place, tr.rating, tr.rating_change  
       from #{name}.release rel
-      left join public.rating_tournament t on t.end_datetime <= rel.date and t.end_datetime > rel.date - interval '7 days'
-      left join public.rating_result r on r.tournament_id = t.id
-      left join #{name}.tournament_result tr on tr.tournament_id = t.id and r.team_id = tr.team_id
+      left join public.rating_tournament t 
+          on t.end_datetime < rel.date + interval '24 hours' and t.end_datetime >= rel.date - interval '6 days'
+      left join public.rating_result r 
+          on r.tournament_id = t.id
+      left join #{name}.tournament_result tr 
+          on tr.tournament_id = t.id and r.team_id = tr.team_id
       where r.team_id = $1
           and r.position != 0
           and t.maii_rating = true

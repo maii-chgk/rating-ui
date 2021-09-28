@@ -13,7 +13,7 @@
   <% @teams.each do |team| %>
     <tr class="border py-2 hover:bg-gray-100">
       <td class="text-center border py-2"><%= team['place'] %></td>
-      <td class="border px-2"><%= link_to(team['name'], team_path(team_id: team['team_id'])) %></td>
+      <td class="border px-2 hover:underline"><%= link_to(team['name'], team_path(team_id: team['team_id'])) %></td>
       <td class="border px-2"><%= team['city'] %></td>
       <td class="text-center border"><%= team['rating'] %></td>
       <td class="text-center border"><%= team['rating_change'] %></td>

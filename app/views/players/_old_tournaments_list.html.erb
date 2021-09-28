@@ -14,10 +14,10 @@
   <% @old_tournaments.each do |tournament| %>
     <tr class="border py-2 hover:bg-gray-100">
       <td class="border px-2 py-2 text-center"><%= I18n.l(tournament["date"].to_date, format: :short) %></td>
-      <td class="border px-2">
+      <td class="border px-2 hover:underline">
         <%= link_to(tournament["name"], tournament_path(tournament_id: tournament["id"])) %>
       </td>
-      <td class="border px-2 text-left">
+      <td class="border px-2 text-left hover:underline">
         <%= link_to(tournament["team_name"], team_path(team_id: tournament["team_id"])) %>
       </td>
       <td class="border px-2 text-center"><%= round_place(tournament["place"]) %></td>

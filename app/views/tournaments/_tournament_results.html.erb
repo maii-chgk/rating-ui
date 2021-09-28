@@ -17,7 +17,7 @@
   <% @tournament_results.each do |result| %>
     <tr class="border py-2 hover:bg-gray-100">
       <td class="border px-2 text-center"><%= round_place(result['place']) %></td>
-      <td class="border px-2">
+      <td class="border px-2 hover:underline">
         <%= link_to(result['team_name'], team_path(team_id: result['team_id'])) %>
       </td>
       <td class="border px-2 py-2 text-left">

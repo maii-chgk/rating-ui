@@ -12,7 +12,7 @@
   <% @players.each do |player| %>
     <tr class="border py-2 hover:bg-gray-100">
       <td class="text-center border py-2"><%= player['place'] %></td>
-      <td class="border px-2"><%= link_to(player['name'], player_path(player_id: player['player_id'])) %></td>
+      <td class="border px-2 hover:underline"><%= link_to(player['name'], player_path(player_id: player['player_id'])) %></td>
       <td class="text-center border"><%= player['rating'] %></td>
       <td class="text-center border"><%= player['rating_change'] %></td>
     </tr>

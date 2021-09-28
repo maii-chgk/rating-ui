@@ -1,6 +1,9 @@
 <% @title="#{@name} — рейтинг МАИИ" %>
-<h1 class="text-center py-4 text-xl"><%= @name %></h1>
-<h3 class="text-center text-l"><%= I18n.l(@start.to_date) %> — <%= I18n.l(@end.to_date) %></h3>
+<h1 class="text-center text-xl"><%= @name %></h1>
+<h3 class="text-center py-2 text-l"><%= I18n.l(@start.to_date) %> — <%= I18n.l(@end.to_date) %></h3>
+<div class="text-center text-l hover:underline">
+  <%= link_to("Cтраница на турнирном сайте", "https://rating.chgk.info/tournament/#{@tournament_id}") %>
+</div>
 <div class="py-2 px-4">
   <% cache "tournament_results/#{@model_name}/#{@tournament_id}" do %>
     <%= render "tournament_results" %>

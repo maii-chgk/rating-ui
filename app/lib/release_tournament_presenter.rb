@@ -1,31 +1,63 @@
 class ReleaseTournamentPresenter
-  attr_reader :release_id, :release_date, :release_place,
-              :release_rating, :release_rating_change,
-              :tournament_id, :name, :date,
-              :team_name, :team_id, :place, :rating, :rating_change,
-              :players
-
+  attr_reader :players
   attr_accessor :rows
 
   def initialize(release:, tournament: nil, players: nil, rows: 1)
-    @release_id = release["id"]
-    @release_date = I18n.l(release["date"].to_date, format: :short)
-    @release_place = release["place"]
-    @release_rating = release["rating"]
-    @release_rating_change = release["rating_change"]
-
-    if tournament.present?
-      @tournament_id = tournament["id"]
-      @name = tournament["name"]
-      @date = I18n.l(tournament["date"].to_date, format: :short)
-      @team_id = tournament["team_id"]
-      @team_name = tournament["team_name"]
-      @place = tournament["place"]
-      @rating = tournament["rating"]
-      @rating_change = tournament["rating_change"]
-      @players = players
-    end
-
+    @release = release
+    @tournament = tournament
+    @players = players if tournament.present?
     @rows = rows
+  end
+
+  def release_id
+    @release["id"]
+  end
+
+  def release_date
+    I18n.l(@release["date"].to_date, format: :short)
+  end
+
+  def release_place
+    @release["place"]
+  end
+
+  def release_rating
+    @release["rating"]
+  end
+
+  def release_rating_change
+    @release["rating_change"]
+  end
+
+  def tournament_id
+    @tournament["id"] if @tournament.present?
+  end
+
+  def name
+    @tournament["name"] if @tournament.present?
+  end
+
+  def date
+    I18n.l(@tournament["date"].to_date, format: :short) if @tournament.present?
+  end
+
+  def team_id
+    @tournament["team_id"] if @tournament.present?
+  end
+
+  def team_name
+    @tournament["team_name"] if @tournament.present?
+  end
+
+  def place
+    @tournament["place"] if @tournament.present?
+  end
+
+  def rating
+    @tournament["rating"] if @tournament.present?
+  end
+
+  def rating_change
+    @tournament["rating_change"] if @tournament.present?
   end
 end

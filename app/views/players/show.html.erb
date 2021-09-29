@@ -3,7 +3,7 @@
   <h1><%= @name %></h1>
 </div>
 <div class="text-center py-2 text-l hover:underline">
-<%= link_to("Страница на турнирном сайте", "https://rating.chgk.info/player/#{@player_id}") %>
+<%= link_to("Страница на rating.chgk.info", "https://rating.chgk.info/player/#{@player_id}") %>
 </div>
 <div class="py-2">
   <% cache "player_tournaments_list/#{@model_name}/#{@player_id}" do %>

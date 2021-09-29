@@ -58,6 +58,12 @@ class ReleaseTournamentPresenter
   end
 
   def rating_change
-    @tournament["rating_change"] if @tournament.present?
+    return nil if @tournament.nil?
+    if @tournament["in_rating"] == true
+      @tournament["rating_change"]
+    else
+      "[#{@tournament['rating_change']}]"
+    end
+
   end
 end

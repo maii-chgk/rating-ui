@@ -3,7 +3,8 @@ module TeamQueries
     sql = <<~SQL
       select rel.id as release_id,
              t.id as id, t.title as name, t.end_datetime as date,
-             r.position as place, tr.rating, tr.rating_change  
+             r.position as place, 
+             tr.rating, tr.rating_change, tr.is_in_maii_rating as in_rating  
       from #{name}.release rel
       left join public.rating_tournament t 
           on t.end_datetime < rel.date + interval '24 hours' and t.end_datetime >= rel.date - interval '6 days'

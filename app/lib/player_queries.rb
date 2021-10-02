@@ -1,12 +1,26 @@
 module PlayerQueries
-  def player_details(player_id:)
+  include Cacheable
+
+  PlayerTournament = Struct.new(:release_id, :id, :name, :date,
+                                :team_name, :team_id, :place, :flag,
+                                :rating, :rating_change, :in_rating,
+                                keyword_init: true)
+
+  PlayerOldTournament = Struct.new(:id, :name, :date,
+                                   :team_name, :team_id, :place, :flag,
+                                   :rating, :rating_change,
+                                   keyword_init: true)
+
+  PlayerRelease = Struct.new(:id, :date, :place, :rating, :rating_change, keyword_init: true)
+
+  def player_name(player_id:)
     sql = <<~SQL
       select p.first_name || ' ' || last_name as name
       from public.rating_player p
       where p.id = $1
     SQL
 
-    exec_query_with_cache(query: sql, params: [[nil, player_id]], cache_key: "#{name}/#{player_id}/details").rows.first.first
+    exec_query_for_single_value(query: sql, params: [player_id], cache_key: "#{name}/#{player_id}/details")
   end
 
   def player_tournaments(player_id:)
@@ -31,7 +45,10 @@ module PlayerQueries
       order by t.end_datetime desc
     SQL
 
-    exec_query_with_cache(query: sql, params: [[nil, player_id]], cache_key: "#{name}/#{player_id}/tournaments").to_a
+    exec_query(query: sql,
+               params: [player_id],
+               cache_key: "#{name}/#{player_id}/tournaments",
+               result_class: PlayerTournament)
   end
 
   def player_old_tournaments(player_id:)
@@ -50,7 +67,10 @@ module PlayerQueries
       order by t.end_datetime desc
     SQL
 
-    exec_query_with_cache(query: sql, params: [[nil, player_id]], cache_key: "#{name}/#{player_id}/old_tournaments").to_a
+    exec_query(query: sql,
+               params: [player_id],
+               cache_key: "#{name}/#{player_id}/old_tournaments",
+               result_class: PlayerOldTournament)
   end
 
   def player_releases(player_id:)
@@ -67,6 +87,9 @@ module PlayerQueries
       order by rel.date desc;
     SQL
 
-    exec_query_with_cache(query: sql, params: [[nil, player_id]], cache_key: "#{name}/#{player_id}/player_releases").to_a
+    exec_query(query: sql,
+               params: [player_id],
+               cache_key: "#{name}/#{player_id}/player_releases",
+               result_class: PlayerRelease)
   end
 end

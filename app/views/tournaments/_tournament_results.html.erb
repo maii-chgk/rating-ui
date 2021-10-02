@@ -14,21 +14,21 @@
   </thead>
 
   <tbody>
-  <% @tournament_results.each do |result| %>
+  <% @tournament.results.each do |result| %>
     <tr class="border py-2 hover:bg-gray-100">
-      <td class="border px-2 text-center"><%= round_place(result['place']) %></td>
+      <td class="border px-2 text-center"><%= round_place(result.place) %></td>
       <td class="border px-2 hover:underline">
-        <%= link_to(result['team_name'], team_path(team_id: result['team_id'])) %>
+        <%= link_to(result['team_name'], team_path(team_id: result.team_id)) %>
       </td>
       <td class="border px-2 py-2 text-left">
-        <%= render partial: "shared/roster", collection: result['players'], as: :player %>
+        <%= render partial: "shared/roster", collection: result.players, as: :player %>
       </td>
-      <td class="border px-2 text-center"><%= result['points'] %></td>
-      <td class="border px-2 text-center"><%= result['rating'] %></td>
-      <td class="border px-2 text-center"><%= result['rating_change'] %></td>
-      <td class="border px-2 text-center"><%= result['forecast'] %></td>
-      <td class="border px-2 text-center"><%= result['d1'] %></td>
-      <td class="border px-2 text-center"><%= result['d2'] %></td>
+      <td class="border px-2 text-center"><%= result.points %></td>
+      <td class="border px-2 text-center"><%= result.rating %></td>
+      <td class="border px-2 text-center"><%= result.rating_change %></td>
+      <td class="border px-2 text-center"><%= result.forecast %></td>
+      <td class="border px-2 text-center"><%= result.d1 %></td>
+      <td class="border px-2 text-center"><%= result.d2 %></td>
     </tr>
   <% end %>
   </tbody>

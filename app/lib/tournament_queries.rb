@@ -1,4 +1,16 @@
 module TournamentQueries
+  include Cacheable
+
+  TournamentResults = Struct.new(:team_id, :team_name, :place, :points,
+                                 :rating, :rating_change,
+                                 :forecast, :forecast_place,
+                                 :d1, :d2, :players,
+                                 keyword_init: true)
+
+  TournamentPageDetails = Struct.new(:name, :start, :end)
+
+  TournamentListDetails = Struct.new(:id, :name, :type, :date, :rating, keyword_init: true)
+
   def tournament_results(tournament_id:)
     sql = <<~SQL
       select r.position as place, r.total as points, 
@@ -12,7 +24,10 @@ module TournamentQueries
       order by position, r.team_id
     SQL
 
-    exec_query_with_cache(query: sql, params: [[nil, tournament_id]], cache_key: "#{name}/#{tournament_id}/results").to_a
+    exec_query(query: sql,
+               params: [tournament_id],
+               cache_key: "#{name}/#{tournament_id}/results",
+               result_class: TournamentResults)
   end
 
   def tournament_players(tournament_id:)
@@ -27,9 +42,9 @@ module TournamentQueries
       order by rr.team_id, roster.flag, p.last_name
     SQL
 
-    result = exec_query_with_cache(query: sql,
-                                   params: [[nil, tournament_id]],
-                                   cache_key: "#{name}/#{tournament_id}/players")
+    result = exec_query_for_hash_array(query: sql,
+                                       params: [tournament_id],
+                                       cache_key: "#{name}/#{tournament_id}/players")
 
     result.each_with_object(Hash.new { |h, k| h[k] = [] }) do |row, hash|
       hash[row['team_id']] << row
@@ -43,7 +58,10 @@ module TournamentQueries
       where t.id = $1
     SQL
 
-    exec_query_with_cache(query: sql, params: [[nil, tournament_id]], cache_key: "#{name}/#{tournament_id}/details").rows.first
+    row = exec_query_for_single_row(query: sql,
+                                    params: [tournament_id],
+                                    cache_key: "#{name}/#{tournament_id}/details")
+    TournamentPageDetails.new(*row)
   end
 
   def tournaments_list
@@ -64,6 +82,6 @@ module TournamentQueries
       order by date desc
     SQL
 
-    exec_query_with_cache(query: sql, params: nil, cache_key: "#{name}/tournaments_list").to_a
+    exec_query(query: sql, cache_key: "#{name}/tournaments_list", result_class: TournamentListDetails)
   end
 end

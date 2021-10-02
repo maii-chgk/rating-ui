@@ -1,4 +1,15 @@
 module TeamQueries
+  include Cacheable
+
+  TeamTournament = Struct.new(:release_id, :id, :name, :date, :place,
+                              :rating, :rating_change, :in_rating,
+                              keyword_init: true)
+
+  TeamOldTournament = Struct.new(:id, :name, :date, :place, :rating, :rating_change, :players,
+                                 keyword_init: true)
+
+  TeamRelease = Struct.new(:id, :date, :place, :rating, :rating_change, keyword_init: true)
+
   def team_tournaments(team_id:)
     sql = <<~SQL
       select rel.id as release_id,
@@ -18,7 +29,10 @@ module TeamQueries
       order by t.end_datetime desc;
     SQL
 
-    exec_query_with_cache(query: sql, params: [[nil, team_id]], cache_key: "#{name}/#{team_id}/tournaments").to_a
+    exec_query(query: sql,
+               params: [[nil, team_id]],
+               cache_key: "#{name}/#{team_id}/tournaments",
+               result_class: TeamTournament)
   end
 
   def old_tournaments(team_id:)
@@ -34,7 +48,10 @@ module TeamQueries
       order by t.end_datetime desc
     SQL
 
-    exec_query_with_cache(query: sql, params: [[nil, team_id]], cache_key: "#{name}/#{team_id}/old_tournaments").to_a
+    exec_query(query: sql,
+               params: [[nil, team_id]],
+               cache_key: "#{name}/#{team_id}/old_tournaments",
+               result_class: TeamOldTournament)
   end
 
   def team_details(team_id:)
@@ -45,7 +62,7 @@ module TeamQueries
       where t.id = $1
     SQL
 
-    exec_query_with_cache(query: sql, params: [[nil, team_id]], cache_key: "#{name}/#{team_id}/details").rows.first
+    exec_query_for_single_row(query: sql, params: [[nil, team_id]], cache_key: "#{name}/#{team_id}/details")
   end
 
   def team_players(team_id:)
@@ -60,9 +77,9 @@ module TeamQueries
       order by rr.tournament_id, roster.flag, p.last_name
     SQL
 
-    result = exec_query_with_cache(query: sql,
-                                   params: [[nil, team_id]],
-                                   cache_key: "#{name}/#{team_id}/players")
+    result = exec_query_for_hash_array(query: sql,
+                                       params: [[nil, team_id]],
+                                       cache_key: "#{name}/#{team_id}/players")
 
     result.each_with_object(Hash.new { |h, k| h[k] = [] }) do |row, hash|
       hash[row['tournament_id']] << row
@@ -83,6 +100,9 @@ module TeamQueries
       order by rel.date desc;
     SQL
 
-    exec_query_with_cache(query: sql, params: [[nil, team_id]], cache_key: "#{name}/#{team_id}/releases").to_a
+    exec_query(query: sql,
+               params: [[nil, team_id]],
+               cache_key: "#{name}/#{team_id}/releases",
+               result_class: TeamRelease)
   end
 end

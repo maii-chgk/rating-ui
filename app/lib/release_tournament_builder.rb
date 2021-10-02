@@ -11,19 +11,19 @@ class ReleaseTournamentBuilder
 
   def build
     @releases.flat_map do |release|
-      tournaments_in_release = tournaments_by_release_id[release["id"]]
+      tournaments_in_release = tournaments_by_release_id[release.id]
       if tournaments_in_release.nil?
         ReleaseTournamentPresenter.new(release: release)
       elsif tournaments_in_release.size == 1
         tournament = tournaments_in_release.first
         ReleaseTournamentPresenter.new(release: release,
                                        tournament: tournament,
-                                       players: @players[tournament["id"]])
+                                       players: @players[tournament.id])
       else
         rows = tournaments_in_release.map do |tournament|
           ReleaseTournamentPresenter.new(release: release,
                                          tournament: tournament,
-                                         players: @players[tournament["id"]],
+                                         players: @players[tournament.id],
                                          rows: 0)
         end
         rows.first.rows = tournaments_in_release.size

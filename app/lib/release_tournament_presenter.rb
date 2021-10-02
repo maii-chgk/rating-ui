@@ -64,6 +64,5 @@ class ReleaseTournamentPresenter
     else
       "[#{@tournament['rating_change']}]"
     end
-
   end
 end

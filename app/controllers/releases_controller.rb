@@ -4,7 +4,9 @@ class ReleasesController < ApplicationController
   include InModel
 
   def show
-    id = clean_params[:release_id] || current_model.latest_release_id
+    id = clean_params[:release_id] || current_model&.latest_release_id
+    return render_404 if id.nil?
+
     teams = current_model.teams_for_release(release_id: id, top_place: top_place, bottom_place: bottom_place)
     all_teams_count = current_model.count_all_teams_in_release(release_id: id)
     @release = ReleasePresenter.new(id: id, teams: teams, teams_in_release_count: all_teams_count)

@@ -7,6 +7,10 @@ class ApplicationController < ActionController::Base
     redirect_to request.original_url + '/' unless request.original_url.match(/\/$/)
   end
 
+  def render_404
+    render file: "#{Rails.root}/public/404.html", status: :not_found
+  end
+
   private
 
   def validate_model_name

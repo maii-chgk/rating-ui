@@ -4,6 +4,7 @@ class TeamsController < ApplicationController
   def show
     @team_id = params[:team_id].to_i
     @name, @city = current_model.team_details(team_id: @team_id)
+    return render_404 if @name.nil?
 
     releases = current_model.team_releases(team_id: @team_id)
     tournaments = current_model.team_tournaments(team_id: @team_id)

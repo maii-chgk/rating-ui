@@ -49,8 +49,6 @@ module ReleaseQueries
     SQL
 
     exec_query_for_single_value(query: sql, cache_key: "#{name}/latest_release")
-  rescue NoMethodError
-    -1
   end
 
   def count_all_teams_in_release(release_id:)
@@ -60,9 +58,10 @@ module ReleaseQueries
       where release_id = $1
     SQL
 
-    exec_query_for_single_value(query: sql, params: [release_id], cache_key: "#{name}/#{release_id}/count")
-  rescue NoMethodError
-    0
+    exec_query_for_single_value(query: sql,
+                                params: [release_id],
+                                cache_key: "#{name}/#{release_id}/count",
+                                default_value: 0)
   end
 
   def players_for_release(release_id:, top_place:, bottom_place:)
@@ -93,8 +92,9 @@ module ReleaseQueries
       where release_id = $1
     SQL
 
-    exec_query_for_single_value(query: sql, params: [release_id], cache_key: "#{name}#{release_id}/players/count")
-  rescue NoMethodError
-    0
+    exec_query_for_single_value(query: sql,
+                                params: [release_id],
+                                cache_key: "#{name}#{release_id}/players/count",
+                                default_value: 0)
   end
 end

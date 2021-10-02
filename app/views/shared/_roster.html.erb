@@ -6,6 +6,6 @@
   <% else %>
     <p>
   <% end %>
-    <%= link_to(player['name'], player_path(player_id: player['player_id']), class: "hover:underline") %>
+    <%= link_to(raw(player['name']), player_path(player_id: player['player_id']), class: "hover:underline") %>
   </p>
 <% end %>

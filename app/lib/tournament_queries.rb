@@ -34,7 +34,7 @@ module TournamentQueries
   def tournament_players(tournament_id:)
     sql = <<~SQL
       select rr.team_id, p.id as player_id, 
-        p.first_name || ' ' || last_name as name, 
+        p.first_name || '&nbsp;' || last_name as name, 
         roster.flag
       from public.rating_result rr
       left join public.rating_oldrating roster on roster.result_id = rr.id

@@ -27,7 +27,7 @@ module PlayerQueries
     sql = <<~SQL
       select rel.id as release_id, t.id as id, t.title as name, t.end_datetime as date,
           rr.team_title as team_name, rr.position as place, rr.team_id, ro.flag, 
-          rating.rating, rating.rating_change
+          rating.rating, rating.rating_change, rating.is_in_maii_rating as in_rating
       from #{name}.release rel
       left join public.rating_tournament t 
           on t.end_datetime < rel.date + interval '24 hours' and t.end_datetime >= rel.date - interval '6 days'

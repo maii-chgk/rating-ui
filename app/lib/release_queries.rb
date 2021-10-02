@@ -72,7 +72,7 @@ module ReleaseQueries
         where release_id = $1
       )
       
-      select r.*, p.first_name || ' ' || last_name as name
+      select r.*, p.first_name || '&nbsp;' || last_name as name
       from ranked r
       left join public.rating_player p on p.id = r.player_id
       where r.place >= $2 and r.place <= $3

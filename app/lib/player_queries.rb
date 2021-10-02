@@ -15,7 +15,7 @@ module PlayerQueries
 
   def player_name(player_id:)
     sql = <<~SQL
-      select p.first_name || ' ' || last_name as name
+      select p.first_name || '&nbsp;' || last_name as name
       from public.rating_player p
       where p.id = $1
     SQL

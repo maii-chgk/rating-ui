@@ -20,5 +20,11 @@
         <%= render "release" %>
       <% end %>
     </div>
+
+    <div class="flex-row my-2">
+      <% cache "release_paging/#{@model_name}/#{@release.id}/#{@top_place}-#{@bottom_place}" do %>
+        <%= render "paging" %>
+      <% end %>
+    </div>
   </div>
 </div>

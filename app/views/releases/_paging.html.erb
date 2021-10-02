@@ -1,9 +1,9 @@
-<%= link_to_previous_page(release_id: @release_id, current_top: @top_place, current_bottom: @bottom_place) %>
+<%= link_to_previous_page(release_id: @release.id, current_top: @top_place, current_bottom: @bottom_place) %>
 
 <% (1..5).each do |page| %>
-  <%= link_to_page(release_id: @release_id, page: page, teams_per_page: @bottom_place - @top_place + 1) %>
+  <%= link_to_page(release_id: @release.id, page: page, teams_per_page: @bottom_place - @top_place + 1) %>
 <% end %>
 ...
-<%= link_to_last_page(release_id: @release_id, teams_in_release: @all_teams_count, teams_per_page: @bottom_place - @top_place + 1) %>
+<%= link_to_last_page(release_id: @release.id, teams_in_release: @release.teams_in_release_count, teams_per_page: @bottom_place - @top_place + 1) %>
 
-<%= link_to_next_page(release_id: @release_id, current_top: @top_place, current_bottom: @bottom_place) %>
+<%= link_to_next_page(release_id: @release.id, current_top: @top_place, current_bottom: @bottom_place) %>

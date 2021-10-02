@@ -2,7 +2,7 @@ module Cacheable
   extend ActiveSupport::Concern
 
   def exec_query_for_single_value(query:, params: nil, cache_key: nil)
-    exec_query_with_cache(query, params, cache_key).first.first
+    exec_query_with_cache(query, params, cache_key).rows.first.first
   end
 
   def exec_query_for_single_row(query:, params: nil, cache_key: nil)

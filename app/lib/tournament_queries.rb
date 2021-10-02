@@ -1,4 +1,6 @@
 module TournamentQueries
+  include Cacheable
+
   TournamentResults = Struct.new(:team_id, :team_name, :place, :points,
                                  :rating, :rating_change,
                                  :forecast, :forecast_place,

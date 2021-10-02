@@ -1,1 +1,1 @@
-<%= select_tag "releases[]", options_for_select(@releases_in_dropdown, release_path(release_id: @release_id)), {:onchange => "location = this.value;"} %>
+<%= select_tag "releases[]", options_for_select(@releases_in_dropdown, release_path(release_id: @release.id)), {:onchange => "location = this.value;"} %>

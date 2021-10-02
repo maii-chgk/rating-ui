@@ -1,4 +1,14 @@
 module ReleaseQueries
+  include Cacheable
+
+  ReleaseTeam = Struct.new(:team_id, :name, :city,
+                           :place, :rating, :rating_change,
+                           keyword_init: true)
+
+  ReleasePlayer = Struct.new(:player_id, :name, :city,
+                             :place, :rating, :rating_change,
+                             keyword_init: true)
+
   def teams_for_release(release_id:, top_place:, bottom_place:)
     sql = <<~SQL
       with ranked as (
@@ -15,9 +25,10 @@ module ReleaseQueries
       order by r.place;
     SQL
 
-    exec_query_with_cache(query: sql,
-                          params: [[nil, release_id], [nil, top_place], [nil, bottom_place]],
-                          cache_key: "#{name}/#{release_id}/#{top_place}-#{bottom_place}")
+    exec_query(query: sql,
+               params: [[nil, release_id], [nil, top_place], [nil, bottom_place]],
+               cache_key: "#{name}/#{release_id}/#{top_place}-#{bottom_place}",
+               result_class: ReleaseTeam)
   end
 
   def all_releases
@@ -27,7 +38,7 @@ module ReleaseQueries
       order by date desc
     SQL
 
-    exec_query_with_cache(query: sql, cache_key: "#{name}/all_releases").to_a
+    exec_query_for_hash_array(query: sql, cache_key: "#{name}/all_releases")
   end
 
   def latest_release_id
@@ -37,7 +48,7 @@ module ReleaseQueries
       where date = (select max(date) as max_date from #{name}.release)
     SQL
 
-    exec_query_with_cache(query: sql, cache_key: "#{name}/latest_release").rows.first.first
+    exec_query_for_single_value(query: sql, cache_key: "#{name}/latest_release")
   rescue NoMethodError
     -1
   end
@@ -49,7 +60,7 @@ module ReleaseQueries
       where release_id = $1
     SQL
 
-    exec_query_with_cache(query: sql, params: [[nil, release_id]], cache_key: "#{name}/#{release_id}/count").rows.first.first
+    exec_query_for_single_value(query: sql, params: [[nil, release_id]], cache_key: "#{name}/#{release_id}/count")
   rescue NoMethodError
     0
   end
@@ -69,9 +80,10 @@ module ReleaseQueries
       order by r.place;
     SQL
 
-    exec_query_with_cache(query: sql,
-                          params: [[nil, release_id], [nil, top_place], [nil, bottom_place]],
-                          cache_key: "#{name}/#{release_id}/players/#{top_place}-#{bottom_place}")
+    exec_query(query: sql,
+               params: [[nil, release_id], [nil, top_place], [nil, bottom_place]],
+               cache_key: "#{name}/#{release_id}/players/#{top_place}-#{bottom_place}",
+               result_class: ReleasePlayer)
   end
 
   def count_all_players_in_release(release_id:)
@@ -81,7 +93,7 @@ module ReleaseQueries
       where release_id = $1
     SQL
 
-    exec_query_with_cache(query: sql, params: [[nil, release_id]], cache_key: "#{name}#{release_id}/players/count").rows.first.first
+    exec_query_for_single_value(query: sql, params: [[nil, release_id]], cache_key: "#{name}#{release_id}/players/count")
   rescue NoMethodError
     0
   end

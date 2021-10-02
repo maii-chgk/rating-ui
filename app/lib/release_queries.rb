@@ -26,7 +26,7 @@ module ReleaseQueries
     SQL
 
     exec_query(query: sql,
-               params: [[nil, release_id], [nil, top_place], [nil, bottom_place]],
+               params: [release_id, top_place, bottom_place],
                cache_key: "#{name}/#{release_id}/#{top_place}-#{bottom_place}",
                result_class: ReleaseTeam)
   end
@@ -60,7 +60,7 @@ module ReleaseQueries
       where release_id = $1
     SQL
 
-    exec_query_for_single_value(query: sql, params: [[nil, release_id]], cache_key: "#{name}/#{release_id}/count")
+    exec_query_for_single_value(query: sql, params: [release_id], cache_key: "#{name}/#{release_id}/count")
   rescue NoMethodError
     0
   end
@@ -81,7 +81,7 @@ module ReleaseQueries
     SQL
 
     exec_query(query: sql,
-               params: [[nil, release_id], [nil, top_place], [nil, bottom_place]],
+               params: [release_id, top_place, bottom_place],
                cache_key: "#{name}/#{release_id}/players/#{top_place}-#{bottom_place}",
                result_class: ReleasePlayer)
   end
@@ -93,7 +93,7 @@ module ReleaseQueries
       where release_id = $1
     SQL
 
-    exec_query_for_single_value(query: sql, params: [[nil, release_id]], cache_key: "#{name}#{release_id}/players/count")
+    exec_query_for_single_value(query: sql, params: [release_id], cache_key: "#{name}#{release_id}/players/count")
   rescue NoMethodError
     0
   end

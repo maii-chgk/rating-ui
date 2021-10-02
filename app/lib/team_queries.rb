@@ -30,7 +30,7 @@ module TeamQueries
     SQL
 
     exec_query(query: sql,
-               params: [[nil, team_id]],
+               params: [team_id],
                cache_key: "#{name}/#{team_id}/tournaments",
                result_class: TeamTournament)
   end
@@ -49,7 +49,7 @@ module TeamQueries
     SQL
 
     exec_query(query: sql,
-               params: [[nil, team_id]],
+               params: [team_id],
                cache_key: "#{name}/#{team_id}/old_tournaments",
                result_class: TeamOldTournament)
   end
@@ -62,7 +62,7 @@ module TeamQueries
       where t.id = $1
     SQL
 
-    exec_query_for_single_row(query: sql, params: [[nil, team_id]], cache_key: "#{name}/#{team_id}/details")
+    exec_query_for_single_row(query: sql, params: [team_id], cache_key: "#{name}/#{team_id}/details")
   end
 
   def team_players(team_id:)
@@ -78,7 +78,7 @@ module TeamQueries
     SQL
 
     result = exec_query_for_hash_array(query: sql,
-                                       params: [[nil, team_id]],
+                                       params: [team_id],
                                        cache_key: "#{name}/#{team_id}/players")
 
     result.each_with_object(Hash.new { |h, k| h[k] = [] }) do |row, hash|
@@ -101,7 +101,7 @@ module TeamQueries
     SQL
 
     exec_query(query: sql,
-               params: [[nil, team_id]],
+               params: [team_id],
                cache_key: "#{name}/#{team_id}/releases",
                result_class: TeamRelease)
   end

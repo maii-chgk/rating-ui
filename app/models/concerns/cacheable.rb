@@ -29,9 +29,13 @@ module Cacheable
 
   def run_query(query, params)
     if params.present?
-      ActiveRecord::Base.connection.exec_query(query, "", params)
+      ActiveRecord::Base.connection.exec_query(query, "", active_record_params(params))
     else
       ActiveRecord::Base.connection.exec_query(query)
     end
+  end
+
+  def active_record_params(params)
+    params.map { |param| [nil, param] }
   end
 end

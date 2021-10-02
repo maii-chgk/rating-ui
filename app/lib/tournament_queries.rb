@@ -25,7 +25,7 @@ module TournamentQueries
     SQL
 
     exec_query(query: sql,
-               params: [[nil, tournament_id]],
+               params: [tournament_id],
                cache_key: "#{name}/#{tournament_id}/results",
                result_class: TournamentResults)
   end
@@ -43,7 +43,7 @@ module TournamentQueries
     SQL
 
     result = exec_query_for_hash_array(query: sql,
-                                       params: [[nil, tournament_id]],
+                                       params: [tournament_id],
                                        cache_key: "#{name}/#{tournament_id}/players")
 
     result.each_with_object(Hash.new { |h, k| h[k] = [] }) do |row, hash|
@@ -59,7 +59,7 @@ module TournamentQueries
     SQL
 
     row = exec_query_for_single_row(query: sql,
-                                    params: [[nil, tournament_id]],
+                                    params: [tournament_id],
                                     cache_key: "#{name}/#{tournament_id}/details")
     TournamentPageDetails.new(*row)
   end

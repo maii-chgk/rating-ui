@@ -2,7 +2,7 @@ module TournamentQueries
   include Cacheable
 
   TournamentResults = Struct.new(:team_id, :team_name, :place, :points,
-                                 :rating, :rating_change,
+                                 :rating, :rating_change, :in_rating,
                                  :forecast, :forecast_place,
                                  :d1, :d2, :players,
                                  keyword_init: true)
@@ -14,12 +14,13 @@ module TournamentQueries
   def tournament_results(tournament_id:)
     sql = <<~SQL
       select r.position as place, r.total as points, 
-        r.team_title as team_name, r.team_id,
-        tr.rating as rating, tr.rating_change as rating_change,
-        tr.bp as forecast, tr.d1, tr.d2
+          r.team_title as team_name, r.team_id,
+          tr.rating as rating, tr.rating_change as rating_change,
+          tr.is_in_maii_rating as in_rating,
+          tr.bp as forecast, tr.d1, tr.d2
       from public.rating_result r
       left join #{name}.tournament_result tr 
-        on r.team_id = tr.team_id and tr.tournament_id = $1
+          on r.team_id = tr.team_id and tr.tournament_id = $1
       where r.tournament_id = $1
       order by position, r.team_id
     SQL

@@ -12,6 +12,7 @@ gem 'hiredis'
 gem 'rails-i18n', '~> 6.0.0'
 gem "honeybadger", "~> 4.0"
 gem 'newrelic_rpm'
+gem "nokogiri", ">= 1.12.5"
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

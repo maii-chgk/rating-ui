@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '3.0.1'
 
-gem 'rails', '~> 6.1.4'
+gem 'rails', '~> 6.1.4.1'
 gem 'puma', '~> 5.0'
 gem 'pg', '1.2.3'
 gem "tailwindcss-rails", "~> 0.4.1"

@@ -31,6 +31,22 @@ module TournamentQueries
                result_class: TournamentResults)
   end
 
+  def tournament_ratings(tournament_id:)
+    sql = <<~SQL
+      select team_id,
+          rating, rating_change,
+          is_in_maii_rating as in_rating,
+          bp as forecast, d1, d2
+      from #{name}.tournament_result
+      where tournament_id = $1
+      order by rating desc
+    SQL
+
+    exec_query_for_hash_array(query: sql,
+               params: [tournament_id],
+               cache_key: "#{name}/#{tournament_id}/ratings")
+  end
+
   def tournament_players(tournament_id:)
     sql = <<~SQL
       select rr.team_id, p.id as player_id, 

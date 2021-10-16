@@ -9,5 +9,11 @@ Rails.application.routes.draw do
   get ":model/players(/:release_id)", to: "player_releases#show", as: "player_release"
   get ":model(/:release_id)", to: "releases#show", as: "release"
 
+  namespace :api do
+    namespace :v1 do
+      get ":model/teams/:release_id", to: "teams#show"
+    end
+  end
+
   root to: "releases#show", model: InModel::DEFAULT_MODEL
 end

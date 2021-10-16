@@ -20,7 +20,7 @@ module PlayerQueries
       where p.id = $1
     SQL
 
-    exec_query_for_single_value(query: sql, params: [player_id], cache_key: "#{name}/#{player_id}/details")
+    exec_query_for_single_value(query: sql, params: [player_id], cache_key: "#{name}/#{player_id}/player_details")
   end
 
   def player_tournaments(player_id:)
@@ -47,7 +47,7 @@ module PlayerQueries
 
     exec_query(query: sql,
                params: [player_id],
-               cache_key: "#{name}/#{player_id}/tournaments",
+               cache_key: "#{name}/#{player_id}/player_tournaments",
                result_class: PlayerTournament)
   end
 
@@ -69,7 +69,7 @@ module PlayerQueries
 
     exec_query(query: sql,
                params: [player_id],
-               cache_key: "#{name}/#{player_id}/old_tournaments",
+               cache_key: "#{name}/#{player_id}/player_old_tournaments",
                result_class: PlayerOldTournament)
   end
 

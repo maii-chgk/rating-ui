@@ -31,6 +31,21 @@ module ReleaseQueries
                result_class: ReleaseTeam)
   end
 
+  def teams_for_release_api(release_id:, limit:, offset:)
+    sql = <<~SQL
+      select rank() over (order by rating desc) as place, team_id, rating, rating_change
+      from #{name}.team_rating
+      where release_id = $1
+      order by place
+      limit $2
+      offset $3;
+    SQL
+
+    exec_query_for_hash_array(query: sql,
+               params: [release_id, limit, offset],
+               cache_key: "#{name}/api/#{release_id}/#{limit}-#{offset}")
+  end
+
   def all_releases
     sql = <<~SQL
       select date, id

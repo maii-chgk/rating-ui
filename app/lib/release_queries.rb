@@ -116,6 +116,20 @@ module ReleaseQueries
                result_class: ReleasePlayer)
   end
 
+  def player_ratings_for_release(release_id:)
+    sql = <<~SQL
+      select player_id, tournament_id, 
+          cur_score as current_rating, initial_score as initial_rating
+      from #{name}.player_rating_by_tournament
+      where release_id = $1
+    SQL
+
+    exec_query_for_hash(query: sql,
+                        params: [release_id],
+                        cache_key: "#{name}/player_ratings_for_release/#{release_id}",
+                        group_by: "player_id")
+  end
+
   def players_for_release_api(release_id:, limit:, offset:)
     sql = <<~SQL
       select rank() over (order by rating desc) as place, player_id, rating, rating_change

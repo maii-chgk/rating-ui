@@ -19,7 +19,7 @@ module Cacheable
     exec_query_with_cache(query, params, cache_key)
       .to_a
       .each_with_object(Hash.new { |h, k| h[k] = [] }) do |row, hash|
-        hash[row[group_by]] << row
+        hash[row.delete(group_by)] << row
       end
   end
 

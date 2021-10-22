@@ -59,13 +59,10 @@ module TournamentQueries
       order by rr.team_id, roster.flag, p.last_name
     SQL
 
-    result = exec_query_for_hash_array(query: sql,
-                                       params: [tournament_id],
-                                       cache_key: "#{name}/#{tournament_id}/players")
-
-    result.each_with_object(Hash.new { |h, k| h[k] = [] }) do |row, hash|
-      hash[row['team_id']] << row
-    end
+    exec_query_for_hash(query: sql,
+                        params: [tournament_id],
+                        cache_key: "#{name}/#{tournament_id}/players",
+                        group_by: "team_id")
   end
 
   def tournament_details(tournament_id:)

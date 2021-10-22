@@ -77,13 +77,10 @@ module TeamQueries
       order by rr.tournament_id, roster.flag, p.last_name
     SQL
 
-    result = exec_query_for_hash_array(query: sql,
-                                       params: [team_id],
-                                       cache_key: "#{name}/#{team_id}/team_players")
-
-    result.each_with_object(Hash.new { |h, k| h[k] = [] }) do |row, hash|
-      hash[row['tournament_id']] << row
-    end
+    exec_query_for_hash(query: sql,
+                        params: [team_id],
+                        cache_key: "#{name}/#{team_id}/team_players",
+                        group_by: "tournament_id")
   end
 
   def team_releases(team_id:)

@@ -15,6 +15,14 @@ module Cacheable
     exec_query_with_cache(query, params, cache_key).to_a
   end
 
+  def exec_query_for_hash(query:, params: nil, cache_key: nil, group_by:)
+    exec_query_with_cache(query, params, cache_key)
+      .to_a
+      .each_with_object(Hash.new { |h, k| h[k] = [] }) do |row, hash|
+        hash[row.delete(group_by)] << row
+      end
+  end
+
   def exec_query(query:, params: nil, cache_key: nil, result_class:)
     exec_query_with_cache(query, params, cache_key)
       .to_a
@@ -24,7 +32,7 @@ module Cacheable
   private
 
   def exec_query_with_cache(query, params, cache_key)
-    Rails.cache.fetch("#{cache_key_with_version}/#{cache_key}", expires_in: 24.hours) do
+    Rails.cache.fetch(cache_key, expires_in: 24.hours) do
       run_query(query, params)
     end
   end

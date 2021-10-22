@@ -46,6 +46,22 @@ module ReleaseQueries
                cache_key: "#{name}/api/#{release_id}/#{limit}-#{offset}")
   end
 
+  def tournaments_in_release_by_team(release_id:)
+    sql = <<~SQL
+      select t.id as tournament_id, tr.team_id, tr.rating, tr.rating_change
+      from #{name}.tournament_result tr
+      left join public.rating_tournament t on tr.tournament_id = t.id
+      left join #{name}.release rel
+        on t.end_datetime < rel.date + interval '24 hours' and t.end_datetime >= rel.date - interval '6 days'
+      where rel.id = $1
+    SQL
+
+    exec_query_for_hash(query: sql,
+                        params: [release_id],
+                        cache_key: "#{name}/tournaments_in_release_by_team/#{release_id}",
+                        group_by: "team_id")
+  end
+
   def all_releases
     sql = <<~SQL
       select date, id
@@ -98,6 +114,20 @@ module ReleaseQueries
                params: [release_id, top_place, bottom_place],
                cache_key: "#{name}/#{release_id}/players/#{top_place}-#{bottom_place}",
                result_class: ReleasePlayer)
+  end
+
+  def player_ratings_for_release(release_id:)
+    sql = <<~SQL
+      select player_id, tournament_id, 
+          cur_score as current_rating, initial_score as initial_rating
+      from #{name}.player_rating_by_tournament
+      where release_id = $1
+    SQL
+
+    exec_query_for_hash(query: sql,
+                        params: [release_id],
+                        cache_key: "#{name}/player_ratings_for_release/#{release_id}",
+                        group_by: "player_id")
   end
 
   def players_for_release_api(release_id:, limit:, offset:)

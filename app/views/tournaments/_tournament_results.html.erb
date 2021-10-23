@@ -26,7 +26,7 @@
       <td class="border px-2 text-center"><%= result.points %></td>
       <td class="border px-2 text-center"><%= result.rating %></td>
       <td class="border px-2 text-center">
-        <% if result.in_rating %>
+        <% if result.in_rating || result.rating_change.nil? %>
           <%= result.rating_change %>
         <% else %>
           <%= "[#{result.rating_change}]" %>

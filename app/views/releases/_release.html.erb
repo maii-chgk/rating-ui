@@ -5,18 +5,21 @@
     <th class="bg-blue-100 border text-center px-2">Команда</th>
     <th class="bg-blue-100 border text-center px-2">Город</th>
     <th class="bg-blue-100 border text-center px-2">Рейтинг</th>
-    <th class="bg-blue-100 border text-center px-2">Дельта</th>
   </tr>
   </thead>
 
   <tbody>
   <% @release.teams.each do |team| %>
     <tr class="border py-2 hover:bg-gray-100">
-      <td class="text-center border py-2"><%= team.place %></td>
+      <td class="text-center border py-2">
+        <%= render partial: "shared/place_change", locals: { place: team.place, previous_place: team.previous_place } %>
+      </td>
       <td class="border px-2 hover:underline"><%= link_to(team.name, team_path(team_id: team.team_id)) %></td>
       <td class="border px-2"><%= team.city %></td>
-      <td class="text-center border"><%= team.rating %></td>
-      <td class="text-center border"><%= team.rating_change %></td>
+      <td class="px-2 text-center border">
+        <%= team.rating %>
+        <%= render partial: "shared/value_change", locals: { change: team.rating_change } %>
+      </td>
     </tr>
   <% end %>
   </tbody>

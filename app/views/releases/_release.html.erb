@@ -5,7 +5,6 @@
     <th class="bg-blue-100 border text-center px-2">Команда</th>
     <th class="bg-blue-100 border text-center px-2">Город</th>
     <th class="bg-blue-100 border text-center px-2">Рейтинг</th>
-    <th class="bg-blue-100 border text-center px-2">Дельта</th>
   </tr>
   </thead>
 
@@ -17,8 +16,10 @@
       </td>
       <td class="border px-2 hover:underline"><%= link_to(team.name, team_path(team_id: team.team_id)) %></td>
       <td class="border px-2"><%= team.city %></td>
-      <td class="text-center border"><%= team.rating %></td>
-      <td class="text-center border"><%= team.rating_change %></td>
+      <td class="px-2 text-center border">
+        <%= team.rating %>
+        <%= render partial: "shared/value_change", locals: { change: team.rating_change } %>
+      </td>
     </tr>
   <% end %>
   </tbody>

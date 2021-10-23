@@ -11,16 +11,31 @@ module ReleaseQueries
 
   def teams_for_release(release_id:, top_place:, bottom_place:)
     sql = <<~SQL
-      with ranked as (
+      with ordered as (
+          select id, row_number() over (order by date)
+          from #{name}.release
+      ),
+      releases as (
+          select o1.id as release_id, o2.id as prev_release_id
+          from ordered o1
+          left join ordered o2 on o1.row_number = o2.row_number + 1
+      ),
+      ranked as (
           select rank() over (order by rating desc) as place, team_id, rating, rating_change
           from #{name}.team_rating
           where release_id = $1
+      ),
+      ranked_prev_release as (
+          select rank() over (order by rating desc) as place, team_id
+          from #{name}.team_rating
+          where release_id = (select prev_release_id from releases where release_id = $1)
       )
       
-      select r.*, t.title as name, town.title as city
+      select r.*, t.title as name, town.title as city, prev.place as previous_place
       from ranked r
       left join public.rating_team t on r.team_id = t.id
       left join public.rating_town town on town.id = t.town_id
+      left join ranked_prev_release as prev using (team_id)
       where r.place >= $2 and r.place <= $3
       order by r.place;
     SQL

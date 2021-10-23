@@ -1,8 +1,8 @@
-<%= place %>
+<%= round_place(place) %>
 <% if previous_place.present? && place != previous_place %>
   <% if previous_place > place %>
-    <span class="text-xs">↑<%= previous_place - place %></span>
+    <span class="text-xs">↑<%= round_place(previous_place - place) %></span>
   <% else %>
-    <span class="text-xs">↓<%= place - previous_place %></span>
+    <span class="text-xs">↓<%= round_place(place - previous_place) %></span>
   <% end %>
 <% end %>

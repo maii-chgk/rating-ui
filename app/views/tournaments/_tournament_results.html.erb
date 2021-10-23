@@ -1,7 +1,7 @@
 <table class="shadow-lg bg-white">
   <thead>
   <tr>
-    <th class="bg-blue-100 border text-center px-2 py-2">Место</th>
+    <th class="bg-blue-100 border text-center px-3 py-2">Место</th>
     <th class="bg-blue-100 border text-center px-2">Команда</th>
     <th class="bg-blue-100 border text-center px-2">Состав</th>
     <th class="bg-blue-100 border text-center px-2">Взятые</th>
@@ -16,7 +16,9 @@
   <tbody>
   <% @tournament.results.each do |result| %>
     <tr class="border py-2 hover:bg-gray-100">
-      <td class="border px-2 text-center"><%= round_place(result.place) %></td>
+      <td class="border px-2 text-center">
+        <%= render partial: "shared/place_change", locals: { place: result.place, previous_place: result.predicted_place } %>
+      </td>
       <td class="border px-2 hover:underline">
         <%= link_to(result['team_name'], team_path(team_id: result.team_id)) %>
       </td>
@@ -32,7 +34,7 @@
           <%= "[#{result.rating_change}]" %>
         <% end %>
       </td>
-      <td class="border px-2 text-center"><%= result.forecast %></td>
+      <td class="border px-2 text-center"><%= result.predicted_rating %></td>
       <td class="border px-1 text-center"><%= result.d1 %></td>
       <td class="border px-1 text-center"><%= result.d2 %></td>
     </tr>

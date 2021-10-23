@@ -2,7 +2,7 @@ module ReleaseQueries
   include Cacheable
 
   ReleaseTeam = Struct.new(:team_id, :name, :city,
-                           :place, :rating, :rating_change,
+                           :place, :previous_place, :rating, :rating_change,
                            keyword_init: true)
 
   ReleasePlayer = Struct.new(:player_id, :name, :city,

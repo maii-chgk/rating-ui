@@ -12,7 +12,9 @@
   <tbody>
   <% @release.teams.each do |team| %>
     <tr class="border py-2 hover:bg-gray-100">
-      <td class="text-center border py-2"><%= team.place %></td>
+      <td class="text-center border py-2">
+        <%= render partial: "shared/place_change", locals: { place: team.place, previous_place: team.previous_place } %>
+      </td>
       <td class="border px-2 hover:underline"><%= link_to(team.name, team_path(team_id: team.team_id)) %></td>
       <td class="border px-2"><%= team.city %></td>
       <td class="text-center border"><%= team.rating %></td>

@@ -69,12 +69,12 @@ module TeamQueries
     sql = <<~SQL
       select rr.tournament_id, p.id as player_id,
           p.first_name || '&nbsp;' || last_name as name,
-          roster.flag
+          tr.flag
       from public.rating_result rr
-      left join public.rating_oldrating roster on roster.result_id = rr.id
-      left join public.rating_player p on roster.player_id = p.id
+      left join public.tournament_rosters tr using (tournament_id, team_id)
+      left join public.rating_player p on tr.player_id = p.id
       where rr.team_id = $1
-      order by rr.tournament_id, roster.flag, p.last_name
+      order by rr.tournament_id, tr.flag, p.last_name
     SQL
 
     exec_query_for_hash(query: sql,

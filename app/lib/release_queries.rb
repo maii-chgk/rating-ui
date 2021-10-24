@@ -40,10 +40,7 @@ module ReleaseQueries
       order by r.place;
     SQL
 
-    exec_query(query: sql,
-               params: [release_id, top_place, bottom_place],
-               cache_key: "#{name}/#{release_id}/#{top_place}-#{bottom_place}",
-               result_class: ReleaseTeam)
+    exec_query(query: sql, params: [release_id, top_place, bottom_place], result_class: ReleaseTeam)
   end
 
   def teams_for_release_api(release_id:, limit:, offset:)
@@ -56,9 +53,7 @@ module ReleaseQueries
       offset $3;
     SQL
 
-    exec_query_for_hash_array(query: sql,
-               params: [release_id, limit, offset],
-               cache_key: "#{name}/api/#{release_id}/#{limit}-#{offset}")
+    exec_query_for_hash_array(query: sql, params: [release_id, limit, offset])
   end
 
   def tournaments_in_release_by_team(release_id:)
@@ -71,10 +66,7 @@ module ReleaseQueries
       where rel.id = $1
     SQL
 
-    exec_query_for_hash(query: sql,
-                        params: [release_id],
-                        cache_key: "#{name}/tournaments_in_release_by_team/#{release_id}",
-                        group_by: "team_id")
+    exec_query_for_hash(query: sql, params: [release_id], group_by: "team_id")
   end
 
   def all_releases
@@ -84,7 +76,7 @@ module ReleaseQueries
       order by date desc
     SQL
 
-    exec_query_for_hash_array(query: sql, cache_key: "#{name}/all_releases")
+    exec_query_for_hash_array(query: sql)
   end
 
   def latest_release_id
@@ -94,7 +86,7 @@ module ReleaseQueries
       where date = (select max(date) as max_date from #{name}.release)
     SQL
 
-    exec_query_for_single_value(query: sql, cache_key: "#{name}/latest_release")
+    exec_query_for_single_value(query: sql)
   end
 
   def count_all_teams_in_release(release_id:)
@@ -104,10 +96,7 @@ module ReleaseQueries
       where release_id = $1
     SQL
 
-    exec_query_for_single_value(query: sql,
-                                params: [release_id],
-                                cache_key: "#{name}/#{release_id}/count",
-                                default_value: 0)
+    exec_query_for_single_value(query: sql, params: [release_id], default_value: 0)
   end
 
   def players_for_release(release_id:, top_place:, bottom_place:)
@@ -125,10 +114,7 @@ module ReleaseQueries
       order by r.place;
     SQL
 
-    exec_query(query: sql,
-               params: [release_id, top_place, bottom_place],
-               cache_key: "#{name}/#{release_id}/players/#{top_place}-#{bottom_place}",
-               result_class: ReleasePlayer)
+    exec_query(query: sql, params: [release_id, top_place, bottom_place], result_class: ReleasePlayer)
   end
 
   def player_ratings_for_release(release_id:)
@@ -139,10 +125,7 @@ module ReleaseQueries
       where release_id = $1
     SQL
 
-    exec_query_for_hash(query: sql,
-                        params: [release_id],
-                        cache_key: "#{name}/player_ratings_for_release/#{release_id}",
-                        group_by: "player_id")
+    exec_query_for_hash(query: sql, params: [release_id], group_by: "player_id")
   end
 
   def players_for_release_api(release_id:, limit:, offset:)
@@ -155,9 +138,7 @@ module ReleaseQueries
       offset $3;
     SQL
 
-    exec_query_for_hash_array(query: sql,
-                              params: [release_id, limit, offset],
-                              cache_key: "#{name}/api/#{release_id}/players/#{limit}-#{offset}")
+    exec_query_for_hash_array(query: sql, params: [release_id, limit, offset])
   end
 
   def count_all_players_in_release(release_id:)
@@ -167,9 +148,6 @@ module ReleaseQueries
       where release_id = $1
     SQL
 
-    exec_query_for_single_value(query: sql,
-                                params: [release_id],
-                                cache_key: "#{name}#{release_id}/players/count",
-                                default_value: 0)
+    exec_query_for_single_value(query: sql, params: [release_id], default_value: 0)
   end
 end

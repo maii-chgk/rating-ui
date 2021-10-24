@@ -31,7 +31,6 @@ module TeamQueries
 
     exec_query(query: sql,
                params: [team_id],
-               cache_key: "#{name}/#{team_id}/tournaments",
                result_class: TeamTournament)
   end
 
@@ -48,10 +47,7 @@ module TeamQueries
       order by t.end_datetime desc
     SQL
 
-    exec_query(query: sql,
-               params: [team_id],
-               cache_key: "#{name}/#{team_id}/team_old_tournaments",
-               result_class: TeamOldTournament)
+    exec_query(query: sql, params: [team_id], result_class: TeamOldTournament)
   end
 
   def team_details(team_id:)
@@ -62,7 +58,7 @@ module TeamQueries
       where t.id = $1
     SQL
 
-    exec_query_for_single_row(query: sql, params: [team_id], cache_key: "#{name}/#{team_id}/team_details")
+    exec_query_for_single_row(query: sql, params: [team_id])
   end
 
   def team_players(team_id:)
@@ -77,10 +73,7 @@ module TeamQueries
       order by rr.tournament_id, tr.flag, p.last_name
     SQL
 
-    exec_query_for_hash(query: sql,
-                        params: [team_id],
-                        cache_key: "#{name}/#{team_id}/team_players",
-                        group_by: "tournament_id")
+    exec_query_for_hash(query: sql, params: [team_id], group_by: "tournament_id")
   end
 
   def team_releases(team_id:)
@@ -97,9 +90,6 @@ module TeamQueries
       order by rel.date desc;
     SQL
 
-    exec_query(query: sql,
-               params: [team_id],
-               cache_key: "#{name}/#{team_id}/team_releases",
-               result_class: TeamRelease)
+    exec_query(query: sql, params: [team_id], result_class: TeamRelease)
   end
 end

@@ -26,10 +26,7 @@ module TournamentQueries
       order by position, r.team_id
     SQL
 
-    exec_query(query: sql,
-               params: [tournament_id],
-               cache_key: "#{name}/#{tournament_id}/results",
-               result_class: TournamentResults)
+    exec_query(query: sql, params: [tournament_id], result_class: TournamentResults)
   end
 
   def tournament_ratings(tournament_id:)
@@ -43,9 +40,7 @@ module TournamentQueries
       order by rating desc
     SQL
 
-    exec_query_for_hash_array(query: sql,
-               params: [tournament_id],
-               cache_key: "#{name}/#{tournament_id}/ratings")
+    exec_query_for_hash_array(query: sql, params: [tournament_id])
   end
 
   def tournament_players(tournament_id:)
@@ -59,10 +54,7 @@ module TournamentQueries
       order by tr.team_id, tr.flag, p.last_name
     SQL
 
-    exec_query_for_hash(query: sql,
-                        params: [tournament_id],
-                        cache_key: "#{name}/#{tournament_id}/players",
-                        group_by: "team_id")
+    exec_query_for_hash(query: sql, params: [tournament_id], group_by: "team_id")
   end
 
   def tournament_details(tournament_id:)
@@ -72,9 +64,7 @@ module TournamentQueries
       where t.id = $1
     SQL
 
-    row = exec_query_for_single_row(query: sql,
-                                    params: [tournament_id],
-                                    cache_key: "#{name}/#{tournament_id}/details")
+    row = exec_query_for_single_row(query: sql, params: [tournament_id])
     TournamentPageDetails.new(*row)
   end
 
@@ -96,6 +86,6 @@ module TournamentQueries
       order by date desc
     SQL
 
-    exec_query(query: sql, cache_key: "#{name}/tournaments_list", result_class: TournamentListDetails)
+    exec_query(query: sql, result_class: TournamentListDetails)
   end
 end

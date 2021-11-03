@@ -34,7 +34,7 @@ module TournamentQueries
       select team_id,
           rating, rating_change,
           is_in_maii_rating as in_rating,
-          bp as forecast, d1, d2
+          bp as forecast, mp::real as place_forecast, d1, d2
       from #{name}.tournament_result
       where tournament_id = $1
       order by rating desc

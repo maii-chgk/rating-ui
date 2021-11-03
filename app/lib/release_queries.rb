@@ -49,7 +49,7 @@ module ReleaseQueries
           rating, rating_change, trb
       from #{name}.team_rating
       where release_id = $1
-      order by place
+      order by row_number() over (order by rating desc)
       limit $2
       offset $3;
     SQL
@@ -138,10 +138,11 @@ module ReleaseQueries
 
   def players_for_release_api(release_id:, limit:, offset:)
     sql = <<~SQL
-      select rank() over (order by rating desc) as place, player_id, rating, rating_change
+      select rank() over (order by rating desc) as place, 
+          player_id, rating, rating_change
       from #{name}.player_rating
       where release_id = $1
-      order by place
+      order by row_number() over (order by rating desc)
       limit $2
       offset $3;
     SQL

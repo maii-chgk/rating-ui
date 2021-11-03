@@ -33,7 +33,7 @@ module Cacheable
 
   def exec_query_with_cache(query, params)
     # caller_locations(1, 1) is exec_query_smth
-    # caller_locations(2, 1) is a method from, e.g., ReleaseQueries module, which it was we are looking for
+    # caller_locations(2, 1) is a method from, e.g., ReleaseQueries module, which is what we are looking for
     cache_key = "#{caller_locations(2, 1).first.label}/#{params&.join('/')}"
 
     Rails.cache.fetch(cache_key, expires_in: 24.hours) do

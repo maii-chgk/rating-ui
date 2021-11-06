@@ -9,11 +9,13 @@
       </div>
     </div>
 
-    <div class="flex-row my-2">
-      <% cache "release_paging/#{@model_name}/#{@release.id}/#{@top_place}-#{@bottom_place}" do %>
-        <%= render "paging" %>
-      <% end %>
-    </div>
+    <% if @paging.display? %>
+      <div class="flex-row my-2">
+        <% cache "release_paging/#{@model_name}/#{@release.id}/#{@top_place}-#{@bottom_place}" do %>
+          <%= render "paging" %>
+        <% end %>
+      </div>
+    <% end %>
 
     <div class="flex-row my-2">
       <% cache "release/#{@model_name}/#{@release.id}/#{@top_place}-#{@bottom_place}" do %>
@@ -21,10 +23,12 @@
       <% end %>
     </div>
 
-    <div class="flex-row my-2">
-      <% cache "release_paging/#{@model_name}/#{@release.id}/#{@top_place}-#{@bottom_place}" do %>
-        <%= render "paging" %>
-      <% end %>
-    </div>
+    <% if @paging.display? %>
+      <div class="flex-row my-2">
+        <% cache "release_paging/#{@model_name}/#{@release.id}/#{@top_place}-#{@bottom_place}" do %>
+          <%= render "paging" %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 </div>

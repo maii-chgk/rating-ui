@@ -1,5 +1,5 @@
 module ReleaseQueries
-  include Cacheable
+  include Cacheable, Filterable
 
   ReleaseTeam = Struct.new(:team_id, :name, :city,
                            :place, :previous_place, :rating, :rating_change,
@@ -9,7 +9,9 @@ module ReleaseQueries
                              :place, :rating, :rating_change,
                              keyword_init: true)
 
-  def teams_for_release(release_id:, top_place:, bottom_place:)
+  def teams_for_release(release_id:, from:, to:, team_name: nil, city: nil)
+    filter = build_filter({"t.title": team_name, "town.title": city})
+
     sql = <<~SQL
       with ordered as (
           select id, row_number() over (order by date)
@@ -36,11 +38,15 @@ module ReleaseQueries
       left join public.rating_team t on r.team_id = t.id
       left join public.rating_town town on town.id = t.town_id
       left join ranked_prev_release as prev using (team_id)
-      where r.place >= $2 and r.place <= $3
-      order by r.place;
+      #{filter}
+      order by r.place
+      limit $2
+      offset $3;
     SQL
 
-    exec_query(query: sql, params: [release_id, top_place, bottom_place], result_class: ReleaseTeam)
+    limit = to - from + 1
+    offset = from - 1
+    exec_query(query: sql, params: [release_id, limit, offset], result_class: ReleaseTeam)
   end
 
   def teams_for_release_api(release_id:, limit:, offset:)
@@ -82,26 +88,29 @@ module ReleaseQueries
 
   def latest_release_id
     sql = <<~SQL
-      with team_count as (
-        select r.id, r.date, count(tr.team_id)
-        from #{name}.release r
-        left join #{name}.team_rating tr on tr.release_id = r.id
-        group by r.id, r.date
-    )
-    
-      select id
-      from #{name}.release
-      where date = (select max(date) from team_count where count > 0)
+        with team_count as (
+          select r.id, r.date, count(tr.team_id)
+          from #{name}.release r
+          left join #{name}.team_rating tr on tr.release_id = r.id
+          group by r.id, r.date
+      )
+
+        select id
+        from #{name}.release
+        where date = (select max(date) from team_count where count > 0)
     SQL
 
     exec_query_for_single_value(query: sql)
   end
 
-  def count_all_teams_in_release(release_id:)
+  def count_all_teams_in_release(release_id:, city: nil)
+    filters = build_filter({"tr.release_id": "$1", "town.title": city})
     sql = <<~SQL
       select count(*)
-      from #{name}.team_rating
-      where release_id = $1
+      from #{name}.team_rating tr
+      left join public.rating_team t on t.id = tr.team_id
+      left join public.rating_town town on town.id = t.town_id
+      #{filters}
     SQL
 
     exec_query_for_single_value(query: sql, params: [release_id], default_value: 0)

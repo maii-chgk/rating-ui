@@ -1,6 +1,9 @@
 <table class="shadow-lg bg-white">
   <thead>
   <tr>
+    <% if @filtered %>
+    <th class="bg-blue-100 border text-center px-2 py-2">#</th>
+    <% end %>
     <th class="bg-blue-100 border text-center px-2 py-2">Место</th>
     <th class="bg-blue-100 border text-center px-2">Команда</th>
     <th class="bg-blue-100 border text-center px-2">Город</th>
@@ -9,13 +12,18 @@
   </thead>
 
   <tbody>
-  <% @release.teams.each do |team| %>
+  <% @release.teams.each_with_index do |team, index| %>
     <tr class="border py-2 hover:bg-gray-100">
+      <% if @filtered %>
+        <td class="text-center border px-2"><%= @paging.from + index %></td>
+      <% end %>
       <td class="text-center border py-2">
         <%= render partial: "shared/place_change", locals: { place: team.place, previous_place: team.previous_place } %>
       </td>
       <td class="border px-2 hover:underline"><%= link_to(team.name, team_path(team_id: team.team_id)) %></td>
-      <td class="border px-2"><%= team.city %></td>
+      <td class="border px-2">
+        <%= link_to(team.city, release_path(release_id: @release.id, city: team.city)) %>
+      </td>
       <td class="px-2 text-center border">
         <%= team.rating %>
         <%= render partial: "shared/value_change", locals: { change: team.rating_change } %>

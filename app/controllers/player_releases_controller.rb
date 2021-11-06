@@ -7,11 +7,10 @@ class PlayerReleasesController < ApplicationController
     @release_id = clean_params[:release_id] || current_model.latest_release_id
     @releases_in_dropdown = list_releases_for_dropdown
 
-    @players = current_model.players_for_release(release_id: @release_id,
-      top_place: top_place,
-      bottom_place: bottom_place)
+    @players = current_model.players_for_release(release_id: @release_id, from: from, to: to)
 
-    @all_players_count = current_model.count_all_players_in_release(release_id: @release_id)
+    all_players_count = current_model.count_all_players_in_release(release_id: @release_id)
+    @paging = Paging.new(items_count: all_players_count, from: from, to: to)
 
     @model_name = current_model.name
   end
@@ -20,12 +19,12 @@ class PlayerReleasesController < ApplicationController
     params.permit(:model, :release_id, :from, :to)
   end
 
-  def top_place
-    @top_place = (clean_params[:from] || 1).to_i
+  def from
+    (clean_params[:from] || 1).to_i
   end
 
-  def bottom_place
-    @bottom_place = (clean_params[:to] || 250).to_i
+  def to
+    (clean_params[:to] || 250).to_i
   end
 
   def list_releases_for_dropdown

@@ -116,7 +116,7 @@ module ReleaseQueries
     exec_query_for_single_value(query: sql, params: [release_id], default_value: 0)
   end
 
-  def players_for_release(release_id:, top_place:, bottom_place:)
+  def players_for_release(release_id:, from:, to:)
     sql = <<~SQL
       with ranked as (
         select rank() over (order by rating desc) as place, player_id, rating, rating_change
@@ -131,7 +131,7 @@ module ReleaseQueries
       order by r.place;
     SQL
 
-    exec_query(query: sql, params: [release_id, top_place, bottom_place], result_class: ReleasePlayer)
+    exec_query(query: sql, params: [release_id, from, to], result_class: ReleasePlayer)
   end
 
   def player_ratings_for_release(release_id:)

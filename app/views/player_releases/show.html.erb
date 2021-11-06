@@ -10,19 +10,19 @@
     </div>
 
     <div class="flex-row my-2">
-      <% cache "player_release_paging/#{@model_name}/#{@release_id}/#{@top_place}-#{@bottom_place}" do %>
+      <% cache "player_release_paging/#{@model_name}/#{@release_id}/#{@paging.from}-#{@paging.to}" do %>
         <%= render "paging" %>
       <% end %>
     </div>
 
     <div class="flex-row my-2">
-      <% cache "player_release/#{@model_name}/#{@release_id}/#{@top_place}-#{@bottom_place}" do %>
+      <% cache "player_release/#{@model_name}/#{@release_id}/#{@paging.from}-#{@paging.to}" do %>
         <%= render "player_release" %>
       <% end %>
     </div>
 
     <div class="flex-row my-2">
-      <% cache "player_release_paging/#{@model_name}/#{@release_id}/#{@top_place}-#{@bottom_place}" do %>
+      <% cache "player_release_paging/#{@model_name}/#{@release_id}/#{@paging.from}-#{@paging.to}" do %>
         <%= render "paging" %>
       <% end %>
     </div>

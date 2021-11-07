@@ -21,7 +21,7 @@
         <%= render partial: "shared/place_change", locals: { place: team.place, previous_place: team.previous_place } %>
       </td>
       <td class="border px-2 hover:underline"><%= link_to(team.name, team_path(team_id: team.team_id)) %></td>
-      <td class="border px-2">
+      <td class="border px-2 hover:underline">
         <%= link_to(team.city, release_path(release_id: @release.id, city: team.city)) %>
       </td>
       <td class="px-2 text-center border">

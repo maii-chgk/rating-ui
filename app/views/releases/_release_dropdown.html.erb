@@ -1,1 +1,3 @@
-<%= select_tag "releases[]", options_for_select(@releases_in_dropdown, release_path(release_id: @release.id, city: @city)), {:onchange => "location = this.value;"} %>
+<%= select_tag "releases[]",
+               options_for_select(@releases_in_dropdown, release_path(release_id: @release.id, team: @team, city: @city)),
+               {:onchange => "location = this.value;", :class => "mt-1 rounded-md border-gray-300 shadow-sm"} %>

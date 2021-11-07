@@ -101,16 +101,18 @@ module ReleaseQueries
     exec_query_for_single_value(query: sql)
   end
 
-  def count_all_teams_in_release(release_id:, city: nil)
+  def count_all_teams_in_release(release_id:, team_name: nil, city: nil)
     sql = <<~SQL
       select count(*)
       from #{name}.team_rating tr
       left join public.rating_team t on t.id = tr.team_id
       left join public.rating_town town on town.id = t.town_id
-      where tr.release_id = $1 and town.title ilike $2
+      where tr.release_id = $1
+          and t.title ilike $2 
+          and town.title ilike $3
     SQL
 
-    exec_query_for_single_value(query: sql, params: [release_id, "%#{city}%"], default_value: 0)
+    exec_query_for_single_value(query: sql, params: [release_id, "%#{team_name}%", "%#{city}%"], default_value: 0)
   end
 
   def players_for_release(release_id:, from:, to:)

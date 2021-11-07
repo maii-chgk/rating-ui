@@ -33,10 +33,6 @@ class ReleasesController < ApplicationController
     @city = clean_params[:city]
   end
 
-  def filters
-    clean_params
-  end
-
   def list_releases_for_dropdown
     current_model.all_releases.map do |release|
       [

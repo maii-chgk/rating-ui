@@ -73,5 +73,6 @@ Rails.application.configure do
 
   config.assets.compile = false
   config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'], password: ENV['REDIS_PASSWORD'] }
+  config.perform_caching = false
   config.assets.css_compressor = Tailwindcss::Compressor.new(files_with_class_names: Rails.root.glob("app/views/**/*.*"))
 end

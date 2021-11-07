@@ -1,19 +1,19 @@
-<%= link_to_previous_page(release_id: @release.id, current_top: @paging.from, current_bottom: @paging.to, city: @city) %>
+<%= link_to_previous_page(release_id: @release.id, current_top: @paging.from, current_bottom: @paging.to, team: @team, city: @city) %>
 
 <% if @paging.last_page > 5 %>
   <% (1..5).each do |page| %>
-    <%= link_to_page(release_id: @release.id, page: page, teams_per_page: @paging.per_page, city: @city) %>
+    <%= link_to_page(release_id: @release.id, page: page, teams_per_page: @paging.per_page, team: @team, city: @city) %>
   <% end %>
 
   <% if @paging.last_page > 6 %>
   ...
   <% end %>
 
-  <%= link_to_page(release_id: @release.id, page: @paging.last_page, teams_per_page: @paging.per_page, city: @city) %>
+  <%= link_to_page(release_id: @release.id, page: @paging.last_page, teams_per_page: @paging.per_page, team: @team, city: @city) %>
 <% else %>
   <% (1..@paging.last_page).each do |page| %>
-    <%= link_to_page(release_id: @release.id, page: page, teams_per_page: @paging.per_page, city: @city) %>
+    <%= link_to_page(release_id: @release.id, page: page, teams_per_page: @paging.per_page, team: @team, city: @city) %>
   <% end %>
 <% end %>
 
-<%= link_to_next_page(release_id: @release.id, current_top: @paging.from, current_bottom: @paging.to, city: @city) %>
+<%= link_to_next_page(release_id: @release.id, current_top: @paging.from, current_bottom: @paging.to, team: @team, city: @city) %>

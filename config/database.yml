@@ -10,6 +10,9 @@ default: &default
 production:
   <<: *default
 
+staging:
+  <<: *default
+
 test:
   <<: *default
 

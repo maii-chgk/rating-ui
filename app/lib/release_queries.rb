@@ -164,11 +164,29 @@ module ReleaseQueries
 
   def players_for_release_api(release_id:, limit:, offset:)
     sql = <<~SQL
-      select rank() over (order by rating desc) as place, 
-          player_id, rating, rating_change
-      from #{name}.player_rating
-      where release_id = $1
-      order by row_number() over (order by rating desc)
+      with ordered as (
+          select id, row_number() over (order by date)
+          from #{name}.release
+      ),
+      releases as (
+          select o1.id as release_id, o2.id as prev_release_id
+          from ordered o1
+          left join ordered o2 on o1.row_number = o2.row_number + 1
+      ),
+      ranked as (
+          select rank() over (order by rating desc) as place, player_id, rating, rating_change
+          from #{name}.player_rating
+          where release_id = $1
+      ),
+      ranked_prev_release as (
+          select rank() over (order by rating desc) as place, player_id
+          from #{name}.player_rating
+          where release_id = (select prev_release_id from releases where release_id = $1)
+      )
+      select r.*, prev.place as previous_place, r.place - prev.place as place_change
+      from ranked r
+      left join ranked_prev_release as prev using (player_id)
+      order by row_number() over (order by r.rating desc)
       limit $2
       offset $3;
     SQL

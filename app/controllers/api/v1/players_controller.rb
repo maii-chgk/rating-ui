@@ -5,6 +5,7 @@ class Api::V1::PlayersController < ApiController
     @release_id = params[:release_id]
     players = current_model.players_for_release_api(release_id: @release_id, limit: PER_PAGE, offset: offset)
     Places::add_top_and_bottom_places!(players)
+    Places::add_previous_top_and_bottom_places!(players)
 
     tournaments = current_model.player_ratings_for_release(release_id: @release_id)
     players.each do |player|

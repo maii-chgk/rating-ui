@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 
-ruby '3.0.1'
+ruby '3.0.3'
 
 gem 'rails', '~> 6.1.4.1'
-gem 'puma', '~> 5.0'
+gem 'puma', '~> 5.5.2'
 gem 'pg', '1.2.3'
-gem "tailwindcss-rails", "~> 0.4.1"
+gem "tailwindcss-rails", "~> 0.5.1"
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'redis'
 gem 'hiredis'

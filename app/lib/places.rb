@@ -20,7 +20,11 @@ module Places
     grouped_by_place.each do |place, tied_teams|
       tied_teams.each do |team|
         team["previous_top_place"] = place
-        team["previous_bottom_place"] = place + tied_teams.size - 1
+        team["previous_bottom_place"] = if place.nil?
+                                          nil
+                                        else
+                                          place + tied_teams.size - 1
+                                        end
       end
     end
   end

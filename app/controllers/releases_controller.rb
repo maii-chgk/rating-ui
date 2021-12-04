@@ -2,7 +2,6 @@ class ReleasesController < ApplicationController
   include InModel
 
   def show
-    id = clean_params[:release_id] || current_model&.latest_release_id
     return render_404 if id.nil?
 
     teams = current_model.teams_for_release(release_id: id, from: from, to: to, team_name: team, city: city)
@@ -22,19 +21,27 @@ class ReleasesController < ApplicationController
   end
 
   def from
-    (clean_params[:from] || 1).to_i
+    @from ||= (clean_params[:from] || 1).to_i
   end
 
   def to
-    (clean_params[:to] || 100).to_i
+    @to ||= (clean_params[:to] || 100).to_i
   end
 
   def city
-    @city = clean_params[:city]&.gsub("*", "")
+    @city ||= clean_params[:city]&.gsub("*", "")
   end
 
   def team
-    @team = clean_params[:team]&.gsub("*", "")
+    @team ||= clean_params[:team]&.gsub("*", "")
+  end
+
+  def id
+    @id ||= if clean_params[:release_id] == 0
+              clean_params[:release_id]
+            else
+              current_model&.latest_release_id
+            end
   end
 
   def list_releases_for_dropdown

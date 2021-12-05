@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  rescue_from ActiveRecord::StatementInvalid, with: :show_errors
   before_action :validate_model_name
 
   protected
@@ -17,5 +18,10 @@ class ApplicationController < ActionController::Base
     unless params[:model].blank? || params[:model] =~ /\A[a-zA-Z_]+\z/
       render plain: "Такой модели нет", status: :bad_request
     end
+  end
+
+  def show_errors(exception)
+    @exception = exception
+    render template: "errors/model_error", status: :internal_server_error
   end
 end

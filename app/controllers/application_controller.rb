@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
-  rescue_from ActiveRecord::StatementInvalid, with: :show_errors
+  rescue_from ActiveRecord::StatementInvalid, with: :show_model_errors
+  rescue_from NoMethodError, with: :show_missing_model_error
   before_action :validate_model_name
 
   protected
@@ -16,12 +17,20 @@ class ApplicationController < ActionController::Base
 
   def validate_model_name
     unless params[:model].blank? || params[:model] =~ /\A[a-zA-Z_]+\z/
-      render plain: "Такой модели нет", status: :bad_request
+      render plain: InModel::MISSING_MODEL_ERROR, status: :bad_request
     end
   end
 
-  def show_errors(exception)
+  def show_model_errors(exception)
     @exception = exception
     render template: "errors/model_error", status: :internal_server_error
+  end
+
+  def show_missing_model_error(exception)
+    if current_model.nil?
+      render plain: "Такой модели нет", status: :bad_request
+    else
+      raise
+    end
   end
 end

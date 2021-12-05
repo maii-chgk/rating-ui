@@ -2,6 +2,8 @@ class Api::V1::TeamsController < ApiController
   include InModel
 
   def show
+    return render_error_json(error: MISSING_MODEL_ERROR) if current_model.nil?
+
     @release_id = params[:release_id]
     teams = current_model.teams_for_release_api(release_id: @release_id, limit: PER_PAGE, offset: offset)
     Places::add_top_and_bottom_places!(teams)

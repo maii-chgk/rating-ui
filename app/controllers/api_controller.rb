@@ -1,4 +1,6 @@
 class ApiController < ActionController::Base
+  rescue_from ActiveRecord::StatementInvalid, with: :show_model_errors
+
   PER_PAGE = 500
 
   def page
@@ -17,11 +19,23 @@ class ApiController < ActionController::Base
     }
   end
 
+  def show_model_errors(exception)
+    if current_model.nil?
+      render_error_json(error: InModel::MISSING_MODEL_ERROR)
+    else
+      render_error_json(error: exception)
+    end
+  end
+
+  def render_error_json(error:)
+    render json: { error: error }, status: :bad_request
+  end
+
   def render_paged_json(metadata:, items:, all_items_count:)
-    render json: metadata.merge(page_metadata(all_items_count)).merge({ items: items }), status: 200
+    render json: metadata.merge(page_metadata(all_items_count)).merge({ items: items }), status: :ok
   end
 
   def render_json(metadata:, items:)
-    render json: metadata.merge({ items: items }), status: 200
+    render json: metadata.merge({ items: items }), status: :ok
   end
 end

@@ -4,6 +4,9 @@
 <div class="text-center text-l hover:underline">
   <%= link_to("Cтраница на rating.chgk.info", "https://rating.chgk.info/tournament/#{@tournament.id}") %>
 </div>
+<% unless @tournament.in_rating? %>
+  <p class="text-center py-2 text-m">Не учитывается в рейтинге МАИИ</p>
+<% end %>
 <div class="py-2 px-4">
   <% cache "tournament_results/#{@model_name}/#{@tournament.id}" do %>
     <%= render "tournament_results" %>

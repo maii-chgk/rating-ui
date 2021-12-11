@@ -21,4 +21,8 @@ class TournamentPresenter
   def end
     I18n.l(@details.end.to_date)
   end
+
+  def in_rating?
+    @details.maii_rating
+  end
 end

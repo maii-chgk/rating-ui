@@ -92,6 +92,17 @@ module ReleaseQueries
     exec_query_for_hash(query: sql, params: [release_id], group_by: "team_id")
   end
 
+  def tournaments_by_release
+    sql = <<~SQL
+      select t.id as id, t.maii_rating as in_rating, rel.id as release_id
+      from public.rating_tournament t
+      join #{name}.release rel
+        on t.end_datetime < rel.date + interval '24 hours' and t.end_datetime >= rel.date - interval '6 days'
+    SQL
+
+    exec_query_for_hash(query: sql, group_by: "release_id")
+  end
+
   def all_releases
     sql = <<~SQL
       select date, id, updated_at

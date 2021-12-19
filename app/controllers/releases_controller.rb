@@ -37,8 +37,8 @@ class ReleasesController < ApplicationController
   end
 
   def id
-    @id ||= if clean_params[:release_id] == 0
-              clean_params[:release_id]
+    @id ||= if clean_params[:release_id].to_i != 0
+              clean_params[:release_id].to_i
             else
               current_model&.latest_release_id
             end

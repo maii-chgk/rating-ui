@@ -81,7 +81,7 @@ module ReleaseQueries
 
   def tournaments_in_release_by_team(release_id:)
     sql = <<~SQL
-      select t.id as tournament_id, tr.team_id, tr.rating, tr.rating_change
+      select t.id as tournament_id, tr.team_id, tr.rating, tr.rating_change, t.maii_rating as in_rating
       from #{name}.tournament_result tr
       left join public.rating_tournament t on tr.tournament_id = t.id
       left join #{name}.release rel

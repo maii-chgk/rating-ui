@@ -119,6 +119,7 @@ module ReleaseQueries
           select r.id, r.date, count(tr.team_id)
           from #{name}.release r
           left join #{name}.team_rating tr on tr.release_id = r.id
+          where r.date < now()
           group by r.id, r.date
       )
 

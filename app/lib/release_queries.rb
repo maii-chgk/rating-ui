@@ -34,7 +34,7 @@ module ReleaseQueries
       select r.*, t.title as name, town.title as city, prev.place as previous_place
       from ranked r
       left join public.rating_team t on r.team_id = t.id
-      left join public.rating_town town on town.id = t.town_id
+      left join public.towns town on town.id = t.town_id
       left join ranked_prev_release as prev using (team_id)
       where t.title ilike $4 and town.title ilike $5
       order by r.place
@@ -136,7 +136,7 @@ module ReleaseQueries
       select count(*)
       from #{name}.team_rating tr
       left join public.rating_team t on t.id = tr.team_id
-      left join public.rating_town town on town.id = t.town_id
+      left join public.towns town on town.id = t.town_id
       where tr.release_id = $1
           and t.title ilike $2 
           and town.title ilike $3

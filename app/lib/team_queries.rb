@@ -53,7 +53,7 @@ module TeamQueries
     sql = <<~SQL
       select t.title as name, town.title as city
       from public.rating_team t
-      left join public.rating_town town on t.town_id = town.id
+      left join public.towns town on t.town_id = town.id
       where t.id = $1
     SQL
 

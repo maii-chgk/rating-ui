@@ -83,7 +83,7 @@ module ReleaseQueries
     sql = <<~SQL
       select t.id as tournament_id, tr.team_id, tr.rating, tr.rating_change, t.maii_rating as in_rating
       from #{name}.tournament_result tr
-      left join public.rating_tournament t on tr.tournament_id = t.id
+      left join public.tournament_details t on tr.tournament_id = t.id
       left join #{name}.release rel
         on t.end_datetime < rel.date + interval '24 hours' and t.end_datetime >= rel.date - interval '6 days'
       where rel.id = $1
@@ -95,7 +95,7 @@ module ReleaseQueries
   def tournaments_by_release
     sql = <<~SQL
       select t.id as id, t.maii_rating as in_rating, rel.id as release_id
-      from public.rating_tournament t
+      from public.tournament_details t
       join #{name}.release rel
         on t.end_datetime < rel.date + interval '24 hours' and t.end_datetime >= rel.date - interval '6 days'
     SQL

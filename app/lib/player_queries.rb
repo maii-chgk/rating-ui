@@ -29,7 +29,7 @@ module PlayerQueries
           rr.team_title as team_name, rr.position as place, rr.team_id, tr.flag, 
           rating.rating, rating.rating_change, rating.is_in_maii_rating as in_rating
       from #{name}.release rel
-      left join public.rating_tournament t 
+      left join public.tournament_details t 
           on t.end_datetime < rel.date + interval '24 hours' and t.end_datetime >= rel.date - interval '6 days'
       left join public.rating_result rr 
           on rr.tournament_id = t.id
@@ -51,14 +51,13 @@ module PlayerQueries
       select t.id as id, t.title as name, t.end_datetime as date,
           rr.team_title as team_name, rr.position as place, rr.team_id, tr.flag, 
           ror.b as rating, ror.d as rating_change
-      from public.rating_tournament t
-      left join public.tournaments t_old_rating_flag on t.id = t_old_rating_flag.id
+      from public.tournament_details t
       left join public.rating_result r on r.team_id = $1 and r.tournament_id = t.id
       left join public.rating_result rr on rr.tournament_id = t.id
       left join public.tournament_rosters tr on tr.tournament_id = t.id and tr.team_id = rr.team_id
       left join public.rating_oldteamrating ror on ror.result_id = rr.id
       where tr.player_id = $1
-        and t_old_rating_flag.in_old_rating = true
+        and t.in_old_rating = true
       order by t.end_datetime desc
     SQL
 

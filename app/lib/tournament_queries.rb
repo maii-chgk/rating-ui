@@ -61,7 +61,7 @@ module TournamentQueries
   def tournament_details(tournament_id:)
     sql = <<~SQL
       select t.title as name, start_datetime, end_datetime, maii_rating
-      from public.rating_tournament t
+      from public.tournament_details t
       where t.id = $1
     SQL
 
@@ -79,7 +79,7 @@ module TournamentQueries
       
       select t.id, t.title as name, type.title as type, t.end_datetime as date,
              w.max_rating as rating
-      from public.rating_tournament t
+      from public.tournament_details t
       left join winners w on t.id = w.tournament_id
       left join public.rating_typeoft type on type.id = t.typeoft_id
       where t.maii_rating = true

@@ -17,7 +17,7 @@ module TeamQueries
              r.position as place, 
              tr.rating, tr.rating_change, tr.is_in_maii_rating as in_rating  
       from #{name}.release rel
-      left join public.rating_tournament t 
+      left join public.tournament_details t 
           on t.end_datetime < rel.date + interval '24 hours' and t.end_datetime >= rel.date - interval '6 days'
       left join public.rating_result r 
           on r.tournament_id = t.id
@@ -38,12 +38,11 @@ module TeamQueries
     sql = <<~SQL
       select t.id as id, t.title as name, t.end_datetime as date,
         r.position as place, ror.b as rating, ror.d as rating_change
-      from public.rating_tournament t
-      left join public.tournaments t_old_rating_flag on t.id = t_old_rating_flag.id
+      from public.tournament_details t
       left join public.rating_result r on r.team_id = $1 and r.tournament_id = t.id
       left join public.rating_oldteamrating ror on ror.result_id = r.id
       where r.team_id = $1
-        and t_old_rating_flag.in_old_rating = true
+        and t.in_old_rating = true
       order by t.end_datetime desc
     SQL
 

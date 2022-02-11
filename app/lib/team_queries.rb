@@ -19,7 +19,7 @@ module TeamQueries
       from #{name}.release rel
       left join public.tournament_details t 
           on t.end_datetime < rel.date + interval '24 hours' and t.end_datetime >= rel.date - interval '6 days'
-      left join public.rating_result r 
+      left join public.tournament_results r 
           on r.tournament_id = t.id
       left join #{name}.tournament_result tr 
           on tr.tournament_id = t.id and r.team_id = tr.team_id
@@ -39,7 +39,7 @@ module TeamQueries
       select t.id as id, t.title as name, t.end_datetime as date,
         r.position as place, ror.b as rating, ror.d as rating_change
       from public.tournament_details t
-      left join public.rating_result r on r.team_id = $1 and r.tournament_id = t.id
+      left join public.tournament_results r on r.team_id = $1 and r.tournament_id = t.id
       left join public.rating_oldteamrating ror on ror.result_id = r.id
       where r.team_id = $1
         and t.in_old_rating = true
@@ -65,7 +65,7 @@ module TeamQueries
       select rr.tournament_id, p.id as player_id,
           p.first_name || '&nbsp;' || last_name as name,
           tr.flag
-      from public.rating_result rr
+      from public.tournament_results rr
       left join public.tournament_rosters tr using (tournament_id, team_id)
       left join public.rating_player p on tr.player_id = p.id
       where rr.team_id = $1

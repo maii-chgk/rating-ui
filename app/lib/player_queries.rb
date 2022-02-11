@@ -31,7 +31,7 @@ module PlayerQueries
       from #{name}.release rel
       left join public.tournament_details t 
           on t.end_datetime < rel.date + interval '24 hours' and t.end_datetime >= rel.date - interval '6 days'
-      left join public.rating_result rr 
+      left join public.tournament_results rr 
           on rr.tournament_id = t.id
       left join public.tournament_rosters tr 
           on tr.tournament_id = t.id and tr.team_id = rr.team_id
@@ -52,8 +52,8 @@ module PlayerQueries
           rr.team_title as team_name, rr.position as place, rr.team_id, tr.flag, 
           ror.b as rating, ror.d as rating_change
       from public.tournament_details t
-      left join public.rating_result r on r.team_id = $1 and r.tournament_id = t.id
-      left join public.rating_result rr on rr.tournament_id = t.id
+      left join public.tournament_results r on r.team_id = $1 and r.tournament_id = t.id
+      left join public.tournament_results rr on rr.tournament_id = t.id
       left join public.tournament_rosters tr on tr.tournament_id = t.id and tr.team_id = rr.team_id
       left join public.rating_oldteamrating ror on ror.result_id = rr.id
       where tr.player_id = $1

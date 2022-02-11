@@ -19,7 +19,7 @@ module TournamentQueries
           tr.is_in_maii_rating as in_rating,
           tr.bp as predicted_rating, tr.d1, tr.d2,
           tr.mp as predicted_place
-      from public.rating_result r
+      from public.tournament_results r
       left join #{name}.tournament_result tr 
           on r.team_id = tr.team_id and tr.tournament_id = $1
       where r.tournament_id = $1

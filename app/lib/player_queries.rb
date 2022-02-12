@@ -16,7 +16,7 @@ module PlayerQueries
   def player_name(player_id:)
     sql = <<~SQL
       select p.first_name || '&nbsp;' || last_name as name
-      from public.rating_player p
+      from public.players p
       where p.id = $1
     SQL
 
@@ -49,15 +49,14 @@ module PlayerQueries
   def player_old_tournaments(player_id:)
     sql = <<~SQL
       select t.id as id, t.title as name, t.end_datetime as date,
-          rr.team_title as team_name, rr.position as place, rr.team_id, tr.flag, 
-          ror.b as rating, ror.d as rating_change
+          r.team_title as team_name, r.position as place, r.team_id, tr.flag, 
+          r.old_rating as rating, r.old_rating_delta as rating_change
       from public.tournament_details t
-      left join public.tournament_results r on r.team_id = $1 and r.tournament_id = t.id
-      left join public.tournament_results rr on rr.tournament_id = t.id
-      left join public.tournament_rosters tr on tr.tournament_id = t.id and tr.team_id = rr.team_id
-      left join public.rating_oldteamrating ror on ror.result_id = rr.id
+      left join public.tournament_results r on r.tournament_id = t.id
+      left join public.tournament_rosters tr on tr.tournament_id = t.id and tr.team_id = r.team_id
       where tr.player_id = $1
         and t.in_old_rating = true
+        and t.end_datetime < '2021-09-01'
       order by t.end_datetime desc
     SQL
 

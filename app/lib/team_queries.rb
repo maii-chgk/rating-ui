@@ -37,12 +37,12 @@ module TeamQueries
   def old_tournaments(team_id:)
     sql = <<~SQL
       select t.id as id, t.title as name, t.end_datetime as date,
-        r.position as place, ror.b as rating, ror.d as rating_change
+        r.position as place, r.old_rating as rating, r.old_rating_delta as rating_change
       from public.tournament_details t
       left join public.tournament_results r on r.team_id = $1 and r.tournament_id = t.id
-      left join public.rating_oldteamrating ror on ror.result_id = r.id
       where r.team_id = $1
         and t.in_old_rating = true
+        and t.end_datetime < '2021-09-01'
       order by t.end_datetime desc
     SQL
 
@@ -52,7 +52,7 @@ module TeamQueries
   def team_details(team_id:)
     sql = <<~SQL
       select t.title as name, town.title as city
-      from public.rating_team t
+      from public.teams t
       left join public.towns town on t.town_id = town.id
       where t.id = $1
     SQL
@@ -67,7 +67,7 @@ module TeamQueries
           tr.flag
       from public.tournament_results rr
       left join public.tournament_rosters tr using (tournament_id, team_id)
-      left join public.rating_player p on tr.player_id = p.id
+      left join public.players p on tr.player_id = p.id
       where rr.team_id = $1
       order by rr.tournament_id, tr.flag, p.last_name
     SQL

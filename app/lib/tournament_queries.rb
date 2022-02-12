@@ -50,7 +50,7 @@ module TournamentQueries
           p.first_name || '&nbsp;' || last_name as name, 
           tr.flag
       from public.tournament_rosters tr
-      left join public.rating_player p on tr.player_id = p.id
+      left join public.players p on tr.player_id = p.id
       where tr.tournament_id = $1
       order by tr.team_id, tr.flag, p.last_name
     SQL
@@ -77,11 +77,10 @@ module TournamentQueries
           group by tr.tournament_id
       )
       
-      select t.id, t.title as name, type.title as type, t.end_datetime as date,
+      select t.id, t.title as name, t.type, t.end_datetime as date,
              w.max_rating as rating
       from public.tournament_details t
       left join winners w on t.id = w.tournament_id
-      left join public.rating_typeoft type on type.id = t.typeoft_id
       where t.maii_rating = true
         and t.end_datetime <= now() + interval '1 month'
       order by date desc

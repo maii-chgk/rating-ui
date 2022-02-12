@@ -1,11 +1,11 @@
 default: &default
   adapter: postgresql
-  database: <%= ENV['postgres_database'] { 'postgres' } %>
-  username: <%= ENV['postgres_user'] { 'rating_ui' } %>
-  password: <%= ENV['postgres_password'] { 'rating_ui' } %>
-  host: <%= ENV['postgres_host'] { 'localhost' } %>
-  port: <%= ENV['postgres_port'] { 5432 } %>
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  database: <%= ENV.fetch('postgres_database', 'postgres') %>
+  username: <%= ENV.fetch('postgres_user', 'rating_ui') %>
+  password: <%= ENV.fetch('postgres_password', 'rating_ui') %>
+  host: <%= ENV.fetch('postgres_host', 'localhost') %>
+  port: <%= ENV.fetch('postgres_port', 5432) %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5)%>
 
 production:
   <<: *default

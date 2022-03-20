@@ -1,7 +1,7 @@
 class Api::V1::PlayersController < ApiController
   include InModel
 
-  def show
+  def release
     return render_error_json(error: MISSING_MODEL_ERROR) if current_model.nil?
 
     players = current_model.players_for_release_api(release_id: release_id, limit: PER_PAGE, offset: offset)

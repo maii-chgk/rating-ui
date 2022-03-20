@@ -33,8 +33,8 @@ module ReleaseQueries
       
       select r.*, t.title as name, town.title as city, prev.place as previous_place
       from ranked r
-      left join public.rating_team t on r.team_id = t.id
-      left join public.rating_town town on town.id = t.town_id
+      left join public.teams t on r.team_id = t.id
+      left join public.towns town on town.id = t.town_id
       left join ranked_prev_release as prev using (team_id)
       where t.title ilike $4 and town.title ilike $5
       order by r.place
@@ -83,7 +83,7 @@ module ReleaseQueries
     sql = <<~SQL
       select t.id as tournament_id, tr.team_id, tr.rating, tr.rating_change, t.maii_rating as in_rating
       from #{name}.tournament_result tr
-      left join public.rating_tournament t on tr.tournament_id = t.id
+      left join public.tournaments t on tr.tournament_id = t.id
       left join #{name}.release rel
         on t.end_datetime < rel.date + interval '24 hours' and t.end_datetime >= rel.date - interval '6 days'
       where rel.id = $1
@@ -95,7 +95,7 @@ module ReleaseQueries
   def tournaments_by_release
     sql = <<~SQL
       select t.id as id, t.maii_rating as in_rating, rel.id as release_id
-      from public.rating_tournament t
+      from public.tournaments t
       join #{name}.release rel
         on t.end_datetime < rel.date + interval '24 hours' and t.end_datetime >= rel.date - interval '6 days'
     SQL
@@ -135,8 +135,8 @@ module ReleaseQueries
     sql = <<~SQL
       select count(*)
       from #{name}.team_rating tr
-      left join public.rating_team t on t.id = tr.team_id
-      left join public.rating_town town on town.id = t.town_id
+      left join public.teams t on t.id = tr.team_id
+      left join public.towns town on town.id = t.town_id
       where tr.release_id = $1
           and t.title ilike $2 
           and town.title ilike $3
@@ -155,7 +155,7 @@ module ReleaseQueries
       
       select r.*, p.first_name || '&nbsp;' || last_name as name
       from ranked r
-      left join public.rating_player p on p.id = r.player_id
+      left join public.players p on p.id = r.player_id
       where r.place >= $2 and r.place <= $3
       order by r.place;
     SQL

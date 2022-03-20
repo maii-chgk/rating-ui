@@ -19,7 +19,7 @@ module TournamentQueries
           tr.is_in_maii_rating as in_rating,
           tr.bp as predicted_rating, tr.d1, tr.d2,
           tr.mp as predicted_place
-      from public.rating_result r
+      from public.tournament_results r
       left join #{name}.tournament_result tr 
           on r.team_id = tr.team_id and tr.tournament_id = $1
       where r.tournament_id = $1
@@ -50,7 +50,7 @@ module TournamentQueries
           p.first_name || '&nbsp;' || last_name as name, 
           tr.flag
       from public.tournament_rosters tr
-      left join public.rating_player p on tr.player_id = p.id
+      left join public.players p on tr.player_id = p.id
       where tr.tournament_id = $1
       order by tr.team_id, tr.flag, p.last_name
     SQL
@@ -58,10 +58,10 @@ module TournamentQueries
     exec_query_for_hash(query: sql, params: [tournament_id], group_by: "team_id")
   end
 
-  def tournament_details(tournament_id:)
+  def tournaments(tournament_id:)
     sql = <<~SQL
       select t.title as name, start_datetime, end_datetime, maii_rating
-      from public.rating_tournament t
+      from public.tournaments t
       where t.id = $1
     SQL
 
@@ -77,11 +77,10 @@ module TournamentQueries
           group by tr.tournament_id
       )
       
-      select t.id, t.title as name, type.title as type, t.end_datetime as date,
+      select t.id, t.title as name, t.type, t.end_datetime as date,
              w.max_rating as rating
-      from public.rating_tournament t
+      from public.tournaments t
       left join winners w on t.id = w.tournament_id
-      left join public.rating_typeoft type on type.id = t.typeoft_id
       where t.maii_rating = true
         and t.end_datetime <= now() + interval '1 month'
       order by date desc

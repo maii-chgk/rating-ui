@@ -4,12 +4,11 @@ class Api::V1::TeamsController < ApiController
   def show
     return render_error_json(error: MISSING_MODEL_ERROR) if current_model.nil?
 
-    @release_id = params[:release_id]
-    teams = current_model.teams_for_release_api(release_id: @release_id, limit: PER_PAGE, offset: offset)
+    teams = current_model.teams_for_release_api(release_id: release_id, limit: PER_PAGE, offset: offset)
     Places::add_top_and_bottom_places!(teams)
     Places::add_previous_top_and_bottom_places!(teams)
 
-    tournaments = current_model.tournaments_in_release_by_team(release_id: @release_id)
+    tournaments = current_model.tournaments_in_release_by_team(release_id: release_id)
     teams.each do |team|
       team["tournaments"] = tournaments.fetch(team["team_id"], [])
     end
@@ -20,11 +19,19 @@ class Api::V1::TeamsController < ApiController
   def metadata
     {
       model: current_model.name,
-      release_id: @release_id
+      release_id: release_id
     }
   end
 
   def teams_in_release
-    current_model.count_all_teams_in_release(release_id: @release_id)
+    current_model.count_all_teams_in_release(release_id: release_id)
+  end
+
+  def release_id
+    @release_id ||= if params[:release_id] == 'latest'
+                      current_model.latest_release_id
+                    else
+                      params[:release_id]
+                    end
   end
 end

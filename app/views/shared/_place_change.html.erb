@@ -1,5 +1,5 @@
 <%= round_place(place) %>
-<% if previous_place.present? && place != previous_place %>
+<% if previous_place.present? && place.present? && place != previous_place %>
   <% if previous_place > place %>
     <span class="text-xs">↑<%= round_place(previous_place - place) %></span>
   <% else %>

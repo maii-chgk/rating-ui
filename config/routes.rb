@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   get "reindex", to: "reindex#reindex"
   get "ping", to: "healthcheck#ping"
   get "reset_cache", to: "cache#reset"
+  get "recreate_views/:model", to: "materialized_views#recreate_views"
+
   get ":model/tournaments/", to: "tournaments#index", as: "tournaments"
   get ":model/tournament/:tournament_id", to: "tournaments#show", as: "tournament"
   get ":model/team/:team_id", to: "teams#show", as: "team"

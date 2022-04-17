@@ -65,15 +65,9 @@ module PlayerQueries
 
   def player_releases(player_id:)
     sql = <<~SQL
-      with ranked as (
-        select rank() over (partition by release_id order by rating desc) as place,
-               player_id, rating, rating_change, release_id
-        from #{name}.player_rating
-      )
-      
-      select rel.id, rel.date, rating.place, rating.rating, rating.rating_change  
+      select rel.id, rel.date, ranking.place, ranking.rating, ranking.rating_change  
       from #{name}.release rel
-      left join ranked rating on rating.player_id = $1 and rating.release_id = rel.id
+      left join #{name}.player_ranking ranking on ranking.player_id = $1 and ranking.release_id = rel.id
       order by rel.date desc;
     SQL
 

@@ -16,7 +16,7 @@ class MaterializedViews
   private
 
   def definitions
-    [player_ranking]
+    [player_ranking, team_ranking]
   end
 
   def create_or_refresh_view(definition)
@@ -40,5 +40,16 @@ class MaterializedViews
         from #{@model}.player_rating
     SQL
   )
+  end
+
+  def team_ranking
+    ViewDefinition.new(
+      name: "team_ranking",
+      query: <<~SQL
+        select rank() over (partition by release_id order by rating desc) as place,
+            team_id, rating, rating_change, release_id
+        from #{@model}.team_rating
+    SQL
+    )
   end
 end

@@ -57,20 +57,12 @@ module ReleaseQueries
           select o1.id as release_id, o2.id as prev_release_id
           from ordered o1
           left join ordered o2 on o1.row_number = o2.row_number + 1
-      ),
-      ranked as (
-          select rank() over (order by rating desc) as place, team_id, rating, rating_change, trb
-          from #{name}.team_rating
-          where release_id = $1
-      ),
-      ranked_prev_release as (
-          select rank() over (order by rating desc) as place, team_id
-          from #{name}.team_rating
-          where release_id = (select prev_release_id from releases where release_id = $1)
       )
       select r.*, prev.place as previous_place, r.place - prev.place as place_change
-      from ranked r
-      left join ranked_prev_release as prev using (team_id)
+      from #{name}.team_ranking r
+      left join #{name}.team_ranking prev using (team_id)
+      where r.release_id = $1
+          and prev.release_id = (select prev_release_id from releases where release_id = $1)
       order by row_number() over (order by r.rating desc)
       limit $2
       offset $3;

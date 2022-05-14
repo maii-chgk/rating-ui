@@ -18,23 +18,36 @@ class Api::V1::TeamsController < ApiController
       release_id: release_id
     }
 
-    render_paged_json(metadata: metadata, items: teams, all_items_count: teams_in_release)
+    render_paged_json(metadata: metadata, items: teams, all_items_count: teams_in_release_count)
   end
 
   def show
     return render_error_json(error: MISSING_MODEL_ERROR) if current_model.nil?
 
-    teams_releases = current_model.team_releases(team_id: params[:team_id])
+    releases = current_model.team_releases(team_id: params[:team_id]).map(&:to_h)
+    tournaments = current_model.team_tournaments(team_id: params[:team_id])
+
+    tournaments_hash = tournaments.each_with_object({}) do |tournament, hash|
+      if tournament.in_rating
+        (hash[tournament["release_id"]] ||= []) << tournament.to_h.except("release_id")
+      end
+    end
+
+    releases.each do |release|
+      release["tournaments"] = tournaments_hash[release[:id]]
+    end
 
     metadata = {
       model: current_model.name,
       team_id: params[:team_id]
     }
 
-    render_json(metadata: metadata, items: teams_releases)
+    render_json(metadata: metadata, items: releases)
   end
 
-  def teams_in_release
+  private
+
+  def teams_in_release_count
     current_model.count_all_teams_in_release(release_id: release_id)
   end
 

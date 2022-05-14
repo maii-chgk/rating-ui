@@ -24,12 +24,12 @@ class Api::V1::TeamsController < ApiController
   def show
     return render_error_json(error: MISSING_MODEL_ERROR) if current_model.nil?
 
-    releases = current_model.team_releases(team_id: params[:team_id]).map(&:to_h)
-    tournaments = current_model.team_tournaments(team_id: params[:team_id])
+    releases = current_model.team_releases(team_id: team_id).map(&:to_h)
+    tournaments = current_model.team_tournaments(team_id: team_id)
 
     tournaments_hash = tournaments.each_with_object({}) do |tournament, hash|
       if tournament.in_rating
-        (hash[tournament["release_id"]] ||= []) << tournament.to_h.except("release_id")
+        (hash[tournament["release_id"]] ||= []) << tournament.to_h.except(:release_id)
       end
     end
 
@@ -39,7 +39,7 @@ class Api::V1::TeamsController < ApiController
 
     metadata = {
       model: current_model.name,
-      team_id: params[:team_id]
+      team_id: team_id
     }
 
     render_json(metadata: metadata, items: releases)
@@ -57,5 +57,9 @@ class Api::V1::TeamsController < ApiController
                     else
                       params[:release_id]
                     end
+  end
+
+  def team_id
+    @team_id ||= params[:team_id].to_i
   end
 end

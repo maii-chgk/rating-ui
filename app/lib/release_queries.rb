@@ -60,9 +60,10 @@ module ReleaseQueries
       )
       select r.*, prev.place as previous_place, r.place - prev.place as place_change
       from #{name}.team_ranking r
-      left join #{name}.team_ranking prev using (team_id)
-      where r.release_id = $1
+      left join #{name}.team_ranking prev
+        on r.team_id = prev.team_id
           and prev.release_id = (select prev_release_id from releases where release_id = $1)
+      where r.release_id = $1
       order by row_number() over (order by r.rating desc)
       limit $2
       offset $3;
@@ -180,9 +181,10 @@ module ReleaseQueries
 
       select r.*, prev.place as previous_place, r.place - prev.place as place_change
       from #{name}.player_ranking r
-      left join #{name}.player_ranking prev using (player_id)
+      left join #{name}.player_ranking prev
+        on r.player_id = prev.player_id
+            and prev.release_id = (select prev_release_id from releases where release_id = $1)
       where r.release_id = $1 
-          and prev.release_id = (select prev_release_id from releases where release_id = $1)
       order by row_number() over (order by r.rating desc)
       limit $2
       offset $3;

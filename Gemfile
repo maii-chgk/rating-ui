@@ -5,7 +5,7 @@ ruby '3.1.2'
 gem 'rails', '~> 6.1'
 gem 'puma', '< 6'
 gem 'pg', '1.2.3'
-gem "tailwindcss-rails", "~> 0.5.1"
+gem "tailwindcss-rails", "~> 1.0"
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'redis'
 gem 'hiredis'

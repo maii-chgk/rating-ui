@@ -15,6 +15,8 @@ gem "nokogiri", ">= 1.13.6"
 gem "sprockets-rails"
 gem "jsbundling-rails", "~> 1.0"
 gem "cssbundling-rails", "~> 1.1"
+gem "stimulus-rails"
+gem "turbo-rails"
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

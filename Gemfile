@@ -12,6 +12,7 @@ gem 'rails-i18n', '~> 7.0'
 gem "honeybadger", "~> 4.0"
 gem 'newrelic_rpm'
 gem "nokogiri", ">= 1.13.6"
+gem "sprockets-rails"
 gem "jsbundling-rails", "~> 1.0"
 gem "cssbundling-rails", "~> 1.1"
 

@@ -22,7 +22,10 @@
         <%= link_to(result['team_name'], team_path(team_id: result.team_id)) %>
       </td>
       <td class="border px-2 py-2 text-left">
+        <a href="" data-rosters-target="roster">Показать</a>
+        <div class="hidden" data-rosters-target="roster">
         <%= render partial: "shared/roster", collection: result.players, as: :player %>
+        </div>
       </td>
       <td class="border px-2 text-center"><%= result.points %></td>
       <td class="px-2 text-center border">

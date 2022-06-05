@@ -6,7 +6,6 @@
     <th class="bg-blue-100 border text-center px-2">Состав</th>
     <th class="bg-blue-100 border text-center px-2">Взятые</th>
     <th class="bg-blue-100 border text-center px-2">Рейтинг</th>
-    <th class="bg-blue-100 border text-center px-2">Дельта</th>
     <th class="bg-blue-100 border text-center px-2">Прогноз</th>
     <th class="bg-blue-100 border text-center px-1">D1</th>
     <th class="bg-blue-100 border text-center px-1">D2</th>
@@ -26,12 +25,14 @@
         <%= render partial: "shared/roster", collection: result.players, as: :player %>
       </td>
       <td class="border px-2 text-center"><%= result.points %></td>
-      <td class="border px-2 text-center"><%= result.rating %></td>
-      <td class="border px-2 text-center">
-        <% if result.in_rating || result.rating_change.nil? %>
-          <%= result.rating_change %>
-        <% else %>
-          <%= "[#{result.rating_change}]" %>
+      <td class="px-2 text-center border">
+        <%= result.rating %>
+        <% unless result.in_rating %>
+          <s>
+        <% end %>
+        <%= render partial: "shared/value_change", locals: { change: result.rating_change } %>
+        <% unless result.in_rating %>
+          </s>
         <% end %>
       </td>
       <td class="border px-2 text-center"><%= result.predicted_rating %></td>

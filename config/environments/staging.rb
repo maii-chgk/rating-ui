@@ -67,9 +67,6 @@ Rails.application.configure do
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
-  config.assets.compile = false
-  config.assets.css_compressor = Tailwindcss::Compressor.new(files_with_class_names: Rails.root.glob("app/views/**/*.*"))
-
   config.action_controller.perform_caching = false
   config.cache_store = :null_store
 end

@@ -8,7 +8,7 @@ export default class extends Controller {
     this.showingRosters = true;
   }
 
-  hideall() {
+  toggleAll() {
     this.rosterTargets.forEach((element, _) => {
       element.classList.toggle("hidden");
     });

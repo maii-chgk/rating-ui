@@ -4,5 +4,7 @@
 
 import { application } from "./application"
 
-import RostersController from "./rosters_controller"
-application.register("rosters", RostersController)
+import AllRostersController from "./all_rosters_controller"
+import SingleRosterController from "./single_roster_controller"
+application.register("all-rosters", AllRostersController)
+application.register("single-roster", SingleRosterController)

@@ -21,10 +21,10 @@
       <td class="border px-2 hover:underline">
         <%= link_to(result['team_name'], team_path(team_id: result.team_id)) %>
       </td>
-      <td class="border px-2 py-2 text-left">
-        <a href="" data-rosters-target="roster">Показать</a>
-        <div class="hidden" data-rosters-target="roster">
-        <%= render partial: "shared/roster", collection: result.players, as: :player %>
+      <td class="border px-2 py-2 text-left" data-controller="single-roster">
+        <a href="" data-all-rosters-target="toggle" data-single-roster-target="toggle" data-action="single-roster#toggle" class="hover:underline text-sm">Показать</a>
+        <div class="hidden" data-all-rosters-target="roster" data-single-roster-target="roster">
+          <%= render partial: "shared/roster", collection: result.players, as: :player %>
         </div>
       </td>
       <td class="border px-2 text-center"><%= result.points %></td>

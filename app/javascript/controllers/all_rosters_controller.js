@@ -24,7 +24,7 @@ export default class extends Controller {
     });
 
     this.toggleTargets.forEach((element, _) => {
-      element.textContent = "Показать"
+      element.classList.remove("hidden");
     });
 
     const toggleButton = document.getElementById("toggle_all_rosters")
@@ -37,7 +37,7 @@ export default class extends Controller {
     });
 
     this.toggleTargets.forEach((element, _) => {
-      element.textContent = "Скрыть"
+      element.classList.add("hidden");
     });
 
     const toggleButton = document.getElementById("toggle_all_rosters")

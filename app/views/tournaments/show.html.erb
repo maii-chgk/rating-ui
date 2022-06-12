@@ -1,5 +1,5 @@
 <% @title="#{@tournament.name} — рейтинг МАИИ" %>
-<h1 class="text-center text-xl"><%= @tournament.name %></h1>
+<h1 class="text-center text-xl font-semibold"><%= @tournament.name %></h1>
 <h3 class="text-center py-2 text-l"><%= @tournament.start %> — <%= @tournament.end %></h3>
 <div class="text-center text-l hover:underline">
   <%= link_to("Cтраница на rating.chgk.info", "https://rating.chgk.info/tournament/#{@tournament.id}") %>
@@ -7,7 +7,7 @@
 <% unless @tournament.in_rating? %>
   <p class="text-center py-2 text-m">Не учитывается в рейтинге МАИИ</p>
 <% end %>
-<div data-controller="all-rosters">
+<div data-controller="all-rosters" class="mx-auto">
   <button data-action="all-rosters#toggleAll" id="toggle_all_rosters" class="text-sm rounded-md mx-4 px-2 py-2 mt-1 bg-gray-200">Показать все составы</button>
   <div class="py-2 px-4">
     <% cache "tournament_results/#{@model_name}/#{@tournament.id}" do %>

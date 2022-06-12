@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = [ "roster", "toggle" ];
+  static targets = [ "roster", "toggle", "globalToggle" ];
   static values = { rostersHidden: Boolean }
 
   initialize() {
@@ -27,8 +27,7 @@ export default class extends Controller {
       element.classList.remove("hidden");
     });
 
-    const toggleButton = document.getElementById("toggle_all_rosters")
-    toggleButton.textContent = "Показать все составы"
+    this.globalToggleTarget.textContent = "Показать все составы"
   }
 
   showAll() {
@@ -40,7 +39,6 @@ export default class extends Controller {
       element.classList.add("hidden");
     });
 
-    const toggleButton = document.getElementById("toggle_all_rosters")
-    toggleButton.textContent = "Скрыть все составы"
+    this.globalToggleTarget.textContent = "Скрыть все составы"
   }
 }

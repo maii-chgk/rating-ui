@@ -5,10 +5,13 @@
 <div class="text-center py-2 text-l hover:underline">
   <%= link_to("Страница на rating.chgk.info", "https://rating.chgk.info/team/#{@team_id}") %>
 </div>
-<div class="py-2">
-  <% cache "team_tournaments_list/#{@model_name}/#{@team_id}" do %>
-    <%= render "tournaments_list" %>
-  <% end %>
+<div data-controller="all-rosters" class="mx-auto">
+  <button data-action="all-rosters#toggleAll" id="toggle_all_rosters" class="text-sm rounded-md mx-2 px-2 py-2 mt-1 bg-gray-200">Показать все составы</button>
+  <div class="py-2 px-2">
+    <% cache "team_tournaments_list/#{@model_name}/#{@team_id}" do %>
+      <%= render "tournaments_list" %>
+    <% end %>
+  </div>
 </div>
 <h4 class="text-l text-center py-2">Турниры до МАИИ</h4>
 <div class="py-2">

@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::StatementInvalid, with: :show_model_errors
-  # rescue_from NoMethodError, with: :show_missing_model_error
+  rescue_from NoMethodError, with: :show_missing_model_error
   before_action :validate_model_name
 
   protected

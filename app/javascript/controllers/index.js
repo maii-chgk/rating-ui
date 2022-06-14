@@ -6,5 +6,8 @@ import { application } from "./application"
 
 import AllRostersController from "./all_rosters_controller"
 import SingleRosterController from "./single_roster_controller"
+import EmptyReleasesController from "./empty_releases_controller"
+
 application.register("all-rosters", AllRostersController)
 application.register("single-roster", SingleRosterController)
+application.register("empty-releases", EmptyReleasesController)

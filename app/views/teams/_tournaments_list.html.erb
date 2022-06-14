@@ -12,12 +12,12 @@
   </thead>
 
   <tbody>
-  <% @rows.each do |tournament| %>
+  <% @rows.each_with_index do |tournament, index| %>
 
-    <% if tournament.rows > 0 %>
+    <% if tournament.tournament_id.present? || index == 0 %>
       <tr class="border-y py-2 hover:bg-gray-100">
     <% else %>
-      <tr class="border-y py-2 hover:bg-gray-100">
+      <tr class="border-y py-2 hover:bg-gray-100 hidden" data-empty-releases-target="release">
     <% end %>
 
     <% if tournament.rows > 0 %>

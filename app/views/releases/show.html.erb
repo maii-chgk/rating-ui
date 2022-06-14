@@ -1,17 +1,17 @@
 <% @title="Рейтинг МАИИ" %>
 <div class="flex">
-  <div class="flex-col mx-4 my-1">
+  <div class="flex-col mx-auto my-1">
     <div class="flex-row my-1">
     <%= form_with method: :get do |form| %>
       <%= form.text_field :team,
                           value: @team,
                           placeholder: "Команда",
-                          class: "rounded-md border-gray-300 shadow-m focus:border-blue-100 focus:ring focus:ring-blue-100 focus:ring-opacity-50" %>
+                          class: "p-2 rounded-md border-gray-300 focus:border-blue-100 focus:ring focus:ring-blue-100 focus:ring-opacity-50" %>
       <%= form.text_field :city,
                           value: @city,
                           placeholder: "Город",
-                          class: "mx-1 rounded-md border-gray-300 shadow-m focus:border-blue-100 focus:ring focus:ring-blue-100 focus:ring-opacity-50" %>
-      <%= form.submit "Поиск", class: "text-sm rounded-md px-2 py-1 mt-1", name: nil %>
+                          class: "p-2 mx-3 rounded-md border-gray-300 shadow-m focus:border-blue-100 focus:ring focus:ring-blue-100 focus:ring-opacity-50" %>
+      <%= form.submit "Поиск", class: "text-sm rounded-md p-2 py-1 mt-1 bg-gray-200", name: nil %>
     <% end %>
     </div>
     <div class="flex-row my-2">

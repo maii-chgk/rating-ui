@@ -1,20 +1,20 @@
 <table class="shadow-lg bg-white">
   <thead>
   <tr>
-    <th class="bg-blue-100 border text-center px-2 py-2">Место</th>
-    <th class="bg-blue-100 border text-center px-2">Игрок</th>
-    <th class="bg-blue-100 border text-center px-2">Рейтинг</th>
-    <th class="bg-blue-100 border text-center px-2">Дельта</th>
+    <th class="bg-blue-100 text-center px-2 py-2">Место</th>
+    <th class="bg-blue-100 text-center px-2">Игрок</th>
+    <th class="bg-blue-100 text-center px-2">Рейтинг</th>
+    <th class="bg-blue-100 text-center px-2">Дельта</th>
   </tr>
   </thead>
 
   <tbody>
   <% @players.each do |player| %>
-    <tr class="border py-2 hover:bg-gray-100">
-      <td class="text-center border py-2"><%= player['place'] %></td>
-      <td class="border px-2 hover:underline"><%= link_to(raw(player['name']), player_path(player_id: player['player_id'])) %></td>
-      <td class="text-center border"><%= player['rating'] %></td>
-      <td class="text-center border"><%= player['rating_change'] %></td>
+    <tr class="border-y py-2 hover:bg-gray-100">
+      <td class="text-center border-y py-2"><%= player['place'] %></td>
+      <td class="border-y px-2 hover:underline"><%= link_to(raw(player['name']), player_path(player_id: player['player_id'])) %></td>
+      <td class="text-center border-y"><%= player['rating'] %></td>
+      <td class="text-center border-y"><%= player['rating_change'] %></td>
     </tr>
   <% end %>
   </tbody>

@@ -1,31 +1,46 @@
-<table class="shadow-lg bg-white">
+<table class="shadow-lg bg-white table-auto">
   <thead>
   <tr>
-    <th class="bg-blue-100 border text-center px-3 py-2">Место</th>
-    <th class="bg-blue-100 border text-center px-2">Команда</th>
-    <th class="bg-blue-100 border text-center px-2">Состав</th>
-    <th class="bg-blue-100 border text-center px-2">Взятые</th>
-    <th class="bg-blue-100 border text-center px-2">Рейтинг</th>
-    <th class="bg-blue-100 border text-center px-2">Прогноз</th>
-    <th class="bg-blue-100 border text-center px-1">D1</th>
-    <th class="bg-blue-100 border text-center px-1">D2</th>
+    <th class="bg-blue-100 text-center px-2 py-2">Место</th>
+    <th class="bg-blue-100 text-center px-2">Команда</th>
+    <th class="bg-blue-100 text-center px-2">Город</th>
+    <th class="bg-blue-100 text-center px-2">Взятые</th>
+    <th class="bg-blue-100 text-center px-2">Рейтинг</th>
+    <th class="bg-blue-100 text-center px-2">Прогноз</th>
+    <th class="bg-blue-100 text-center px-1">D1</th>
+    <th class="bg-blue-100 text-center px-1">D2</th>
   </tr>
   </thead>
 
   <tbody>
   <% @tournament.results.each do |result| %>
-    <tr class="border py-2 hover:bg-gray-100">
-      <td class="border px-2 text-center">
+    <tr class="py-2 hover:bg-gray-100">
+      <td class="px-2 text-center border-y border-r">
         <%= render partial: "shared/place_change", locals: { place: result.place, previous_place: result.predicted_place } %>
       </td>
-      <td class="border px-2 hover:underline">
-        <%= link_to(result['team_name'], team_path(team_id: result.team_id)) %>
+
+      <td class="px-2 py-1 border-y">
+        <%= link_to(result['team_name'], team_path(team_id: result.team_id), class: 'hover:underline') %>
+        <div data-controller="single-roster">
+          <a href="" data-all-rosters-target="toggle" data-single-roster-target="show" data-action="single-roster#show"
+             class="underline decoration-1 decoration-blue-300 underline-offset-2 decoration-solid text-sm">
+            Состав
+          </a>
+          <div class="w-1 pl-1 bg-blue-100 hover:bg-blue-300"
+                 data-single-roster-target="hide"
+                 data-action="click->single-roster#hide">
+            <div class="hidden px-2" data-all-rosters-target="roster" data-single-roster-target="roster">
+                <%= render partial: "shared/roster", collection: result.players, as: :player %>
+            </div>
+          </div>
+        </div>
       </td>
-      <td class="border px-2 py-2 text-left">
-        <%= render partial: "shared/roster", collection: result.players, as: :player %>
-      </td>
-      <td class="border px-2 text-center"><%= result.points %></td>
-      <td class="px-2 text-center border">
+
+      <td class="px-2 md:text-left text-center border-y"><%= result.team_city %></td>
+
+      <td class="px-2 text-center border-y"><%= result.points %></td>
+
+      <td class="px-2 text-center border-y">
         <%= result.rating %>
         <% unless result.in_rating %>
           <s>
@@ -35,9 +50,10 @@
           </s>
         <% end %>
       </td>
-      <td class="border px-2 text-center"><%= result.predicted_rating %></td>
-      <td class="border px-1 text-center"><%= result.d1 %></td>
-      <td class="border px-1 text-center"><%= result.d2 %></td>
+
+      <td class="px-2 text-center border-y"><%= result.predicted_rating %></td>
+      <td class="px-1 text-center border-y"><%= result.d1 %></td>
+      <td class="px-1 text-center border-y"><%= result.d2 %></td>
     </tr>
   <% end %>
   </tbody>

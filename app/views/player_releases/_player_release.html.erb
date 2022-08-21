@@ -1,6 +1,9 @@
 <table class="shadow-lg bg-white">
   <thead>
   <tr>
+    <% if @filtered %>
+      <th class="bg-blue-100 text-center px-2 py-2">#</th>
+    <% end %>
     <th class="bg-blue-100 text-center px-2 py-2">Место</th>
     <th class="bg-blue-100 text-center px-2">Игрок</th>
     <th class="bg-blue-100 text-center px-2">Рейтинг</th>
@@ -9,8 +12,11 @@
   </thead>
 
   <tbody>
-  <% @players.each do |player| %>
+  <% @players.each_with_index do |player, index| %>
     <tr class="border-y py-2 hover:bg-gray-100">
+      <% if @filtered %>
+        <td class="text-center border-y px-2"><%= @paging.from + index %></td>
+      <% end %>
       <td class="text-center border-y py-2"><%= player['place'] %></td>
       <td class="border-y px-2 hover:underline"><%= link_to(raw(player['name']), player_path(player_id: player['player_id'])) %></td>
       <td class="text-center border-y"><%= player['rating'] %></td>

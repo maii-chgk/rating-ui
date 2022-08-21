@@ -1,22 +1,21 @@
 class PlayerReleasesController < ApplicationController
-  before_action :force_trailing_slash
-
   include InModel
 
   def show
     @release_id = clean_params[:release_id] || current_model.latest_release_id
     @releases_in_dropdown = list_releases_for_dropdown
 
-    @players = current_model.players_for_release(release_id: @release_id, from: from, to: to)
+    @players = current_model.players_for_release(release_id: @release_id, from:, to:, first_name:, last_name:)
+    all_players_count = current_model.count_all_players_in_release(release_id: @release_id, first_name:, last_name:)
+    @paging = Paging.new(items_count: all_players_count, from:, to:)
 
-    all_players_count = current_model.count_all_players_in_release(release_id: @release_id)
-    @paging = Paging.new(items_count: all_players_count, from: from, to: to)
+    @filtered = first_name.present? || last_name.present?
 
     @model_name = current_model.name
   end
 
   def clean_params
-    params.permit(:model, :release_id, :from, :to)
+    params.permit(:model, :release_id, :from, :to, :first_name, :last_name)
   end
 
   def from
@@ -25,6 +24,14 @@ class PlayerReleasesController < ApplicationController
 
   def to
     (clean_params[:to] || 250).to_i
+  end
+
+  def first_name
+    @first_name ||= clean_params[:first_name]&.gsub("*", "")
+  end
+
+  def last_name
+    @last_name ||= clean_params[:last_name]&.gsub("*", "")
   end
 
   def list_releases_for_dropdown

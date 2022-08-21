@@ -16,26 +16,26 @@
     </div>
     <div class="flex-row">
       <div>
-        <% cache "player_release_dropdown/#{@model_name}/#{@release_id}" do %>
+        <% cache "player_release_dropdown/#{@model_name}/#{@first_name}/#{@last_name}/#{@release_id}" do %>
           <%= render "release_dropdown" %>
         <% end %>
       </div>
     </div>
 
     <div class="flex-row my-2">
-      <% cache "player_release_paging/#{@model_name}/#{@release_id}/#{@paging.from}-#{@paging.to}" do %>
+      <% cache "player_release_paging/#{@model_name}/#{@first_name}/#{@last_name}/#{@release_id}/#{@paging.from}-#{@paging.to}" do %>
         <%= render "paging" %>
       <% end %>
     </div>
 
     <div class="flex-row my-2">
-      <% cache "player_release/#{@model_name}/#{@release_id}/#{@paging.from}-#{@paging.to}" do %>
+      <% cache "player_release/#{@model_name}/#{@first_name}/#{@last_name}/#{@release_id}/#{@paging.from}-#{@paging.to}" do %>
         <%= render "player_release" %>
       <% end %>
     </div>
 
     <div class="flex-row my-2">
-      <% cache "player_release_paging/#{@model_name}/#{@release_id}/#{@paging.from}-#{@paging.to}" do %>
+      <% cache "player_release_paging/#{@model_name}/#{@first_name}/#{@last_name}/#{@release_id}/#{@paging.from}-#{@paging.to}" do %>
         <%= render "paging" %>
       <% end %>
     </div>

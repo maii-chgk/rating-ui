@@ -138,7 +138,7 @@ module ReleaseQueries
     exec_query_for_single_value(query: sql, params: [release_id, "%#{team_name}%", "%#{city}%"], default_value: 0)
   end
 
-  def players_for_release(release_id:, from:, to:)
+  def players_for_release(release_id:, from:, to:, first_name: nil, last_name: nil)
     sql = <<~SQL
       with ranked as (
         select rank() over (order by rating desc) as place, player_id, rating, rating_change
@@ -149,11 +149,17 @@ module ReleaseQueries
       select r.*, p.first_name || '&nbsp;' || last_name as name
       from ranked r
       left join public.players p on p.id = r.player_id
-      where r.place >= $2 and r.place <= $3
-      order by r.place;
+      where p.first_name ilike $4 and p.last_name ilike $5
+      order by r.place
+      limit $2
+      offset $3;
     SQL
 
-    exec_query(query: sql, params: [release_id, from, to], result_class: ReleasePlayer)
+    limit = to - from + 1
+    offset = from - 1
+    exec_query(query: sql,
+               params: [release_id, limit, offset, "%#{first_name}%", "%#{last_name}%"],
+               result_class: ReleasePlayer)
   end
 
   def player_ratings_for_release(release_id:)
@@ -193,13 +199,18 @@ module ReleaseQueries
     exec_query_for_hash_array(query: sql, params: [release_id, limit, offset])
   end
 
-  def count_all_players_in_release(release_id:)
+  def count_all_players_in_release(release_id:, first_name: nil, last_name: nil)
     sql = <<~SQL
       select count(*)
-      from #{name}.player_rating
+      from #{name}.player_rating pr
+      left join public.players p on p.id = pr.player_id 
       where release_id = $1
+        and p.first_name ilike $2
+        and p.last_name ilike $3
     SQL
 
-    exec_query_for_single_value(query: sql, params: [release_id], default_value: 0)
+    exec_query_for_single_value(query: sql,
+                                params: [release_id, "%#{first_name}%", "%#{last_name}%"],
+                                default_value: 0)
   end
 end

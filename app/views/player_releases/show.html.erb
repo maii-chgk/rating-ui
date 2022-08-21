@@ -1,6 +1,19 @@
 <% @title="Рейтинг МАИИ" %>
 <div class="flex">
   <div class="flex-col mx-auto my-4">
+    <div class="flex-row my-1">
+      <%= form_with method: :get do |form| %>
+        <%= form.text_field :first_name,
+                            value: @first_name,
+                            placeholder: "Имя",
+                            class: "p-2 rounded-md border-gray-300 focus:border-blue-100 focus:ring focus:ring-blue-100 focus:ring-opacity-50" %>
+        <%= form.text_field :last_name,
+                            value: @last_name,
+                            placeholder: "Фамилия",
+                            class: "p-2 mx-3 rounded-md border-gray-300 shadow-m focus:border-blue-100 focus:ring focus:ring-blue-100 focus:ring-opacity-50" %>
+        <%= form.submit "Поиск", class: "text-sm rounded-md p-2 py-1 mt-1 bg-gray-200", name: nil %>
+      <% end %>
+    </div>
     <div class="flex-row">
       <div>
         <% cache "player_release_dropdown/#{@model_name}/#{@release_id}" do %>

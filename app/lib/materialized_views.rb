@@ -54,7 +54,7 @@ class MaterializedViews
       index_columns: ["team_id"],
       query: <<~SQL
         select rank() over (partition by release_id order by rating desc) as place,
-            team_id, rating, rating_change, release_id
+            team_id, rating, rating_change, release_id, trb
         from #{@model}.team_rating
       SQL
     )

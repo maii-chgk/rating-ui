@@ -2,19 +2,19 @@ source 'https://rubygems.org'
 
 ruby '3.1.2'
 
-gem 'rails', '~> 7.0'
+gem 'rails', '~> 7.0', '>= 7.0.4'
 gem 'puma', '< 6'
 gem 'pg', '1.2.3'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'redis'
 gem 'hiredis'
-gem 'rails-i18n', '~> 7.0'
+gem 'rails-i18n', '~> 7.0', '>= 7.0.3'
 gem "honeybadger", "~> 4.0"
 gem 'newrelic_rpm'
 gem "nokogiri", ">= 1.13.6"
 gem "sprockets-rails"
-gem "jsbundling-rails", "~> 1.0"
-gem "cssbundling-rails", "~> 1.1"
+gem "jsbundling-rails", "~> 1.0", ">= 1.0.2"
+gem "cssbundling-rails", "~> 1.1", ">= 1.1.0"
 gem "stimulus-rails"
 gem "turbo-rails"
 

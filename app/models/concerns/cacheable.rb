@@ -31,10 +31,14 @@ module Cacheable
 
   private
 
+  def cache_namespace
+    ""
+  end
+
   def exec_query_with_cache(query, params)
     # caller_locations(1, 1) is exec_query_smth
     # caller_locations(2, 1) is a method from, e.g., ReleaseQueries module, which is what we are looking for
-    cache_key = "#{name}/#{caller_locations(2, 1).first.label}/#{params&.join('/')}"
+    cache_key = "#{cache_namespace}/#{caller_locations(2, 1).first.label}/#{params&.join('/')}"
 
     Rails.cache.fetch(cache_key, expires_in: 24.hours) do
       run_query(query, params)

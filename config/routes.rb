@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get "ping", to: "healthcheck#ping"
   get "reset_cache", to: "cache#reset"
   get "recreate_views/:model", to: "materialized_views#recreate_views"
+  get "mau", to: "reports#mau"
 
   get ":model/tournaments/", to: "tournaments#index", as: "tournaments"
   get ":model/tournament/:tournament_id", to: "tournaments#show", as: "tournament"

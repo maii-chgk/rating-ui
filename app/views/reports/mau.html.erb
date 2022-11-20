@@ -1,0 +1,36 @@
+<% @title="Рейтинг МАИИ — активные игроки" %>
+<p>Сколько человек сыграло хотя бы один рейтинговый турнир в течение месяца?</p>
+<br>
+
+<div>
+  <canvas id="mauRating"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const ctx = document.getElementById('mauRating');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            datasets: [{
+                label: 'Количество игроков',
+                data: <%= raw(@data) %>,
+                borderWidth: 2
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+</script>

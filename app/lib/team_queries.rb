@@ -69,7 +69,7 @@ module TeamQueries
       left join public.tournament_rosters tr using (tournament_id, team_id)
       left join public.players p on tr.player_id = p.id
       where rr.team_id = $1
-      order by rr.tournament_id, tr.flag, p.last_name
+      order by tr.flag, p.last_name
     SQL
 
     exec_query_for_hash(query: sql, params: [team_id], group_by: "tournament_id")

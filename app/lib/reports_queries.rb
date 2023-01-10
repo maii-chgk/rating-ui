@@ -9,7 +9,7 @@ module ReportsQueries
           select date_trunc('month', end_datetime) as month, *
           from tournaments
           where maii_rating = true
-            and end_datetime between '2021-09-01' and '2022-11-28'
+            and end_datetime between '2021-09-01' and date_trunc('month', current_date)
       )
       
       select to_char(rt.month, 'mm.YYYY') as month, count(distinct player_id) as count

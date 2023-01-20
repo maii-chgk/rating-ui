@@ -4,7 +4,7 @@ ruby '3.1.3'
 
 gem 'rails', '~> 7.0'
 gem 'puma', '< 7'
-gem 'pg', '1.2.3'
+gem 'pg', '< 2'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'redis'
 gem 'hiredis'

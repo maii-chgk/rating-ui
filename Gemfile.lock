@@ -113,7 +113,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.14.0-x86_64-linux)
       racc (~> 1.4)
-    pg (1.2.3)
+    pg (1.4.5)
     puma (6.0.0)
       nio4r (~> 2.0)
     racc (1.6.2)
@@ -193,7 +193,7 @@ DEPENDENCIES
   jsbundling-rails (~> 1.0)
   newrelic_rpm
   nokogiri (>= 1.13.6)
-  pg (= 1.2.3)
+  pg (< 2)
   puma (< 7)
   rack-mini-profiler (~> 2.0)
   rails (~> 7.0)

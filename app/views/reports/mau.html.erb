@@ -3,34 +3,50 @@
 <br>
 
 <div>
-  <canvas id="mauRating"></canvas>
+  <canvas id="mauRecent"></canvas>
+</div>
+<br>
+<p>Что было до 2020 года?</p>
+<br>
+<div>
+  <canvas id="mauAllTime"></canvas>
+</div>
+<br>
+<p>А если не ограничиваться рейтинговыми турнирами?</p>
+<br>
+<div>
+  <canvas id="mauAllTimeNoRating"></canvas>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
-    const ctx = document.getElementById('mauRating');
-
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            datasets: [{
-                label: 'Количество игроков',
-                data: <%= raw(@data) %>,
-                borderWidth: 2
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+    const renderGraph = (canvas, data) => {
+        const ctx = document.getElementById(canvas);
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: 'Количество игроков',
+                    data: data,
+                    borderWidth: 2
+                }]
             },
-            plugins: {
-                legend: {
-                    display: false
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
                 }
             }
-        }
-    });
+        });
+    }
+
+    renderGraph("mauRecent", <%= raw(@active_rating_data) %>)
+    renderGraph("mauAllTime", <%= raw(@all_time_rating_data) %>)
+    renderGraph("mauAllTimeNoRating", <%= raw(@all_time_data) %>)
 </script>

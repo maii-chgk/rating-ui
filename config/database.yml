@@ -7,7 +7,7 @@ default: &default
   port: <%= ENV.fetch('postgres_port', 5432) %>
   pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5)%>
   variables:
-    statement_timeout: 60000
+    statement_timeout: 120000
 
 production:
   <<: *default

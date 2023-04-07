@@ -21,3 +21,5 @@ test:
 development:
   <<: *default
   database: postgres
+  username: postgres
+  password:

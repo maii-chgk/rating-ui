@@ -15,5 +15,6 @@
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.2"
-  }
+  },
+  "packageManager": "yarn@1.22.19"
 }

@@ -29,4 +29,4 @@ end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem "dockerfile-rails", ">= 1.2", :group => :development
+gem "dockerfile-rails", ">= 1.2.5", :group => :development

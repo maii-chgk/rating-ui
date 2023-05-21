@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_404
-    render file: Rails.root.join('/public/404.html'), status: :not_found
+    render file: Rails.root.join('public/404.html'), status: :not_found
   end
 
   private

@@ -1,27 +1,33 @@
-class Api::V1::ReleasesController < ApiController
-  include InModel
+# frozen_string_literal: true
 
-  def index
-    return render_error_json(error: MISSING_MODEL_ERROR) if current_model.nil?
+module Api
+  module V1
+    class ReleasesController < ApiController
+      include InModel
 
-    releases = current_model.all_releases
-    tournaments = current_model.tournaments_by_release
-    releases.each do |release|
-      release_tournaments = tournaments[release["id"]]
-      grouped = release_tournaments.group_by { |tournament| tournament["in_rating"] == true }
+      def index
+        return render_error_json(error: MISSING_MODEL_ERROR) if current_model.nil?
 
-      release["tournaments"] = {
-        "in_rating": grouped.fetch(true, []).map { |tournament| tournament["id"] },
-        "not_in_rating": grouped.fetch(false, []).map { |tournament| tournament["id"] }
-      }
+        releases = current_model.all_releases
+        tournaments = current_model.tournaments_by_release
+        releases.each do |release|
+          release_tournaments = tournaments[release['id']]
+          grouped = release_tournaments.group_by { |tournament| tournament['in_rating'] == true }
+
+          release['tournaments'] = {
+            in_rating: grouped.fetch(true, []).map { |tournament| tournament['id'] },
+            not_in_rating: grouped.fetch(false, []).map { |tournament| tournament['id'] }
+          }
+        end
+
+        render json: metadata.merge({ items: releases }), status: :ok
+      end
+
+      def metadata
+        {
+          model: current_model.name
+        }
+      end
     end
-
-    render json: metadata.merge({ items: releases }), status: 200
-  end
-
-  def metadata
-    {
-      model: current_model.name
-    }
   end
 end

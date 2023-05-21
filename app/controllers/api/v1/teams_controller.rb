@@ -1,65 +1,71 @@
-class Api::V1::TeamsController < ApiController
-  include InModel
+# frozen_string_literal: true
 
-  def release
-    return render_error_json(error: MISSING_MODEL_ERROR) if current_model.nil?
+module Api
+  module V1
+    class TeamsController < ApiController
+      include InModel
 
-    teams = current_model.teams_for_release_api(release_id: release_id, limit: PER_PAGE, offset: offset)
-    Places::add_top_and_bottom_places!(teams)
-    Places::add_previous_top_and_bottom_places!(teams)
+      def release
+        return render_error_json(error: MISSING_MODEL_ERROR) if current_model.nil?
 
-    tournaments = current_model.tournaments_in_release_by_team(release_id: release_id)
-    teams.each do |team|
-      team["tournaments"] = tournaments.fetch(team["team_id"], [])
-    end
+        teams = current_model.teams_for_release_api(release_id:, limit: PER_PAGE, offset:)
+        Places.add_top_and_bottom_places!(teams)
+        Places.add_previous_top_and_bottom_places!(teams)
 
-    metadata = {
-      model: current_model.name,
-      release_id: release_id
-    }
+        tournaments = current_model.tournaments_in_release_by_team(release_id:)
+        teams.each do |team|
+          team['tournaments'] = tournaments.fetch(team['team_id'], [])
+        end
 
-    render_paged_json(metadata: metadata, items: teams, all_items_count: teams_in_release_count)
-  end
+        metadata = {
+          model: current_model.name,
+          release_id:
+        }
 
-  def show
-    return render_error_json(error: MISSING_MODEL_ERROR) if current_model.nil?
+        render_paged_json(metadata:, items: teams, all_items_count: teams_in_release_count)
+      end
 
-    releases = current_model.team_releases(team_id: team_id).map(&:to_h)
-    tournaments = current_model.team_tournaments(team_id: team_id)
+      def show
+        return render_error_json(error: MISSING_MODEL_ERROR) if current_model.nil?
 
-    tournaments_hash = tournaments.each_with_object({}) do |tournament, hash|
-      if tournament.in_rating
-        (hash[tournament["release_id"]] ||= []) << tournament.to_h.except(:release_id)
+        releases = current_model.team_releases(team_id:).map(&:to_h)
+        tournaments = current_model.team_tournaments(team_id:)
+
+        tournaments_hash = tournaments.each_with_object({}) do |tournament, hash|
+          next unless tournament.in_rating
+
+          (hash[tournament['release_id']] ||= []) << tournament.to_h.except(:release_id)
+        end
+
+        releases.each do |release|
+          release['tournaments'] = tournaments_hash[release[:id]]
+        end
+
+        metadata = {
+          model: current_model.name,
+          team_id:
+        }
+
+        render_json(metadata:, items: releases)
+      end
+
+      private
+
+      def teams_in_release_count
+        current_model.count_all_teams_in_release(release_id:)
+      end
+
+      def release_id
+        @release_id ||= if params[:release_id] == 'latest'
+                          current_model.latest_release_id
+                        else
+                          params[:release_id]
+                        end
+      end
+
+      def team_id
+        @team_id ||= params[:team_id].to_i
       end
     end
-
-    releases.each do |release|
-      release["tournaments"] = tournaments_hash[release[:id]]
-    end
-
-    metadata = {
-      model: current_model.name,
-      team_id: team_id
-    }
-
-    render_json(metadata: metadata, items: releases)
-  end
-
-  private
-
-  def teams_in_release_count
-    current_model.count_all_teams_in_release(release_id: release_id)
-  end
-
-  def release_id
-    @release_id ||= if params[:release_id] == 'latest'
-                      current_model.latest_release_id
-                    else
-                      params[:release_id]
-                    end
-  end
-
-  def team_id
-    @team_id ||= params[:team_id].to_i
   end
 end

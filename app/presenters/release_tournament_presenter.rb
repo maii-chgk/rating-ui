@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ReleaseTournamentPresenter
   attr_reader :players
   attr_accessor :rows
@@ -10,7 +12,7 @@ class ReleaseTournamentPresenter
   end
 
   def release_id
-    @release["id"]
+    @release['id']
   end
 
   def release_date
@@ -59,11 +61,13 @@ class ReleaseTournamentPresenter
 
   def in_rating
     return false if @tournament.nil?
+
     @tournament.in_rating
   end
 
   def rating_change
     return nil if @tournament.nil?
+
     @tournament.rating_change
   end
 end

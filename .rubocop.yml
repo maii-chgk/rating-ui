@@ -1,0 +1,49 @@
+inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-rails
+
+AllCops:
+  NewCops: enable
+  SuggestExtensions: false
+  Exclude:
+    - 'db/migrate/*.*'
+    - 'db/schema.rb'
+    - 'bin/*'
+
+Style/Documentation:
+  Enabled: false
+Style/NumericPredicate:
+  Enabled: false
+Style/ZeroLengthPredicate:
+  Enabled: false
+Style/KeywordParametersOrder:
+  Exclude:
+    - 'app/models/concerns/cacheable.rb'
+
+Naming/PredicateName:
+  Enabled: false
+
+Naming/VariableNumber:
+  Exclude:
+    - 'app/controllers/application_controller.rb'
+
+Metrics/ModuleLength:
+  Exclude:
+    - 'app/lib/*_queries.rb'
+Metrics/MethodLength:
+  Exclude:
+    - 'app/lib/*_queries.rb'
+  Max: 20
+Metrics/BlockLength:
+  Exclude:
+    - 'config/environments/*.rb'
+
+Rails/SquishedSQLHeredocs:
+  Enabled: false
+Rails/Pluck:
+  Enabled: false
+Rails/ApplicationController:
+  Exclude:
+    - 'app/controllers/api_controller.rb'
+    - 'app/controllers/reports_controller.rb'

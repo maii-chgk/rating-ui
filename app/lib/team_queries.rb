@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module TeamQueries
   include Cacheable
 
@@ -14,14 +16,14 @@ module TeamQueries
     sql = <<~SQL
       select rel.id as release_id,
              t.id as id, t.title as name, t.end_datetime as date,
-             r.position as place, 
-             tr.rating, tr.rating_change, tr.is_in_maii_rating as in_rating  
+             r.position as place,
+             tr.rating, tr.rating_change, tr.is_in_maii_rating as in_rating
       from #{name}.release rel
-      left join public.tournaments t 
+      left join public.tournaments t
           on t.end_datetime < rel.date + interval '24 hours' and t.end_datetime >= rel.date - interval '6 days'
-      left join public.tournament_results r 
+      left join public.tournament_results r
           on r.tournament_id = t.id
-      left join #{name}.tournament_result tr 
+      left join #{name}.tournament_result tr
           on tr.tournament_id = t.id and r.team_id = tr.team_id
       where r.team_id = $1
           and r.position != 0
@@ -72,12 +74,12 @@ module TeamQueries
       order by tr.flag, p.last_name
     SQL
 
-    exec_query_for_hash(query: sql, params: [team_id], group_by: "tournament_id")
+    exec_query_for_hash(query: sql, params: [team_id], group_by: 'tournament_id')
   end
 
   def team_releases(team_id:)
     sql = <<~SQL
-      select rel.id, rel.date, ranking.place, ranking.rating, ranking.rating_change  
+      select rel.id, rel.date, ranking.place, ranking.rating, ranking.rating_change
       from #{name}.release rel
       left join #{name}.team_ranking ranking on ranking.team_id = $1 and ranking.release_id = rel.id
       order by rel.date desc;

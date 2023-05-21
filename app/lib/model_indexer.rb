@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class ModelIndexer
   def self.run
-    model_schemas = schemas.reject { |s| s.start_with?("pg") || %w[public information_schema].include?(s) }
+    model_schemas = schemas.reject { |s| s.start_with?('pg') || %w[public information_schema].include?(s) }
     models = model_schemas.map do |schema|
       {
         name: schema,

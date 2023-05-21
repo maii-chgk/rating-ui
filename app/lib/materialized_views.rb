@@ -23,7 +23,7 @@ class MaterializedViews
 
   def create_or_refresh_view(definition)
     create_query = <<~SQL
-      create materialized view if not exists #{@model}.#{definition.name} 
+      create materialized view if not exists #{@model}.#{definition.name}
       as #{definition.query}
       with no data
     SQL
@@ -43,7 +43,7 @@ class MaterializedViews
       name: 'player_ranking',
       index_columns: ['player_id'],
       query: <<~SQL
-        select rank() over (partition by release_id order by rating desc) as place, 
+        select rank() over (partition by release_id order by rating desc) as place,
             player_id, rating, rating_change, release_id
         from #{@model}.player_rating
       SQL

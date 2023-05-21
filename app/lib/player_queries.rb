@@ -26,16 +26,16 @@ module PlayerQueries
   def player_tournaments(player_id:)
     sql = <<~SQL
       select rel.id as release_id, t.id as id, t.title as name, t.end_datetime as date,
-          rr.team_title as team_name, rr.position as place, rr.team_id, tr.flag, 
+          rr.team_title as team_name, rr.position as place, rr.team_id, tr.flag,
           rating.rating, rating.rating_change, rating.is_in_maii_rating as in_rating
       from #{name}.release rel
-      left join public.tournaments t 
+      left join public.tournaments t
           on t.end_datetime < rel.date + interval '24 hours' and t.end_datetime >= rel.date - interval '6 days'
-      left join public.tournament_results rr 
+      left join public.tournament_results rr
           on rr.tournament_id = t.id
-      left join public.tournament_rosters tr 
+      left join public.tournament_rosters tr
           on tr.tournament_id = t.id and tr.team_id = rr.team_id
-      left join #{name}.tournament_result rating 
+      left join #{name}.tournament_result rating
           on rating.tournament_id = t.id and rating.team_id = rr.team_id
       where tr.player_id = $1
           and rr.position != 0
@@ -49,7 +49,7 @@ module PlayerQueries
   def player_old_tournaments(player_id:)
     sql = <<~SQL
       select t.id as id, t.title as name, t.end_datetime as date,
-          r.team_title as team_name, r.position as place, r.team_id, tr.flag, 
+          r.team_title as team_name, r.position as place, r.team_id, tr.flag,
           r.old_rating as rating, r.old_rating_delta as rating_change
       from public.tournaments t
       left join public.tournament_results r on r.tournament_id = t.id
@@ -65,7 +65,7 @@ module PlayerQueries
 
   def player_releases(player_id:)
     sql = <<~SQL
-      select rel.id, rel.date, ranking.place, ranking.rating, ranking.rating_change  
+      select rel.id, rel.date, ranking.place, ranking.rating, ranking.rating_change
       from #{name}.release rel
       left join #{name}.player_ranking ranking on ranking.player_id = $1 and ranking.release_id = rel.id
       order by rel.date desc;

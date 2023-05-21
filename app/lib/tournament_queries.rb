@@ -14,7 +14,7 @@ module TournamentQueries
 
   def tournament_results(tournament_id:)
     sql = <<~SQL
-      select r.position as place, r.total as points, 
+      select r.position as place, r.total as points,
           r.team_title as team_name, r.team_id,
           t.title as team_city,
           tr.rating as rating, tr.rating_change as rating_change,
@@ -22,7 +22,7 @@ module TournamentQueries
           tr.bp as predicted_rating, tr.d1, tr.d2,
           tr.mp as predicted_place
       from public.tournament_results r
-      left join #{name}.tournament_result tr 
+      left join #{name}.tournament_result tr
           on r.team_id = tr.team_id and tr.tournament_id = $1
       left join public.towns t on r.team_city_id = t.id
       where r.tournament_id = $1
@@ -37,7 +37,7 @@ module TournamentQueries
       select team_id,
           rating, rating_change,
           is_in_maii_rating as in_rating,
-          bp as forecast, mp::real as place_forecast, 
+          bp as forecast, mp::real as place_forecast,
           d1, d2, r, rb, rg, rt
       from #{name}.tournament_result
       where tournament_id = $1
@@ -49,8 +49,8 @@ module TournamentQueries
 
   def tournament_players(tournament_id:)
     sql = <<~SQL
-      select tr.team_id, tr.player_id, 
-          p.first_name || '&nbsp;' || last_name as name, 
+      select tr.team_id, tr.player_id,
+          p.first_name || '&nbsp;' || last_name as name,
           tr.flag
       from public.tournament_rosters tr
       left join public.players p on tr.player_id = p.id
@@ -79,7 +79,7 @@ module TournamentQueries
           from #{name}.tournament_result tr
           group by tr.tournament_id
       )
-      
+
       select t.id, t.title as name, t.type, t.end_datetime as date,
              w.max_rating as rating
       from public.tournaments t

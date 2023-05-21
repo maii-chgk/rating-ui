@@ -30,7 +30,7 @@ module ReleaseQueries
           from #{name}.team_rating
           where release_id = (select prev_release_id from releases where release_id = $1)
       )
-      
+
       select r.*, t.title as name, town.title as city, prev.place as previous_place
       from ranked r
       left join public.teams t on r.team_id = t.id
@@ -131,7 +131,7 @@ module ReleaseQueries
       left join public.teams t on t.id = tr.team_id
       left join public.towns town on town.id = t.town_id
       where tr.release_id = $1
-          and t.title ilike $2 
+          and t.title ilike $2
           and town.title ilike $3
     SQL
 
@@ -145,7 +145,7 @@ module ReleaseQueries
         from #{name}.player_rating
         where release_id = $1
       )
-      
+
       select r.*, p.first_name || '&nbsp;' || last_name as name
       from ranked r
       left join public.players p on p.id = r.player_id
@@ -164,7 +164,7 @@ module ReleaseQueries
 
   def player_ratings_for_release(release_id:)
     sql = <<~SQL
-      select player_id, tournament_id, 
+      select player_id, tournament_id,
           cur_score as current_rating, initial_score as initial_rating
       from #{name}.player_rating_by_tournament
       where release_id = $1
@@ -190,7 +190,7 @@ module ReleaseQueries
       left join #{name}.player_ranking prev
         on r.player_id = prev.player_id
             and prev.release_id = (select prev_release_id from releases where release_id = $1)
-      where r.release_id = $1 
+      where r.release_id = $1
       order by row_number() over (order by r.rating desc)
       limit $2
       offset $3;
@@ -203,7 +203,7 @@ module ReleaseQueries
     sql = <<~SQL
       select count(*)
       from #{name}.player_rating pr
-      left join public.players p on p.id = pr.player_id 
+      left join public.players p on p.id = pr.player_id
       where release_id = $1
         and p.first_name ilike $2
         and p.last_name ilike $3

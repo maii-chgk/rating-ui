@@ -1,30 +1,30 @@
 module Cacheable
   extend ActiveSupport::Concern
 
-  def exec_query_for_single_value(query:, params: nil, default_value: nil)
-    exec_query_with_cache(query, params).rows.first.first
+  def exec_query_for_single_value(query:, params: nil, default_value: nil, cache: false)
+    exec_query_with_cache(query, params, cache:).rows.first.first
   rescue NoMethodError
     default_value
   end
 
-  def exec_query_for_single_row(query:, params: nil)
-    exec_query_with_cache(query, params).rows.first
+  def exec_query_for_single_row(query:, params: nil, cache: false)
+    exec_query_with_cache(query, params, cache:).rows.first
   end
 
-  def exec_query_for_hash_array(query:, params: nil)
-    exec_query_with_cache(query, params).to_a
+  def exec_query_for_hash_array(query:, params: nil, cache: false)
+    exec_query_with_cache(query, params, cache:).to_a
   end
 
-  def exec_query_for_hash(query:, params: nil, group_by:)
-    exec_query_with_cache(query, params)
+  def exec_query_for_hash(query:, params: nil, group_by:, cache: false)
+    exec_query_with_cache(query, params, cache:)
       .to_a
       .each_with_object(Hash.new { |h, k| h[k] = [] }) do |row, hash|
         hash[row.delete(group_by)] << row
       end
   end
 
-  def exec_query(query:, params: nil, result_class:)
-    exec_query_with_cache(query, params)
+  def exec_query(query:, params: nil, result_class:, cache: false)
+    exec_query_with_cache(query, params, cache:)
       .to_a
       .map { |row| result_class.new(row) }
   end
@@ -35,7 +35,9 @@ module Cacheable
     ""
   end
 
-  def exec_query_with_cache(query, params)
+  def exec_query_with_cache(query, params, cache: false)
+    return run_query(query, params) unless cache
+
     # caller_locations(1, 1) is exec_query_smth
     # caller_locations(2, 1) is a method from, e.g., ReleaseQueries module, which is what we are looking for
     cache_key = "#{cache_namespace}/#{caller_locations(2, 1).first.label}/#{params&.join('/')}"

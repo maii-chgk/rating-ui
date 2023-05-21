@@ -44,7 +44,7 @@ module ReleaseQueries
 
     limit = to - from + 1
     offset = from - 1
-    exec_query(query: sql, params: [release_id, limit, offset, "%#{team_name}%", "%#{city}%"], result_class: ReleaseTeam)
+    exec_query(query: sql, params: [release_id, limit, offset, "%#{team_name}%", "%#{city}%"], result_class: ReleaseTeam, cache: true)
   end
 
   def teams_for_release_api(release_id:, limit:, offset:)
@@ -196,7 +196,7 @@ module ReleaseQueries
       offset $3;
     SQL
 
-    exec_query_for_hash_array(query: sql, params: [release_id, limit, offset])
+    exec_query_for_hash_array(query: sql, params: [release_id, limit, offset], cache: true)
   end
 
   def count_all_players_in_release(release_id:, first_name: nil, last_name: nil)

@@ -103,7 +103,7 @@ module ReleaseQueries
       order by date desc
     SQL
 
-    exec_query_for_hash_array(query: sql)
+    exec_query_for_hash_array(query: sql, cache: true)
   end
 
   def latest_release_id
@@ -135,7 +135,7 @@ module ReleaseQueries
           and town.title ilike $3
     SQL
 
-    exec_query_for_single_value(query: sql, params: [release_id, "%#{team_name}%", "%#{city}%"], default_value: 0)
+    exec_query_for_single_value(query: sql, params: [release_id, "%#{team_name}%", "%#{city}%"], default_value: 0, cache: true)
   end
 
   def players_for_release(release_id:, from:, to:, first_name: nil, last_name: nil)
@@ -170,7 +170,7 @@ module ReleaseQueries
       where release_id = $1
     SQL
 
-    exec_query_for_hash(query: sql, params: [release_id], group_by: "player_id")
+    exec_query_for_hash(query: sql, params: [release_id], group_by: "player_id", cache: true)
   end
 
   def players_for_release_api(release_id:, limit:, offset:)

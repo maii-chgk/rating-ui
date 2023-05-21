@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Cacheable
   extend ActiveSupport::Concern
 
@@ -32,7 +34,7 @@ module Cacheable
   private
 
   def cache_namespace
-    ""
+    ''
   end
 
   def exec_query_with_cache(query, params, cache: false)
@@ -49,7 +51,7 @@ module Cacheable
 
   def run_query(query, params)
     if params.present?
-      ActiveRecord::Base.connection.exec_query(query, "", params)
+      ActiveRecord::Base.connection.exec_query(query, '', params)
     else
       ActiveRecord::Base.connection.exec_query(query)
     end

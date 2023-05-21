@@ -1,4 +1,6 @@
-require "active_support/core_ext/integer/time"
+# frozen_string_literal: true
+
+require 'active_support/core_ext/integer/time'
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -39,7 +41,7 @@ Rails.application.configure do
   config.log_level = :info
 
   # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
+  config.log_tags = [:request_id]
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
@@ -56,19 +58,20 @@ Rails.application.configure do
   config.active_support.report_deprecations = false
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
+  config.log_formatter = Logger::Formatter.new
 
   # Use a different logger for distributed setups.
   # require "syslog/logger"
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "app-name")
 
-  logger           = ActiveSupport::Logger.new(STDOUT)
+  logger           = ActiveSupport::Logger.new($stdout)
   logger.formatter = config.log_formatter
   config.logger    = ActiveSupport::TaggedLogging.new(logger)
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-  config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'], password: ENV['REDIS_PASSWORD'] }
-  config.secret_key_base = ENV["SECRET_KEY_BASE"]
+  config.cache_store = :redis_cache_store,
+                       { url: ENV.fetch('REDIS_URL', nil), password: ENV.fetch('REDIS_PASSWORD', nil) }
+  config.secret_key_base = ENV.fetch('SECRET_KEY_BASE', nil)
   config.assets.compile = false
 end

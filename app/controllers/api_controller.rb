@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApiController < ActionController::Base
   rescue_from ActiveRecord::StatementInvalid, with: :show_model_errors
 
@@ -15,7 +17,7 @@ class ApiController < ActionController::Base
     {
       current_page: page,
       pages: (all_items_count.to_f / PER_PAGE).ceil,
-      all_items_count: all_items_count
+      all_items_count:
     }
   end
 
@@ -28,14 +30,14 @@ class ApiController < ActionController::Base
   end
 
   def render_error_json(error:)
-    render json: { error: error }, status: :bad_request
+    render json: { error: }, status: :bad_request
   end
 
   def render_paged_json(metadata:, items:, all_items_count:)
-    render json: metadata.merge(page_metadata(all_items_count)).merge({ items: items }), status: :ok
+    render json: metadata.merge(page_metadata(all_items_count)).merge({ items: }), status: :ok
   end
 
   def render_json(metadata:, items:)
-    render json: metadata.merge({ items: items }), status: :ok
+    render json: metadata.merge({ items: }), status: :ok
   end
 end

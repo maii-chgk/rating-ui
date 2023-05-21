@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MaterializedViews
   ViewDefinition = Struct.new('ViewDefinition', :name, :query, :index_columns, keyword_init: true)
 
@@ -38,20 +40,20 @@ class MaterializedViews
 
   def player_ranking
     ViewDefinition.new(
-      name: "player_ranking",
-      index_columns: ["player_id"],
+      name: 'player_ranking',
+      index_columns: ['player_id'],
       query: <<~SQL
         select rank() over (partition by release_id order by rating desc) as place, 
             player_id, rating, rating_change, release_id
         from #{@model}.player_rating
       SQL
-  )
+    )
   end
 
   def team_ranking
     ViewDefinition.new(
-      name: "team_ranking",
-      index_columns: ["team_id"],
+      name: 'team_ranking',
+      index_columns: ['team_id'],
       query: <<~SQL
         select rank() over (partition by release_id order by rating desc) as place,
             team_id, rating, rating_change, release_id, trb

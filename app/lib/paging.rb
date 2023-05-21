@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Paging
   attr_reader :from, :to, :items_count
 
@@ -16,6 +18,6 @@ class Paging
   end
 
   def last_page
-    items_count / per_page + 1
+    (items_count / per_page) + 1
   end
 end

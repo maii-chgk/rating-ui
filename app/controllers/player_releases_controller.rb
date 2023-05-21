@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PlayerReleasesController < ApplicationController
   include InModel
 
@@ -27,18 +29,18 @@ class PlayerReleasesController < ApplicationController
   end
 
   def first_name
-    @first_name ||= clean_params[:first_name]&.gsub("*", "")
+    @first_name ||= clean_params[:first_name]&.gsub('*', '')
   end
 
   def last_name
-    @last_name ||= clean_params[:last_name]&.gsub("*", "")
+    @last_name ||= clean_params[:last_name]&.gsub('*', '')
   end
 
   def list_releases_for_dropdown
     current_model.all_releases.map do |release|
       [
-        I18n.l(release["date"].to_date),
-        player_release_path(release_id: release["id"])
+        I18n.l(release['date'].to_date),
+        player_release_path(release_id: release['id'])
       ]
     end
   end

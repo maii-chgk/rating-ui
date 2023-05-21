@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class ReleaseTournamentBuilder
   def self.build(releases, tournaments, players)
-    self.new(releases, tournaments, players).build
+    new(releases, tournaments, players).build
   end
 
   def initialize(releases, tournaments, players)
@@ -13,16 +15,16 @@ class ReleaseTournamentBuilder
     @releases.flat_map do |release|
       tournaments_in_release = tournaments_by_release_id[release.id]
       if tournaments_in_release.nil?
-        ReleaseTournamentPresenter.new(release: release)
+        ReleaseTournamentPresenter.new(release:)
       elsif tournaments_in_release.size == 1
         tournament = tournaments_in_release.first
-        ReleaseTournamentPresenter.new(release: release,
-                                       tournament: tournament,
+        ReleaseTournamentPresenter.new(release:,
+                                       tournament:,
                                        players: @players[tournament.id])
       else
         rows = tournaments_in_release.map do |tournament|
-          ReleaseTournamentPresenter.new(release: release,
-                                         tournament: tournament,
+          ReleaseTournamentPresenter.new(release:,
+                                         tournament:,
                                          players: @players[tournament.id],
                                          rows: 0)
         end
@@ -34,7 +36,7 @@ class ReleaseTournamentBuilder
 
   def tournaments_by_release_id
     @tournaments.each_with_object({}) do |tournament, hash|
-      (hash[tournament["release_id"]] ||= []) << tournament
+      (hash[tournament['release_id']] ||= []) << tournament
     end
   end
 end

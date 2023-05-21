@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TournamentsController < ApplicationController
   include InModel
 
@@ -9,9 +11,9 @@ class TournamentsController < ApplicationController
     results = current_model.tournament_results(tournament_id: id)
 
     all_players = current_model.tournament_players(tournament_id: id)
-    results.each { |tr| tr.players = all_players[tr['team_id']]}
+    results.each { |tr| tr.players = all_players[tr['team_id']] }
 
-    @tournament = TournamentPresenter.new(id: id, details: details, results: results)
+    @tournament = TournamentPresenter.new(id:, details:, results:)
   end
 
   def index

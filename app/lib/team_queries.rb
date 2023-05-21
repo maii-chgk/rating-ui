@@ -74,7 +74,7 @@ module TeamQueries
       order by tr.flag, p.last_name
     SQL
 
-    exec_query_for_hash(query: sql, params: [team_id], group_by: "tournament_id")
+    exec_query_for_hash(query: sql, params: [team_id], group_by: 'tournament_id')
   end
 
   def team_releases(team_id:)

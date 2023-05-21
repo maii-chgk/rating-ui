@@ -60,7 +60,7 @@ module TournamentQueries
       order by tr.team_id, tr.flag, p.last_name
     SQL
 
-    exec_query_for_hash(query: sql, params: [tournament_id], group_by: "team_id")
+    exec_query_for_hash(query: sql, params: [tournament_id], group_by: 'team_id')
   end
 
   def tournaments(tournament_id:)

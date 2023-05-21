@@ -28,9 +28,9 @@ class Api::V1::TeamsController < ApiController
     tournaments = current_model.team_tournaments(team_id: team_id)
 
     tournaments_hash = tournaments.each_with_object({}) do |tournament, hash|
-      if tournament.in_rating
-        (hash[tournament["release_id"]] ||= []) << tournament.to_h.except(:release_id)
-      end
+      next unless tournament.in_rating
+
+      (hash[tournament["release_id"]] ||= []) << tournament.to_h.except(:release_id)
     end
 
     releases.each do |release|

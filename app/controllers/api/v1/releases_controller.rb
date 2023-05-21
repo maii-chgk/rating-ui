@@ -20,7 +20,7 @@ module Api
           }
         end
 
-        render json: metadata.merge({ items: releases }), status: 200
+        render json: metadata.merge({ items: releases }), status: :ok
       end
 
       def metadata

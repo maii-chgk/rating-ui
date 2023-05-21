@@ -26,8 +26,7 @@ Rails.application.configure do
     config.action_controller.enable_fragment_cache_logging = true
 
     if ENV['REDIS_URL'].present?
-      puts ENV['REDIS_URL']
-      puts ENV.fetch('REDIS_PASSWORD', nil)
+      Rails.logger.info("Using Redis at #{ENV['REDIS_URL']}")
       config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'], password: ENV.fetch('REDIS_PASSWORD', nil) }
     else
       config.cache_store = :memory_store

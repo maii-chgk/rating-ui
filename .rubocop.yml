@@ -47,3 +47,5 @@ Rails/ApplicationController:
   Exclude:
     - 'app/controllers/api_controller.rb'
     - 'app/controllers/reports_controller.rb'
+Rails/RootPublicPath:
+  Enabled: false

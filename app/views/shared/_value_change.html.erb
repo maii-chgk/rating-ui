@@ -1,7 +1,0 @@
-<% if change.present? && change != 0 %>
-  <% if change > 0 %>
-    <span class="text-xs">+<%= change %></span>
-  <% else %>
-    <span class="text-xs"><%= change.to_s.gsub("-", "−") %></span>
-  <% end %>
-<% end %>

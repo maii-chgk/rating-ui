@@ -45,7 +45,8 @@
         <% unless result.in_rating %>
           <s>
         <% end %>
-        <%= render partial: "shared/value_change", locals: { change: result.rating_change } %>
+        <div></div>
+        <%= render(ValueChangeComponent.new(change: result.rating_change)) %>
         <% unless result.in_rating %>
           </s>
         <% end %>

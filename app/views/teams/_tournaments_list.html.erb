@@ -29,7 +29,7 @@
       </td>
       <td rowspan="<%= tournament.rows %>" class="border-y px-2 text-center">
         <%= tournament.release_rating %>
-        <%= render partial: "shared/value_change", locals: { change: tournament.release_rating_change } %>
+        <%= render(ValueChangeComponent.new(change: tournament.release_rating_change)) %>
       </td>
     <% end %>
 
@@ -63,7 +63,7 @@
         <% unless tournament.in_rating %>
           <s>
         <% end %>
-        <%= render partial: "shared/value_change", locals: { change: tournament.rating_change } %>
+        <%= render(ValueChangeComponent.new(change: tournament.rating_change)) %>
         <% unless tournament.in_rating %>
           </s>
         <% end %>

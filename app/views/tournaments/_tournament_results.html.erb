@@ -16,7 +16,7 @@
   <% @tournament.results.each do |result| %>
     <tr class="py-2 hover:bg-gray-100">
       <td class="px-2 text-center border-y border-r">
-        <%= render partial: "shared/place_change", locals: { place: result.place, previous_place: result.predicted_place } %>
+        <%= render(PlaceChangeComponent.new(place: result.place, previous_place: result.predicted_place)) %>
       </td>
 
       <td class="px-2 py-1 border-y">

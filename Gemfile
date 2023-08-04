@@ -19,6 +19,7 @@ gem 'redis'
 gem 'sprockets-rails'
 gem 'stimulus-rails'
 gem 'turbo-rails'
+gem 'view_component'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

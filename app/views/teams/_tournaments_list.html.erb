@@ -48,7 +48,7 @@
                data-single-roster-target="hide"
                data-action="click->single-roster#hide">
             <div class="hidden px-2" data-all-rosters-target="roster" data-single-roster-target="roster">
-              <%= render partial: "shared/roster", collection: tournament.players, as: :player %>
+              <%= render(PlayerComponent.with_collection(tournament.players)) %>
             </div>
           </div>
         </div>

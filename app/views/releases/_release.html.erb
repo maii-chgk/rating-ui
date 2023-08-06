@@ -18,7 +18,7 @@
         <td class="text-center border-y px-2"><%= @paging.from + index %></td>
       <% end %>
       <td class="text-center border-y py-2">
-        <%= render partial: "shared/place_change", locals: { place: team.place, previous_place: team.previous_place } %>
+        <%= render(PlaceChangeComponent.new(place: team.place, previous_place: team.previous_place)) %>
       </td>
       <td class="border-y px-2 hover:underline"><%= link_to(team.name, team_path(team_id: team.team_id)) %></td>
       <td class="border-y px-2 hover:underline">
@@ -26,7 +26,7 @@
       </td>
       <td class="px-2 text-center border-y">
         <%= team.rating %>
-        <%= render partial: "shared/value_change", locals: { change: team.rating_change } %>
+        <%= render(ValueChangeComponent.new(change: team.rating_change)) %>
       </td>
     </tr>
   <% end %>

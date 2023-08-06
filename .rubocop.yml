@@ -49,3 +49,6 @@ Rails/ApplicationController:
     - 'app/controllers/reports_controller.rb'
 Rails/RootPublicPath:
   Enabled: false
+Lint/MissingSuper:
+  Exclude:
+    - 'app/components/**/*.rb'

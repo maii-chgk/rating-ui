@@ -18,7 +18,7 @@
         <%= link_to(tournament['name'], tournament_path(tournament_id: tournament['id'])) %>
       </td>
       <td class="border px-2 py-2 text-left">
-        <%= render partial: "shared/roster", collection: tournament['players'], as: :player %>
+        <%= render(PlayerComponent.with_collection(tournament['players'])) %>
       </td>
       <td class="border px-2 text-center"><%= round_place(tournament['place']) %></td>
       <td class="border px-2 text-center"><%= tournament['rating'] %></td>

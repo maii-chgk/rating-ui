@@ -16,7 +16,7 @@
   <% @tournament.results.each do |result| %>
     <tr class="py-2 hover:bg-gray-100">
       <td class="px-2 text-center border-y border-r">
-        <%= render partial: "shared/place_change", locals: { place: result.place, previous_place: result.predicted_place } %>
+        <%= render(PlaceChangeComponent.new(place: result.place, previous_place: result.predicted_place)) %>
       </td>
 
       <td class="px-2 py-1 border-y">
@@ -30,7 +30,7 @@
                  data-single-roster-target="hide"
                  data-action="click->single-roster#hide">
             <div class="hidden px-2" data-all-rosters-target="roster" data-single-roster-target="roster">
-                <%= render partial: "shared/roster", collection: result.players, as: :player %>
+              <%= render(PlayerComponent.with_collection(result.players)) %>
             </div>
           </div>
         </div>
@@ -45,7 +45,8 @@
         <% unless result.in_rating %>
           <s>
         <% end %>
-        <%= render partial: "shared/value_change", locals: { change: result.rating_change } %>
+        <div></div>
+        <%= render(ValueChangeComponent.new(change: result.rating_change)) %>
         <% unless result.in_rating %>
           </s>
         <% end %>

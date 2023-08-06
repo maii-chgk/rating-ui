@@ -29,7 +29,7 @@
       </td>
       <td rowspan="<%= tournament.rows %>" class="border-y px-2 text-center">
         <%= tournament.release_rating %>
-        <%= render partial: "shared/value_change", locals: { change: tournament.release_rating_change } %>
+        <%= render(ValueChangeComponent.new(change: tournament.release_rating_change)) %>
       </td>
     <% end %>
 
@@ -48,7 +48,7 @@
                data-single-roster-target="hide"
                data-action="click->single-roster#hide">
             <div class="hidden px-2" data-all-rosters-target="roster" data-single-roster-target="roster">
-              <%= render partial: "shared/roster", collection: tournament.players, as: :player %>
+              <%= render(PlayerComponent.with_collection(tournament.players)) %>
             </div>
           </div>
         </div>
@@ -63,7 +63,7 @@
         <% unless tournament.in_rating %>
           <s>
         <% end %>
-        <%= render partial: "shared/value_change", locals: { change: tournament.rating_change } %>
+        <%= render(ValueChangeComponent.new(change: tournament.rating_change)) %>
         <% unless tournament.in_rating %>
           </s>
         <% end %>

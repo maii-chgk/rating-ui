@@ -1,6 +1,6 @@
 <% @title="#{@name.gsub("&nbsp;", " ")} — рейтинг МАИИ" %>
 <div class="text-center text-xl">
-  <h1><%= raw(@name) %></h1>
+  <h1><%= @name.html_safe %></h1>
 </div>
 <div class="text-center py-2 text-l hover:underline">
 <%= link_to("Страница на rating.chgk.info", "https://rating.chgk.info/player/#{@player_id}") %>

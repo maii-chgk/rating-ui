@@ -90,6 +90,11 @@ GEM
     jsbundling-rails (1.1.1)
       railties (>= 6.0.0)
     json (2.6.3)
+    lograge (0.12.0)
+      actionpack (>= 4)
+      activesupport (>= 4)
+      railties (>= 4)
+      request_store (~> 1.0)
     loofah (2.21.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -172,6 +177,8 @@ GEM
     redis-client (0.14.1)
       connection_pool
     regexp_parser (2.8.0)
+    request_store (1.5.1)
+      rack (>= 1.4)
     rexml (3.2.5)
     rubocop (1.52.0)
       json (~> 2.3)
@@ -237,6 +244,7 @@ DEPENDENCIES
   hiredis
   honeybadger (~> 4.0)
   jsbundling-rails (~> 1.0)
+  lograge
   newrelic_rpm
   nokogiri (>= 1.13.6)
   pg (< 2)

@@ -9,6 +9,7 @@ gem 'cssbundling-rails', '~> 1.1'
 gem 'hiredis'
 gem 'honeybadger', '~> 4.0'
 gem 'jsbundling-rails', '~> 1.0'
+gem 'lograge'
 gem 'newrelic_rpm'
 gem 'nokogiri', '>= 1.13.6'
 gem 'pg', '< 2'
@@ -20,7 +21,6 @@ gem 'sprockets-rails'
 gem 'stimulus-rails'
 gem 'turbo-rails'
 gem 'view_component'
-gem 'lograge'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

@@ -14,6 +14,8 @@ class Paging
   end
 
   def per_page
+    return 100 if (to - from + 1) == 0
+
     to - from + 1
   end
 

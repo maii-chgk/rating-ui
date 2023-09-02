@@ -87,4 +87,19 @@ module TeamQueries
 
     exec_query(query: sql, params: [team_id], result_class: TeamRelease)
   end
+
+  def team_current_base_roster(team_id:)
+    sql = <<~SQL
+       select br.player_id, p.first_name || '&nbsp;' || p.last_name as name
+       from public.base_rosters br
+       left join public.players p on p.id = br.player_id
+       where br.season_id = #{CurrentSeason.id}
+         and current_date >= br.start_date
+         and (br.end_date < current_date or br.end_date is null)
+         and br.team_id = $1
+      order by p.last_name
+    SQL
+
+    exec_query_for_hash_array(query: sql, params: [team_id])
+  end
 end

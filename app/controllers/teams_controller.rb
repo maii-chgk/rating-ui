@@ -16,5 +16,7 @@ class TeamsController < ApplicationController
 
     @old_tournaments = current_model.old_tournaments(team_id: @team_id)
     @old_tournaments.each { |t| t.players = all_players[t['id']] }
+
+    @base_roster = current_model.team_current_base_roster(team_id: @team_id)
   end
 end

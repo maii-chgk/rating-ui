@@ -21,7 +21,7 @@ module ReportsQueries
       order by rt.month;
     SQL
 
-    exec_query(query: sql, result_class: MonthCount)
+    exec_query(query: sql, result_class: MonthCount, cache: true)
   end
 
   def old_rating_players
@@ -42,7 +42,7 @@ module ReportsQueries
       order by m.month;
     SQL
 
-    exec_query(query: sql, result_class: MonthCount)
+    exec_query(query: sql, result_class: MonthCount, cache: true)
   end
 
   def all_players
@@ -63,6 +63,6 @@ module ReportsQueries
         order by m.month;
     SQL
 
-    exec_query(query: sql, result_class: MonthCount)
+    exec_query(query: sql, result_class: MonthCount, cache: true)
   end
 end

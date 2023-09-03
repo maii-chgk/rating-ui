@@ -5,9 +5,13 @@
 import { application } from "./application"
 
 import AllRostersController from "./all_rosters_controller"
-import SingleRosterController from "./single_roster_controller"
-import EmptyReleasesController from "./empty_releases_controller"
-
 application.register("all-rosters", AllRostersController)
-application.register("single-roster", SingleRosterController)
+
+import EmptyReleasesController from "./empty_releases_controller"
 application.register("empty-releases", EmptyReleasesController)
+
+import PlayerRatingDetailsController from "./player_rating_details_controller"
+application.register("player-rating-details", PlayerRatingDetailsController)
+
+import SingleRosterController from "./single_roster_controller"
+application.register("single-roster", SingleRosterController)

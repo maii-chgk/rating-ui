@@ -9,6 +9,7 @@ class PlayersController < ApplicationController
     return render_404 if @name.nil?
 
     releases = current_model.player_releases(player_id: @player_id)
+    @releases_detailed = current_model.player_rating_components(player_id: @player_id)
     tournaments = current_model.player_tournaments(player_id: @player_id)
     @rows = ReleaseTournamentBuilder.build(releases, tournaments, {})
 

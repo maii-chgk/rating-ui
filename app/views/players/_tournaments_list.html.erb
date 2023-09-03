@@ -4,9 +4,8 @@
     <th class="bg-blue-100 border text-center px-2 py-2">Релиз</th>
     <th class="bg-blue-100 border text-center px-2 py-2">Место</th>
     <th class="bg-blue-100 border text-center px-2 py-2">Рейтинг</th>
-    <th class="bg-blue-100 border text-center px-2 py-2">Δ</th>
-    <th class="bg-blue-100 border text-center px-2 w-1/3">Турнир</th>
-    <th class="bg-blue-100 border text-center px-2 w-1/2">Команда</th>
+    <th class="bg-blue-100 border text-center px-2">Турнир</th>
+    <th class="bg-blue-100 border text-center px-2">Команда</th>
     <th class="bg-blue-100 border text-center px-2">Место</th>
     <th class="bg-blue-100 border text-center px-2">Бонус</th>
     <th class="bg-blue-100 border text-center px-2">Δ</th>
@@ -24,10 +23,15 @@
         <%= round_place(tournament.release_place) %>
       </td>
       <td rowspan="<%= tournament.rows %>" class="border px-2 text-center">
-        <%= tournament.release_rating %>
-      </td>
-      <td rowspan="<%= tournament.rows %>" class="border px-2 text-center">
-        <%= tournament.release_rating_change %>
+        <div data-controller="player-rating-details">
+          <a href="" data-action="click->player-rating-details#toggle"
+             class="underline decoration-1 decoration-blue-300 underline-offset-3 decoration-solid">
+            <%= tournament.release_rating %>
+          </a>
+            <div class="text-xs text-left hidden" data-player-rating-details-target="ratings">
+              <%= render(PlayerRatingFromTournamentComponent.with_collection(@releases_detailed[tournament.release_id])) %>
+            </div>
+        </div>
       </td>
     <% end %>
     <% if tournament.tournament_id.present? %>

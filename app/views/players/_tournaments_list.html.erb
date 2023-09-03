@@ -23,9 +23,14 @@
         <%= round_place(tournament.release_place) %>
       </td>
       <td rowspan="<%= tournament.rows %>" class="border px-2 text-center">
-        <%= tournament.release_rating %>
-        <div class="text-xs text-left">
-          <%= render(PlayerRatingFromTournamentComponent.with_collection(@releases_detailed[tournament.release_id])) %>
+        <div data-controller="player-rating-details">
+          <a href="" data-action="click->player-rating-details#toggle"
+             class="underline decoration-1 decoration-blue-300 underline-offset-3 decoration-solid">
+            <%= tournament.release_rating %>
+          </a>
+            <div class="text-xs text-left hidden" data-player-rating-details-target="ratings">
+              <%= render(PlayerRatingFromTournamentComponent.with_collection(@releases_detailed[tournament.release_id])) %>
+            </div>
         </div>
       </td>
     <% end %>

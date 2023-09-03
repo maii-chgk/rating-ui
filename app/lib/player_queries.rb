@@ -75,4 +75,25 @@ module PlayerQueries
 
     exec_query(query: sql, params: [player_id], result_class: PlayerRelease)
   end
+
+  def player_rating_components(player_id:)
+    sql = <<~SQL
+      select r.cur_score as current,
+        r.initial_score as initial,
+        r.release_id,
+        t.title as tournament_title,
+        results.position
+      from #{name}.player_rating_by_tournament r
+      left join public.tournaments t
+        on t.id = r.tournament_id
+      left join public.tournament_rosters rosters
+        on rosters.player_id = r.player_id and rosters.tournament_id = r.tournament_id
+      left join public.tournament_results results
+        on results.team_id = rosters.team_id and results.tournament_id = r.tournament_id
+      where r.player_id = $1
+      order by r.release_id, current desc
+    SQL
+
+    exec_query_for_hash(query: sql, params: [player_id], group_by: 'release_id')
+  end
 end

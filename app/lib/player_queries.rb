@@ -25,6 +25,16 @@ module PlayerQueries
     exec_query_for_single_value(query: sql, params: [player_id])
   end
 
+  def player_name_api(player_id:)
+    sql = <<~SQL
+      select p.first_name || ' ' || last_name as name
+      from public.players p
+      where p.id = $1
+    SQL
+
+    exec_query_for_single_value(query: sql, params: [player_id])
+  end
+
   def player_tournaments(player_id:)
     sql = <<~SQL
       select rel.id as release_id, t.id as id, t.title as name, t.end_datetime as date,

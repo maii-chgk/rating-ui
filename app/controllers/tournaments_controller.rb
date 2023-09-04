@@ -9,7 +9,7 @@ class TournamentsController < ApplicationController
 
   def show
     id = params[:tournament_id].to_i
-    details = current_model.tournaments(tournament_id: id)
+    details = current_model.tournament_details(tournament_id: id)
     return render_404 if details.name.nil?
 
     results = current_model.tournament_results(tournament_id: id)

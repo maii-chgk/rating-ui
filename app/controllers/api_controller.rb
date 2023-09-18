@@ -3,20 +3,24 @@
 class ApiController < ActionController::Base
   rescue_from ActiveRecord::StatementInvalid, with: :show_model_errors
 
-  PER_PAGE = 500
+  DEFAULT_PAGE_SIZE = 500
 
   def page
     (params[:page] || 1).to_i
   end
 
   def offset
-    (page - 1) * PER_PAGE
+    (page - 1) * page_size
+  end
+
+  def page_size
+    (params[:page_size] || DEFAULT_PAGE_SIZE).to_i
   end
 
   def page_metadata(all_items_count)
     {
       current_page: page,
-      pages: (all_items_count.to_f / PER_PAGE).ceil,
+      pages: (all_items_count.to_f / page_size).ceil,
       all_items_count:
     }
   end

@@ -8,7 +8,7 @@ module Api
       def release
         return render_error_json(error: MISSING_MODEL_ERROR) if current_model.nil?
 
-        players = current_model.players_for_release_api(release_id:, limit: PER_PAGE, offset:)
+        players = current_model.players_for_release_api(release_id:, limit: page_size, offset:)
         Places.add_top_and_bottom_places!(players)
         Places.add_previous_top_and_bottom_places!(players)
 

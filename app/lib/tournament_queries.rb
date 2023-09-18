@@ -49,6 +49,27 @@ module TournamentQueries
     exec_query_for_hash_array(query: sql, params: [tournament_id])
   end
 
+  def tournament_ratings_with_team_names(tournament_id:)
+    sql = <<~SQL
+      select tr.team_id,
+          rating, rating_change,
+          is_in_maii_rating as in_rating,
+          bp as forecast, mp::real as place_forecast,
+          d1, d2, r, rb, rg, rt,
+          t.title as base_team_name,
+          public_tr.team_title as team_name,
+          towns.title as city
+      from #{name}.tournament_result tr
+      left join public.tournament_results public_tr using (team_id, tournament_id)
+      left join public.teams t on tr.team_id = t.id
+      left join public.towns towns on public_tr.team_city_id = towns.id
+      where tournament_id = $1
+      order by rating desc
+    SQL
+
+    exec_query_for_hash_array(query: sql, params: [tournament_id])
+  end
+
   def tournament_players(tournament_id:)
     sql = <<~SQL
       select tr.team_id, tr.player_id,
@@ -63,7 +84,7 @@ module TournamentQueries
     exec_query_for_hash(query: sql, params: [tournament_id], group_by: 'team_id')
   end
 
-  def tournaments(tournament_id:)
+  def tournament_details(tournament_id:)
     sql = <<~SQL
       select t.title as name, start_datetime, end_datetime, maii_rating
       from public.tournaments t

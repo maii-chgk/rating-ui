@@ -76,6 +76,34 @@ module ReleaseQueries
     exec_query_for_hash_array(query: sql, params: [release_id, limit, offset])
   end
 
+  def teams_with_names_for_release_api(release_id:, limit:, offset:)
+    sql = <<~SQL
+      with ordered as (
+          select id, row_number() over (order by date)
+          from #{name}.release
+      ),
+      releases as (
+          select o1.id as release_id, o2.id as prev_release_id
+          from ordered o1
+          left join ordered o2 on o1.row_number = o2.row_number + 1
+      )
+      select r.*, prev.place as previous_place, r.place - prev.place as place_change,
+        t.title as team_name, towns.title as city
+      from #{name}.team_ranking r
+      left join #{name}.team_ranking prev
+        on r.team_id = prev.team_id
+          and prev.release_id = (select prev_release_id from releases where release_id = $1)
+      left join public.teams t on t.id = r.team_id
+      left join public.towns towns on t.town_id = towns.id
+      where r.release_id = $1
+      order by row_number() over (order by r.rating desc)
+      limit $2
+      offset $3;
+    SQL
+
+    exec_query_for_hash_array(query: sql, params: [release_id, limit, offset])
+  end
+
   def tournaments_in_release_by_team(release_id:)
     sql = <<~SQL
       select t.id as tournament_id, tr.team_id, tr.rating, tr.rating_change, t.maii_rating as in_rating
@@ -169,7 +197,7 @@ module ReleaseQueries
                result_class: ReleasePlayer)
   end
 
-  def player_ratings_for_release(release_id:)
+  def player_ratings_components_for_release(release_id:)
     sql = <<~SQL
       select player_id, tournament_id,
           cur_score as current_rating, initial_score as initial_rating
@@ -197,6 +225,37 @@ module ReleaseQueries
       left join #{name}.player_ranking prev
         on r.player_id = prev.player_id
             and prev.release_id = (select prev_release_id from releases where release_id = $1)
+      where r.release_id = $1
+      order by row_number() over (order by r.rating desc)
+      limit $2
+      offset $3;
+    SQL
+
+    exec_query_for_hash_array(query: sql, params: [release_id, limit, offset], cache: true)
+  end
+
+  def players_with_names_for_release_api(release_id:, limit:, offset:)
+    sql = <<~SQL
+      with ordered as (
+          select id, row_number() over (order by date)
+          from #{name}.release
+      ),
+      releases as (
+          select o1.id as release_id, o2.id as prev_release_id
+          from ordered o1
+          left join ordered o2 on o1.row_number = o2.row_number + 1
+      )
+
+      select r.*,
+        prev.place as previous_place,
+        r.place - prev.place as place_change,
+        p.first_name || ' ' || p.last_name as name
+      from #{name}.player_ranking r
+      left join #{name}.player_ranking prev
+        on r.player_id = prev.player_id
+          and prev.release_id = (select prev_release_id from releases where release_id = $1)
+      left join public.players p 
+        on p.id = r.player_id
       where r.release_id = $1
       order by row_number() over (order by r.rating desc)
       limit $2

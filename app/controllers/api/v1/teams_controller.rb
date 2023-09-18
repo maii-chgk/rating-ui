@@ -8,27 +8,50 @@ module Api
       def release
         return render_error_json(error: MISSING_MODEL_ERROR) if current_model.nil?
 
-        teams = current_model.teams_for_release_api(release_id:, limit: page_size, offset:)
-        Places.add_top_and_bottom_places!(teams)
-        Places.add_previous_top_and_bottom_places!(teams)
+        @teams = fetch_teams
+        Places.add_top_and_bottom_places!(@teams)
+        Places.add_previous_top_and_bottom_places!(@teams)
+        add_tournaments!
 
+        render_paged_json(metadata: release_metadata, items: @teams, all_items_count: teams_in_release_count)
+      end
+
+      def fetch_teams
+        if add_names?
+          current_model.teams_with_names_for_release_api(release_id:, limit: page_size, offset:)
+        else
+          current_model.teams_for_release_api(release_id:, limit: page_size, offset:)
+        end
+      end
+
+      def add_names?
+        params[:show_names] == 'true'
+      end
+
+      def add_tournaments!
         tournaments = current_model.tournaments_in_release_by_team(release_id:)
-        teams.each do |team|
+        @teams.each do |team|
           team['tournaments'] = tournaments.fetch(team['team_id'], [])
         end
+      end
 
-        metadata = {
+      def release_metadata
+        {
           model: current_model.name,
           release_id:
         }
-
-        render_paged_json(metadata:, items: teams, all_items_count: teams_in_release_count)
       end
 
       def show
         return render_error_json(error: MISSING_MODEL_ERROR) if current_model.nil?
 
-        releases = current_model.team_releases(team_id:).map(&:to_h)
+        @releases = current_model.team_releases(team_id:).map(&:to_h)
+        add_tournaments_by_release!
+
+        render_json(metadata: team_metadata, items: @releases)
+      end
+
+      def add_tournaments_by_release!
         tournaments = current_model.team_tournaments(team_id:)
 
         tournaments_hash = tournaments.each_with_object({}) do |tournament, hash|
@@ -37,16 +60,24 @@ module Api
           (hash[tournament['release_id']] ||= []) << tournament.to_h.except(:release_id)
         end
 
-        releases.each do |release|
+        @releases.each do |release|
           release['tournaments'] = tournaments_hash[release[:id]]
         end
+      end
 
+      def team_metadata
         metadata = {
           model: current_model.name,
           team_id:
         }
 
-        render_json(metadata:, items: releases)
+        if add_names?
+          name, city = current_model.team_details(team_id:)
+          metadata[:team_name] = name
+          metadata[:city] = city
+        end
+
+        metadata
       end
 
       private

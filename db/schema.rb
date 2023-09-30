@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_23_195216) do
-
+ActiveRecord::Schema[7.0].define(version: 2023_09_30_190028) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,8 +18,19 @@ ActiveRecord::Schema.define(version: 2021_08_23_195216) do
     t.text "name"
     t.boolean "changes_teams"
     t.boolean "changes_rosters"
-    t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["name"], name: "index_models_on_name", unique: true
   end
+  
+  create_table "true_dls", force: :cascade do |t|
+    t.integer "tournament_id"
+    t.float "true_dl"
+    t.bigint "model_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["model_id"], name: "index_true_dls_on_model_id"
+  end
+
+  add_foreign_key "true_dls", "models"
 end

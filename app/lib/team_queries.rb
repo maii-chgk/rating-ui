@@ -102,4 +102,18 @@ module TeamQueries
 
     exec_query_for_hash_array(query: sql, params: [team_id])
   end
+
+  def teams_ranking(list_of_team_ids:, date:)
+    placeholders = 2.upto(list_of_team_ids.size + 1).map { |index| "$#{index}" }.join(", ")
+
+    sql = <<~SQL
+      select tr.team_id, tr.place
+      from b.team_ranking tr
+      left join b.release r on tr.release_id = r.id
+      where r.date = $1 and tr.team_id IN (#{placeholders})
+    SQL
+
+    thursday = date.beginning_of_week(:thursday)
+    exec_query_for_hash(query: sql, params: [thursday] + list_of_team_ids, group_by: "team_id")
+  end
 end

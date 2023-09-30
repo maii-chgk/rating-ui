@@ -9,8 +9,8 @@ module TournamentQueries
                                  :predicted_rating, :predicted_place,
                                  :d1, :d2, :players,
                                  keyword_init: true)
-
-  TournamentPageDetails = Struct.new(:name, :start, :end, :maii_rating)
+  
+  TournamentPageDetails = Struct.new(:name, :start, :end, :maii_rating, :questions_count)
 
   TournamentListDetails = Struct.new(:id, :name, :type, :date, :rating, keyword_init: true)
 
@@ -86,7 +86,7 @@ module TournamentQueries
 
   def tournament_details(tournament_id:)
     sql = <<~SQL
-      select t.title as name, start_datetime, end_datetime, maii_rating
+      select t.title as name, start_datetime, end_datetime, maii_rating, questions_count
       from public.tournaments t
       where t.id = $1
     SQL

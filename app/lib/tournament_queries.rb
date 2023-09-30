@@ -108,7 +108,7 @@ module TournamentQueries
       from public.tournaments t
       left join winners w on t.id = w.tournament_id
       where t.maii_rating = true
-        and t.end_datetime <= now() + interval '1 month'
+        and t.end_datetime <= now() + interval '1 week'
       order by date desc
     SQL
 

@@ -114,4 +114,14 @@ module TournamentQueries
 
     exec_query(query: sql, result_class: TournamentListDetails)
   end
+
+  def all_tournaments_after_date(date:)
+    sql = <<~SQL
+      select id
+      from public.tournaments
+      where end_datetime >= $1
+    SQL
+
+    exec_query_for_hash_array(query: sql, params: [date])
+  end
 end

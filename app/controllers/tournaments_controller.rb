@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'true_dl'
-
 class TournamentsController < ApplicationController
   include InModel
 

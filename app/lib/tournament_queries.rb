@@ -9,7 +9,7 @@ module TournamentQueries
                                  :predicted_rating, :predicted_place,
                                  :d1, :d2, :players,
                                  keyword_init: true)
-  
+
   TournamentPageDetails = Struct.new(:name, :start, :end, :maii_rating, :questions_count)
 
   TournamentListDetails = Struct.new(:id, :name, :type, :date, :rating, keyword_init: true)

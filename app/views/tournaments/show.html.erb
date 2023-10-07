@@ -4,6 +4,9 @@
 <div class="text-center text-l hover:underline">
   <%= link_to("Cтраница на rating.chgk.info", "https://rating.chgk.info/tournament/#{@tournament.id}") %>
 </div>
+<% if @true_dl.present? %>
+  <p class="text-center py-2 text-m">TrueDL: <%= round_true_dl(@true_dl) %></p>
+<% end %>
 <% unless @tournament.in_rating? %>
   <p class="text-center py-2 text-m">Не учитывается в рейтинге МАИИ</p>
 <% end %>

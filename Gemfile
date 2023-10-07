@@ -36,3 +36,5 @@ end
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 gem 'dockerfile-rails', '>= 1.2', group: :development
+
+gem "truedl", "~> 0.1.0"

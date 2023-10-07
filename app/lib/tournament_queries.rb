@@ -10,7 +10,7 @@ module TournamentQueries
                                  :d1, :d2, :players,
                                  keyword_init: true)
 
-  TournamentPageDetails = Struct.new(:name, :start, :end, :maii_rating)
+  TournamentPageDetails = Struct.new(:name, :start, :end, :maii_rating, :questions_count)
 
   TournamentListDetails = Struct.new(:id, :name, :type, :date, :rating, keyword_init: true)
 
@@ -86,7 +86,7 @@ module TournamentQueries
 
   def tournament_details(tournament_id:)
     sql = <<~SQL
-      select t.title as name, start_datetime, end_datetime, maii_rating
+      select t.title as name, start_datetime, end_datetime, maii_rating, questions_count
       from public.tournaments t
       where t.id = $1
     SQL
@@ -108,10 +108,20 @@ module TournamentQueries
       from public.tournaments t
       left join winners w on t.id = w.tournament_id
       where t.maii_rating = true
-        and t.end_datetime <= now() + interval '1 month'
+        and t.end_datetime <= now() + interval '1 week'
       order by date desc
     SQL
 
     exec_query(query: sql, result_class: TournamentListDetails)
+  end
+
+  def all_tournaments_after_date(date:)
+    sql = <<~SQL
+      select id
+      from public.tournaments
+      where end_datetime >= $1
+    SQL
+
+    exec_query_for_hash_array(query: sql, params: [date])
   end
 end

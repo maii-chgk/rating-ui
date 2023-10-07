@@ -88,15 +88,13 @@ GEM
     cssbundling-rails (1.1.2)
       railties (>= 6.0.0)
     date (3.3.3)
-    dockerfile-rails (1.4.1)
-      rails
     drb (2.1.1)
       ruby2_keywords
     erubi (1.12.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
     hiredis (0.6.3)
-    honeybadger (4.12.2)
+    honeybadger (5.2.1)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     io-console (0.6.0)
@@ -135,7 +133,7 @@ GEM
       timeout
     net-smtp (0.4.0)
       net-protocol
-    newrelic_rpm (9.3.1)
+    newrelic_rpm (9.5.0)
     nio4r (2.5.9)
     nokogiri (1.15.4-aarch64-linux)
       racc (~> 1.4)
@@ -277,9 +275,8 @@ DEPENDENCIES
   bootsnap (>= 1.4.4)
   byebug
   cssbundling-rails (~> 1.1)
-  dockerfile-rails (>= 1.2)
   hiredis
-  honeybadger (~> 4.0)
+  honeybadger (~> 5.0)
   jsbundling-rails (~> 1.0)
   lograge
   newrelic_rpm

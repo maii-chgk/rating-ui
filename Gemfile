@@ -7,7 +7,7 @@ ruby '3.2.2'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'cssbundling-rails', '~> 1.1'
 gem 'hiredis'
-gem 'honeybadger', '~> 4.0'
+gem 'honeybadger', '~> 5.0'
 gem 'jsbundling-rails', '~> 1.0'
 gem 'lograge'
 gem 'newrelic_rpm'

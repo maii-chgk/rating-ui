@@ -21,13 +21,16 @@ gem 'sprockets-rails'
 gem 'stimulus-rails'
 gem 'turbo-rails'
 gem 'view_component'
+gem 'truedl', '~> 0.1.0'
+gem 'rack', '~> 3.0'
+gem 'rack-session', '~> 2.0'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
 end
 
 group :development do
-  gem 'rack-mini-profiler', '~> 2.0'
+  gem 'rack-mini-profiler'
   gem 'rubocop'
   gem 'rubocop-rails'
   gem 'web-console', '>= 4.1.0'
@@ -35,4 +38,3 @@ end
 
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
-gem "truedl", "~> 0.1.0"

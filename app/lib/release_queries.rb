@@ -205,7 +205,7 @@ module ReleaseQueries
       where release_id = $1
     SQL
 
-    exec_query_for_hash(query: sql, params: [release_id], group_by: 'player_id', cache: true)
+    exec_query_for_hash(query: sql, params: [release_id], group_by: 'player_id')
   end
 
   def players_for_release_api(release_id:, limit:, offset:)
@@ -231,7 +231,7 @@ module ReleaseQueries
       offset $3;
     SQL
 
-    exec_query_for_hash_array(query: sql, params: [release_id, limit, offset], cache: true)
+    exec_query_for_hash_array(query: sql, params: [release_id, limit, offset])
   end
 
   def players_with_names_for_release_api(release_id:, limit:, offset:)
@@ -262,7 +262,7 @@ module ReleaseQueries
       offset $3;
     SQL
 
-    exec_query_for_hash_array(query: sql, params: [release_id, limit, offset], cache: true)
+    exec_query_for_hash_array(query: sql, params: [release_id, limit, offset])
   end
 
   def count_all_players_in_release(release_id:, first_name: nil, last_name: nil)

@@ -4,17 +4,16 @@
   "dependencies": {
     "@hotwired/stimulus": "^3.0.1",
     "@hotwired/turbo-rails": "^7.1.3",
-    "autoprefixer": "^10.4.7",
+    "autoprefixer": "latest",
     "esbuild": "^0.14.42",
-    "postcss": "^8.4.14",
-    "tailwindcss": "^3.0.24"
+    "postcss": "latest",
+    "tailwindcss": "latest"
   },
   "scripts": {
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds",
+    "build": "bun bun.config.js",
     "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.2"
-  },
-  "packageManager": "yarn@1.22.19"
+  }
 }

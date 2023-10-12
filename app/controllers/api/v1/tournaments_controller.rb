@@ -28,7 +28,7 @@ module Api
         metadata = {
           model: current_model.name,
           tournament_id: @tournament_id,
-          true_dl: TrueDl.find_by(model_id: current_model.id, tournament_id: @tournament_id)
+          true_dl: TrueDl.find_by(model_id: current_model.id, tournament_id: @tournament_id)&.true_dl
         }
 
         if add_names?

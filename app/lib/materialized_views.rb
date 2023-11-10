@@ -12,10 +12,21 @@ class MaterializedViews
   end
 
   def recreate_all
+    increase_statement_timeout!
     definitions.each { |definition| create_or_refresh_view(definition) }
+    decrease_statement_timeout!
   end
 
   private
+
+  def increase_statement_timeout!
+    ActiveRecord::Base.connection.execute('SET statement_timeout TO 120000;')
+  end
+
+  def decrease_statement_timeout!
+    default_timeout = ENV.fetch('DATABASE_STATEMENT_TIMEOUT', 5000)
+    ActiveRecord::Base.connection.execute("SET statement_timeout TO #{default_timeout};")
+  end
 
   def definitions
     [player_ranking, team_ranking]

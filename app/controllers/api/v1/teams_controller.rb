@@ -25,13 +25,13 @@ module Api
       end
 
       def add_names?
-        params[:show_names] == 'true'
+        params[:show_names] == "true"
       end
 
       def add_tournaments!
         tournaments = current_model.tournaments_in_release_by_team(release_id:)
         @teams.each do |team|
-          team['tournaments'] = tournaments.fetch(team['team_id'], [])
+          team["tournaments"] = tournaments.fetch(team["team_id"], [])
         end
       end
 
@@ -57,11 +57,11 @@ module Api
         tournaments_hash = tournaments.each_with_object({}) do |tournament, hash|
           next unless tournament.in_rating
 
-          (hash[tournament['release_id']] ||= []) << tournament.to_h.except(:release_id)
+          (hash[tournament["release_id"]] ||= []) << tournament.to_h.except(:release_id)
         end
 
         @releases.each do |release|
-          release['tournaments'] = tournaments_hash[release[:id]]
+          release["tournaments"] = tournaments_hash[release[:id]]
         end
       end
 
@@ -87,11 +87,11 @@ module Api
       end
 
       def release_id
-        @release_id ||= if params[:release_id] == 'latest'
-                          current_model.latest_release_id
-                        else
-                          params[:release_id]
-                        end
+        @release_id ||= if params[:release_id] == "latest"
+          current_model.latest_release_id
+        else
+          params[:release_id]
+        end
       end
 
       def team_id

@@ -4,11 +4,11 @@ module TeamQueries
   include Cacheable
 
   TeamTournament = Struct.new(:release_id, :id, :name, :date, :place,
-                              :rating, :rating_change, :in_rating,
-                              keyword_init: true)
+    :rating, :rating_change, :in_rating,
+    keyword_init: true)
 
   TeamOldTournament = Struct.new(:id, :name, :date, :place, :rating, :rating_change, :players,
-                                 keyword_init: true)
+    keyword_init: true)
 
   TeamRelease = Struct.new(:id, :date, :place, :rating, :rating_change, keyword_init: true)
 
@@ -32,8 +32,8 @@ module TeamQueries
     SQL
 
     exec_query(query: sql,
-               params: [team_id],
-               result_class: TeamTournament)
+      params: [team_id],
+      result_class: TeamTournament)
   end
 
   def old_tournaments(team_id:)
@@ -74,7 +74,7 @@ module TeamQueries
       order by tr.flag, p.last_name
     SQL
 
-    exec_query_for_hash(query: sql, params: [team_id], group_by: 'tournament_id')
+    exec_query_for_hash(query: sql, params: [team_id], group_by: "tournament_id")
   end
 
   def team_releases(team_id:)

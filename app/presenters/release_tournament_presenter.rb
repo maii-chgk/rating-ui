@@ -12,7 +12,7 @@ class ReleaseTournamentPresenter
   end
 
   def release_id
-    @release['id']
+    @release["id"]
   end
 
   def release_date

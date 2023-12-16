@@ -4,14 +4,14 @@ module PlayerQueries
   include Cacheable
 
   PlayerTournament = Struct.new(:release_id, :id, :name, :date,
-                                :team_name, :team_id, :place, :flag,
-                                :rating, :rating_change, :in_rating,
-                                keyword_init: true)
+    :team_name, :team_id, :place, :flag,
+    :rating, :rating_change, :in_rating,
+    keyword_init: true)
 
   PlayerOldTournament = Struct.new(:id, :name, :date,
-                                   :team_name, :team_id, :place, :flag,
-                                   :rating, :rating_change,
-                                   keyword_init: true)
+    :team_name, :team_id, :place, :flag,
+    :rating, :rating_change,
+    keyword_init: true)
 
   PlayerRelease = Struct.new(:id, :date, :place, :rating, :rating_change, keyword_init: true)
 
@@ -104,6 +104,6 @@ module PlayerQueries
       order by r.release_id, current desc
     SQL
 
-    exec_query_for_hash(query: sql, params: [player_id], group_by: 'release_id')
+    exec_query_for_hash(query: sql, params: [player_id], group_by: "release_id")
   end
 end

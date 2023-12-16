@@ -13,7 +13,7 @@ class ValueChangeComponent < ViewComponent::Base
     if @change > 0
       "+#{@change}"
     else
-      @change.to_s.gsub('-', '−')
+      @change.to_s.gsub("-", "−")
     end
   end
 end

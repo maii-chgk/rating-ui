@@ -13,7 +13,7 @@ module Api
       end
 
       def add_names?
-        params[:show_names] == 'true'
+        params[:show_names] == "true"
       end
 
       def fetch_tournament_ratings

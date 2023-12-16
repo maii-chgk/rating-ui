@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../../app/lib/truedl_calculator'
+require_relative "../../app/lib/truedl_calculator"
 
 namespace :true_dl do
   task :calculate_for_tournament, %i[id model] => :environment do |_t, args|

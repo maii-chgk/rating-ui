@@ -11,20 +11,20 @@ module ReleaseHelper
     top_place = (teams_per_page * (teams_in_release / teams_per_page)) + 1
     bottom_place = top_place + teams_per_page - 1
     link_to(((teams_in_release / teams_per_page) + 1),
-            release_path(release_id:, from: top_place, to: bottom_place, team:, city:))
+      release_path(release_id:, from: top_place, to: bottom_place, team:, city:))
   end
 
   def link_to_previous_page(release_id:, current_top:, current_bottom:, team:, city:)
     teams_per_page = current_bottom - current_top + 1
     top_place = [current_top - teams_per_page, 1].max
     bottom_place = [current_bottom - teams_per_page, teams_per_page].max
-    link_to('←', release_path(release_id:, from: top_place, to: bottom_place, team:, city:))
+    link_to("←", release_path(release_id:, from: top_place, to: bottom_place, team:, city:))
   end
 
   def link_to_next_page(release_id:, current_top:, current_bottom:, team:, city:)
     teams_per_page = current_bottom - current_top + 1
     top_place = current_top + teams_per_page
     bottom_place = current_bottom + teams_per_page
-    link_to('→', release_path(release_id:, from: top_place, to: bottom_place, team:, city:))
+    link_to("→", release_path(release_id:, from: top_place, to: bottom_place, team:, city:))
   end
 end

@@ -19,14 +19,14 @@ class ReleaseTournamentBuilder
       elsif tournaments_in_release.size == 1
         tournament = tournaments_in_release.first
         ReleaseTournamentPresenter.new(release:,
-                                       tournament:,
-                                       players: @players[tournament.id])
+          tournament:,
+          players: @players[tournament.id])
       else
         rows = tournaments_in_release.map do |tournament|
           ReleaseTournamentPresenter.new(release:,
-                                         tournament:,
-                                         players: @players[tournament.id],
-                                         rows: 0)
+            tournament:,
+            players: @players[tournament.id],
+            rows: 0)
         end
         rows.first.rows = tournaments_in_release.size
         rows
@@ -36,7 +36,7 @@ class ReleaseTournamentBuilder
 
   def tournaments_by_release_id
     @tournaments.each_with_object({}) do |tournament, hash|
-      (hash[tournament['release_id']] ||= []) << tournament
+      (hash[tournament["release_id"]] ||= []) << tournament
     end
   end
 end

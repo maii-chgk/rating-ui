@@ -15,7 +15,7 @@ Rails.application.configure do
   config.eager_load = true
 
   # Full error reports are disabled and caching is turned on.
-  config.consider_all_requests_local       = false
+  config.consider_all_requests_local = false
   config.action_controller.perform_caching = true
 
   # Ensures that a master key has been made available in ENV["RAILS_MASTER_KEY"], config/master.key, or an environment
@@ -66,15 +66,15 @@ Rails.application.configure do
   # require "syslog/logger"
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "app-name")
 
-  logger           = ActiveSupport::Logger.new($stdout)
+  logger = ActiveSupport::Logger.new($stdout)
   logger.formatter = config.log_formatter
-  config.logger    = ActiveSupport::TaggedLogging.new(logger)
+  config.logger = ActiveSupport::TaggedLogging.new(logger)
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
   config.cache_store = :redis_cache_store,
-                       { url: ENV.fetch('REDIS_URL', nil), password: ENV.fetch('REDIS_PASSWORD', nil) }
-  config.secret_key_base = ENV.fetch('SECRET_KEY_BASE', nil)
+    {url: ENV.fetch("REDIS_URL", nil), password: ENV.fetch("REDIS_PASSWORD", nil)}
+  config.secret_key_base = ENV.fetch("SECRET_KEY_BASE", nil)
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   # config.hosts = [

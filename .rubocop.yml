@@ -1,7 +1,12 @@
-inherit_from: .rubocop_todo.yml
-
 require:
+  - standard
   - rubocop-rails
+
+inherit_gem:
+  standard: config/base.yml
+
+Bundler/OrderedGems:
+  Enabled: true
 
 AllCops:
   NewCops: enable
@@ -10,6 +15,7 @@ AllCops:
     - 'db/migrate/*.*'
     - 'db/schema.rb'
     - 'bin/*'
+    - vendor/bundle/**/*
 
 Style/Documentation:
   Enabled: false
@@ -39,6 +45,13 @@ Metrics/BlockLength:
   Exclude:
     - 'config/environments/*.rb'
 
+Metrics/AbcSize:
+  Enabled: false
+
+Rails/SkipsModelValidations:
+  Exclude:
+    - 'app/lib/model_indexer.rb'
+
 Rails/SquishedSQLHeredocs:
   Enabled: false
 Rails/Pluck:
@@ -47,8 +60,6 @@ Rails/ApplicationController:
   Exclude:
     - 'app/controllers/api_controller.rb'
     - 'app/controllers/reports_controller.rb'
+
 Rails/RootPublicPath:
   Enabled: false
-Lint/MissingSuper:
-  Exclude:
-    - 'app/components/**/*.rb'

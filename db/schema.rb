@@ -10,27 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_30_190028) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_16_144933) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "models", force: :cascade do |t|
+  create_table "models", id: false, force: :cascade do |t|
+    t.bigint "id"
     t.text "name"
     t.boolean "changes_teams"
     t.boolean "changes_rosters"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["name"], name: "index_models_on_name", unique: true
-  end
-  
-  create_table "true_dls", force: :cascade do |t|
-    t.integer "tournament_id"
-    t.float "true_dl"
-    t.bigint "model_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["model_id"], name: "index_true_dls_on_model_id"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
-  add_foreign_key "true_dls", "models"
+  create_table "true_dls", id: false, force: :cascade do |t|
+    t.bigint "id"
+    t.integer "tournament_id"
+    t.float "true_dl"
+    t.bigint "model_id"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
+  end
+
+  create_table "wrong_team_ids", force: :cascade do |t|
+    t.integer "tournament_id"
+    t.integer "old_team_id"
+    t.integer "new_team_id"
+    t.datetime "updated_at"
+  end
 end

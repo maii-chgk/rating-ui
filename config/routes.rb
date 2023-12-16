@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       get ':model/players/:player_id/releases', to: 'players#show'
       get ':model/tournaments/:tournament_id', to: 'tournaments#show'
       get ':model/releases', to: 'releases#index'
+      get ':model/wrong_team_ids', to: 'wrong_team_ids#index'
     end
   end
 

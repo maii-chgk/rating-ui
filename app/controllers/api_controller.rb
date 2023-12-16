@@ -34,14 +34,14 @@ class ApiController < ActionController::Base
   end
 
   def render_error_json(error:)
-    render json: { error: }, status: :bad_request
+    render json: {error:}, status: :bad_request
   end
 
   def render_paged_json(metadata:, items:, all_items_count:)
-    render json: metadata.merge(page_metadata(all_items_count)).merge({ items: }), status: :ok
+    render json: metadata.merge(page_metadata(all_items_count)).merge({items:}), status: :ok
   end
 
   def render_json(metadata:, items:)
-    render json: metadata.merge({ items: }), status: :ok
+    render json: metadata.merge({items:}), status: :ok
   end
 end

@@ -4,11 +4,11 @@ module TournamentQueries
   include Cacheable
 
   TournamentResults = Struct.new(:team_id, :team_name, :team_city,
-                                 :place, :points,
-                                 :rating, :rating_change, :in_rating,
-                                 :predicted_rating, :predicted_place,
-                                 :d1, :d2, :players,
-                                 keyword_init: true)
+    :place, :points,
+    :rating, :rating_change, :in_rating,
+    :predicted_rating, :predicted_place,
+    :d1, :d2, :players,
+    keyword_init: true)
 
   TournamentPageDetails = Struct.new(:name, :start, :end, :maii_rating, :questions_count)
 
@@ -81,7 +81,7 @@ module TournamentQueries
       order by tr.team_id, tr.flag, p.last_name
     SQL
 
-    exec_query_for_hash(query: sql, params: [tournament_id], group_by: 'team_id')
+    exec_query_for_hash(query: sql, params: [tournament_id], group_by: "team_id")
   end
 
   def tournament_details(tournament_id:)

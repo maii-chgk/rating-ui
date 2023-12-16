@@ -8,8 +8,8 @@ class PlayerRatingFromTournamentComponent < ViewComponent::Base
   end
 
   def single_line
-    "#{@rating['current']} (#{@rating['initial']}) — #{@rating['tournament_title']} (#{round_place(@rating['position'])})"
-      .gsub(' ', '&nbsp;')
+    "#{@rating["current"]} (#{@rating["initial"]}) — #{@rating["tournament_title"]} (#{round_place(@rating["position"])})"
+      .gsub(" ", "&nbsp;")
       .html_safe
   end
 end

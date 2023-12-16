@@ -4,12 +4,12 @@ module ReleaseQueries
   include Cacheable
 
   ReleaseTeam = Struct.new(:team_id, :name, :city,
-                           :place, :previous_place, :rating, :rating_change,
-                           keyword_init: true)
+    :place, :previous_place, :rating, :rating_change,
+    keyword_init: true)
 
   ReleasePlayer = Struct.new(:player_id, :name, :city,
-                             :place, :rating, :rating_change,
-                             keyword_init: true)
+    :place, :rating, :rating_change,
+    keyword_init: true)
 
   def teams_for_release(release_id:, from:, to:, team_name: nil, city: nil)
     sql = <<~SQL
@@ -47,8 +47,8 @@ module ReleaseQueries
     limit = to - from + 1
     offset = from - 1
     exec_query(query: sql,
-               params: [release_id, limit, offset, "%#{team_name}%", "%#{city}%"],
-               result_class: ReleaseTeam, cache: true)
+      params: [release_id, limit, offset, "%#{team_name}%", "%#{city}%"],
+      result_class: ReleaseTeam, cache: true)
   end
 
   def teams_for_release_api(release_id:, limit:, offset:)
@@ -114,7 +114,7 @@ module ReleaseQueries
       where rel.id = $1
     SQL
 
-    exec_query_for_hash(query: sql, params: [release_id], group_by: 'team_id')
+    exec_query_for_hash(query: sql, params: [release_id], group_by: "team_id")
   end
 
   def tournaments_by_release
@@ -125,7 +125,7 @@ module ReleaseQueries
         on t.end_datetime < rel.date + interval '24 hours' and t.end_datetime >= rel.date - interval '6 days'
     SQL
 
-    exec_query_for_hash(query: sql, group_by: 'release_id')
+    exec_query_for_hash(query: sql, group_by: "release_id")
   end
 
   def all_releases
@@ -168,9 +168,9 @@ module ReleaseQueries
     SQL
 
     exec_query_for_single_value(query: sql,
-                                params: [release_id, "%#{team_name}%", "%#{city}%"],
-                                default_value: 0,
-                                cache: true)
+      params: [release_id, "%#{team_name}%", "%#{city}%"],
+      default_value: 0,
+      cache: true)
   end
 
   def players_for_release(release_id:, from:, to:, first_name: nil, last_name: nil)
@@ -193,8 +193,8 @@ module ReleaseQueries
     limit = to - from + 1
     offset = from - 1
     exec_query(query: sql,
-               params: [release_id, limit, offset, "%#{first_name}%", "%#{last_name}%"],
-               result_class: ReleasePlayer)
+      params: [release_id, limit, offset, "%#{first_name}%", "%#{last_name}%"],
+      result_class: ReleasePlayer)
   end
 
   def player_ratings_components_for_release(release_id:)
@@ -205,7 +205,7 @@ module ReleaseQueries
       where release_id = $1
     SQL
 
-    exec_query_for_hash(query: sql, params: [release_id], group_by: 'player_id')
+    exec_query_for_hash(query: sql, params: [release_id], group_by: "player_id")
   end
 
   def players_for_release_api(release_id:, limit:, offset:)
@@ -276,7 +276,7 @@ module ReleaseQueries
     SQL
 
     exec_query_for_single_value(query: sql,
-                                params: [release_id, "%#{first_name}%", "%#{last_name}%"],
-                                default_value: 0)
+      params: [release_id, "%#{first_name}%", "%#{last_name}%"],
+      default_value: 0)
   end
 end

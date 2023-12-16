@@ -6,8 +6,8 @@ class TournamentsController < ApplicationController
   def index
     @tournaments = current_model.tournaments_list
     @true_dls = TrueDl.where(model: current_model, tournament_id: @tournaments.map(&:id))
-                      .pluck(:tournament_id, :true_dl)
-                      .to_h
+      .pluck(:tournament_id, :true_dl)
+      .to_h
   end
 
   def show
@@ -18,7 +18,7 @@ class TournamentsController < ApplicationController
     results = current_model.tournament_results(tournament_id: id)
 
     all_players = current_model.tournament_players(tournament_id: id)
-    results.each { |tr| tr.players = all_players[tr['team_id']] }
+    results.each { |tr| tr.players = all_players[tr["team_id"]] }
 
     @tournament = TournamentPresenter.new(id:, details:, results:)
     @true_dl = TrueDl.find_by(model: current_model, tournament_id: id)&.true_dl

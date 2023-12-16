@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_404
-    render file: Rails.root.join('public/404.html'), status: :not_found
+    render file: Rails.root.join("public/404.html"), status: :not_found
   end
 
   private
@@ -25,12 +25,12 @@ class ApplicationController < ActionController::Base
 
   def show_model_errors(exception)
     @exception = exception
-    render template: 'errors/model_error', status: :internal_server_error
+    render template: "errors/model_error", status: :internal_server_error
   end
 
   def show_missing_model_error(_exception)
     raise unless current_model.nil?
 
-    render plain: 'Такой модели нет', status: :bad_request
+    render plain: "Такой модели нет", status: :bad_request
   end
 end

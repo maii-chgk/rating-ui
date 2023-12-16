@@ -31,26 +31,26 @@ class ReleasesController < ApplicationController
   end
 
   def city
-    @city ||= clean_params[:city]&.gsub('*', '')
+    @city ||= clean_params[:city]&.gsub("*", "")
   end
 
   def team
-    @team ||= clean_params[:team]&.gsub('*', '')
+    @team ||= clean_params[:team]&.gsub("*", "")
   end
 
   def id
     @id ||= if clean_params[:release_id].to_i == 0
-              current_model&.latest_release_id
-            else
-              clean_params[:release_id].to_i
-            end
+      current_model&.latest_release_id
+    else
+      clean_params[:release_id].to_i
+    end
   end
 
   def list_releases_for_dropdown
     current_model.all_releases.map do |release|
       [
-        I18n.l(release['date'].to_date),
-        release_path(release_id: release['id'], team:, city:)
+        I18n.l(release["date"].to_date),
+        release_path(release_id: release["id"], team:, city:)
       ]
     end
   end

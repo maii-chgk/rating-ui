@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../lib/truedl_calculator'
+require_relative "../lib/truedl_calculator"
 
 class TrueDlsController < ApplicationController
   def recalculate

@@ -10,6 +10,6 @@ class PlayerRatingFromTournamentComponent < ViewComponent::Base
   def single_line
     "#{@rating["current"]} (#{@rating["initial"]}) — #{@rating["tournament_title"]} (#{round_place(@rating["position"])})"
       .gsub(" ", "&nbsp;")
-      .html_safe
+      .html_safe # rubocop:disable Rails/OutputSafety
   end
 end

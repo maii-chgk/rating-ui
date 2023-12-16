@@ -15,6 +15,7 @@ AllCops:
     - 'db/migrate/*.*'
     - 'db/schema.rb'
     - 'bin/*'
+    - vendor/bundle/**/*
 
 Style/Documentation:
   Enabled: false
@@ -59,8 +60,6 @@ Rails/ApplicationController:
   Exclude:
     - 'app/controllers/api_controller.rb'
     - 'app/controllers/reports_controller.rb'
+
 Rails/RootPublicPath:
   Enabled: false
-Lint/MissingSuper:
-  Exclude:
-    - 'app/components/**/*.rb'

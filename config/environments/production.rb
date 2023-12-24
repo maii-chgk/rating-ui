@@ -62,25 +62,12 @@ Rails.application.configure do
   config.active_support.report_deprecations = false
 
   config.log_formatter = NewRelic::Agent::Logging::DecoratingFormatter.new
-  # Use a different logger for distributed setups.
-  # require "syslog/logger"
-  # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "app-name")
-
   logger = ActiveSupport::Logger.new($stdout)
   logger.formatter = config.log_formatter
   config.logger = ActiveSupport::TaggedLogging.new(logger)
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-  config.cache_store = :redis_cache_store,
-    {url: ENV.fetch("REDIS_URL", nil), password: ENV.fetch("REDIS_PASSWORD", nil)}
+  config.cache_store = :redis_cache_store, {url: ENV.fetch("REDIS_URL", nil)}
   config.secret_key_base = ENV.fetch("SECRET_KEY_BASE", nil)
-
-  # Enable DNS rebinding protection and other `Host` header attacks.
-  # config.hosts = [
-  #   "example.com",     # Allow requests from example.com
-  #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
-  # ]
-  # Skip DNS rebinding protection for the default health check endpoint.
-  # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 end

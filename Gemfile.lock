@@ -200,6 +200,7 @@ GEM
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
     rake (13.1.0)
+    rapidjson (0.2.2)
     rdoc (6.6.2)
       psych (>= 4.0.0)
     redis (5.0.7)
@@ -305,6 +306,7 @@ DEPENDENCIES
   rack-session (~> 2.0)
   rails (~> 7.1)
   rails-i18n
+  rapidjson
   redis
   rubocop
   rubocop-rails

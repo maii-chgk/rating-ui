@@ -19,7 +19,6 @@ module Cacheable
 
   def exec_query_for_hash(query:, params: nil, group_by:, cache: false)
     exec_query_with_cache(query, params, cache:)
-      .to_a
       .each_with_object(Hash.new { |h, k| h[k] = [] }) do |row, hash|
         hash[row.delete(group_by)] << row
       end
@@ -27,8 +26,11 @@ module Cacheable
 
   def exec_query(query:, params: nil, result_class:, cache: false)
     exec_query_with_cache(query, params, cache:)
-      .to_a
       .map { |row| result_class.new(row) }
+  end
+
+  def build_placeholders(start_with:, count:)
+    start_with.upto(count + start_with - 1).map { |index| "$#{index}" }.join(", ")
   end
 
   private

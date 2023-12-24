@@ -31,7 +31,8 @@ module Api
       end
 
       def add_rating_components!
-        tournament_components = current_model.player_ratings_components_for_release(release_id:)
+        player_ids = @players.map { |player| player["player_id"] }
+        tournament_components = current_model.player_ratings_components_for_release(release_id:, player_ids:)
         @players.each do |player|
           player["tournaments"] = tournament_components.fetch(player["player_id"], [])
         end

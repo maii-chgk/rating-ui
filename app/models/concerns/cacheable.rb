@@ -31,6 +31,10 @@ module Cacheable
       .map { |row| result_class.new(row) }
   end
 
+  def build_placeholders(start_with:, count:)
+    start_with.upto(count + start_with - 1).map { |index| "$#{index}" }.join(", ")
+  end
+
   private
 
   def cache_namespace

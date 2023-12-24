@@ -104,7 +104,7 @@ module TeamQueries
   end
 
   def teams_ranking(list_of_team_ids:, date:)
-    placeholders = 2.upto(list_of_team_ids.size + 1).map { |index| "$#{index}" }.join(", ")
+    placeholders = build_placeholders(start_with: 2, count: list_of_team_ids.size)
 
     sql = <<~SQL
       select tr.team_id, tr.place

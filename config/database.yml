@@ -1,6 +1,6 @@
 default: &default
   adapter: postgresql
-  url: <%= ENV.fetch('DATABASE_URL', "postgres://postgres:@localhost:5432") %>
+  url: <%= ENV.fetch('DATABASE_URL', "postgres://postgres:password@localhost:5432/postgres") %>
   pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5)%>
   variables:
     statement_timeout: <%= ENV.fetch("DATABASE_STATEMENT_TIMEOUT", 5000)%>

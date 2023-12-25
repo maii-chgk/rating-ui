@@ -2,8 +2,6 @@
 
 source "https://rubygems.org"
 
-ruby "3.2.2"
-
 gem "bootsnap", ">= 1.4.4", require: false
 gem "cssbundling-rails", "~> 1.1"
 gem "hiredis"

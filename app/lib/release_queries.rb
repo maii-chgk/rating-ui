@@ -199,12 +199,13 @@ module ReleaseQueries
 
   def player_ratings_components_for_release(release_id:, player_ids:)
     placeholders = build_placeholders(start_with: 2, count: player_ids.size)
+    player_filter = "and player_id in (#{placeholders})"
 
     sql = <<~SQL
       select player_id, tournament_id,
           cur_score as current_rating, initial_score as initial_rating
       from #{name}.player_rating_by_tournament
-      where release_id = $1 and player_id in (#{placeholders})
+      where release_id = $1 #{player_filter unless player_ids.empty?}
     SQL
 
     exec_query_for_hash(query: sql, params: [release_id] + player_ids, group_by: "player_id")

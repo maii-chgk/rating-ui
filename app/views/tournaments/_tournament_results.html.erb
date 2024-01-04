@@ -1,14 +1,18 @@
-<table class="shadow-lg bg-white table-auto">
+<table class="shadow-lg bg-white table-auto min-w-full">
   <thead>
   <tr>
     <th class="bg-blue-100 text-center px-2 py-2">Место</th>
-    <th class="bg-blue-100 text-center px-2">Команда</th>
+    <th class="bg-blue-100 text-center px-2 w-1/4">Команда</th>
     <th class="bg-blue-100 text-center px-2">Город</th>
     <th class="bg-blue-100 text-center px-2">Взятые</th>
     <th class="bg-blue-100 text-center px-2">Рейтинг</th>
     <th class="bg-blue-100 text-center px-2">Прогноз</th>
-    <th class="bg-blue-100 text-center px-1">D1</th>
-    <th class="bg-blue-100 text-center px-1">D2</th>
+    <th class="bg-blue-100 text-center px-2">D1</th>
+    <th class="bg-blue-100 text-center pl-2 pr-4">D2</th>
+    <th class="bg-blue-100 text-center pl-4 pr-2">RG</th>
+    <th class="bg-blue-100 text-center px-2">R</th>
+    <th class="bg-blue-100 text-center px-2">RT</th>
+    <th class="bg-blue-100 text-center px-2">RB</th>
   </tr>
   </thead>
 
@@ -53,8 +57,12 @@
       </td>
 
       <td class="px-2 text-center border-y"><%= result.predicted_rating %></td>
-      <td class="px-1 text-center border-y"><%= result.d1 %></td>
-      <td class="px-1 text-center border-y"><%= result.d2 %></td>
+      <td class="px-2 text-center border-y"><%= result.d1 %></td>
+      <td class="pl-2 pr-4 text-center border-y"><%= result.d2 %></td>
+      <td class="pl-4 pr-2 text-center border-y border-l"><%= result.rg %></td>
+      <td class="px-2 text-center border-y"><%= result.r %></td>
+      <td class="px-2 text-center border-y"><%= result.rt %></td>
+      <td class="px-2 text-center border-y"><%= result.rb %></td>
     </tr>
   <% end %>
   </tbody>

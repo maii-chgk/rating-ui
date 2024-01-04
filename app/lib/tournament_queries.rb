@@ -8,6 +8,7 @@ module TournamentQueries
     :rating, :rating_change, :in_rating,
     :predicted_rating, :predicted_place,
     :d1, :d2, :players,
+    :r, :rt, :rg, :rb,
     keyword_init: true)
 
   TournamentPageDetails = Struct.new(:name, :start, :end, :maii_rating, :questions_count)
@@ -22,7 +23,8 @@ module TournamentQueries
           tr.rating as rating, tr.rating_change as rating_change,
           tr.is_in_maii_rating as in_rating,
           tr.bp as predicted_rating, tr.d1, tr.d2,
-          tr.mp as predicted_place
+          tr.mp as predicted_place,
+          tr.r, tr.rb, tr.rg, tr.rt
       from public.tournament_results r
       left join #{name}.tournament_result tr
           on r.team_id = tr.team_id and tr.tournament_id = $1

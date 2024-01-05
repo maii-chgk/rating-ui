@@ -11,6 +11,8 @@ module ReleaseQueries
     :place, :rating, :rating_change,
     keyword_init: true)
 
+  Release = Struct.new(:id, :date, :q, keyword_init: true)
+
   def teams_for_release(release_id:, from:, to:, team_name: nil, city: nil)
     sql = <<~SQL
       with ordered as (
@@ -281,5 +283,16 @@ module ReleaseQueries
     exec_query_for_single_value(query: sql,
       params: [release_id, "%#{first_name}%", "%#{last_name}%"],
       default_value: 0)
+  end
+
+  def release_for_date(date)
+    sql = <<~SQL
+      select id, date, q
+      from #{name}.release
+      where date = $1
+    SQL
+
+    thursday = date.beginning_of_week(:thursday)
+    exec_query(query: sql, params: [thursday], cache: true, result_class: Release).first
   end
 end

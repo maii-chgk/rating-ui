@@ -1,0 +1,24 @@
+<% @title="#{@tournament.name} — рейтинг МАИИ" %>
+<h1 class="text-center text-xl font-semibold"><%= @tournament.name %></h1>
+<h3 class="text-center py-2 text-l"><%= @tournament.start %> — <%= @tournament.end %></h3>
+<div class="text-center text-l hover:underline">
+  <%= link_to("Cтраница на rating.chgk.info", "https://rating.chgk.info/tournament/#{@tournament.id}") %>
+</div>
+<% if @true_dl.present? %>
+  <p class="text-center py-2 text-m">TrueDL: <%= round_true_dl(@true_dl) %></p>
+<% end %>
+<% unless @tournament.in_rating? %>
+  <p class="text-center py-2 text-m">Не учитывается в рейтинге МАИИ</p>
+<% end %>
+<div data-controller="all-rosters" class="flex flex-col justify-start">
+  <button data-action="all-rosters#toggleAll"
+          data-all-rosters-target="globalToggle"
+          class="text-sm rounded-md px-2 py-2 mt-1 bg-gray-200 w-max">
+    Показать все составы
+  </button>
+  <div class="flex justify-center py-2">
+    <% cache "tournament_results/#{@model_name}/#{@tournament.id}" do %>
+      <%= render "tournament_predictions" %>
+    <% end %>
+  </div>
+</div>

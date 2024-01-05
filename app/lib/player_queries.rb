@@ -106,4 +106,18 @@ module PlayerQueries
 
     exec_query_for_hash(query: sql, params: [player_id], group_by: "release_id")
   end
+
+  def players_ratings_on_date(players:, date:)
+    placeholders = build_placeholders(start_with: 2, count: players.size)
+
+    sql = <<~SQL
+      select tr.player_id, tr.rating
+      from #{name}.player_ranking tr
+      left join #{name}.release r on tr.release_id = r.id
+      where r.date = $1 and tr.player_id IN (#{placeholders})
+    SQL
+
+    thursday = date.beginning_of_week(:thursday)
+    exec_query_for_hash_array(query: sql, params: [thursday] + players)
+  end
 end

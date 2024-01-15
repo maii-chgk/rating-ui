@@ -107,7 +107,7 @@ module TeamQueries
     placeholders = build_placeholders(start_with: 2, count: list_of_team_ids.size)
 
     sql = <<~SQL
-      select tr.team_id, tr.place
+      select tr.team_id, tr.place, tr.rating
       from b.team_ranking tr
       left join b.release r on tr.release_id = r.id
       where r.date = $1 and tr.team_id IN (#{placeholders})
@@ -115,5 +115,20 @@ module TeamQueries
 
     thursday = date.beginning_of_week(:thursday)
     exec_query_for_hash(query: sql, params: [thursday] + list_of_team_ids, group_by: "team_id")
+  end
+
+  def base_roster_on_date(team_id:, date:)
+    sql = <<~SQL
+       select br.player_id, p.first_name || '&nbsp;' || p.last_name as name
+       from public.base_rosters br
+       left join public.players p on p.id = br.player_id
+       where br.season_id = #{CurrentSeason.id}
+         and $1 >= br.start_date
+         and (br.end_date < $1 or br.end_date is null)
+         and br.team_id = $2
+      order by p.last_name
+    SQL
+
+    exec_query_for_hash_array(query: sql, params: [date, team_id])
   end
 end

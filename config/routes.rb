@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get ":model/player/:player_id", to: "players#show", as: "player"
   get ":model/players(/:release_id)", to: "player_releases#show", as: "player_release"
   get ":model(/:release_id)", to: "releases#show", as: "release"
+  get ":model/tournament_rating_predictions/:tournament_id", to: "rating_predictions#show"
 
   namespace :api do
     namespace :v1 do

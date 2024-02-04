@@ -20,7 +20,7 @@ class RCalculator
   def ratings
     players_ratings = @model.players_ratings_on_date(players:, date:).pluck("rating")
     rt = calculate_rt(players_ratings)
-    base_players = @model.base_roster_on_date(team_id:, date:).pluck("player_id")
+    base_players = @model.base_rosters_on_date(team_ids: [team_id], date:).pluck("player_id")
 
     unless RosterContinuity.has_continuity?(players:, base_players:, date:)
       return Rs.new(rt:, rg: rt, r: 0, rb: 0)
@@ -42,7 +42,7 @@ class RCalculator
   end
 
   def calculate_r
-    team_rating = @model.teams_ranking(list_of_team_ids: [team_id], date:)
+    team_rating = @model.teams_ranking(team_ids: [team_id], date:)
     return 0 if team_rating.empty?
 
     team_rating[team_id].first["rating"]

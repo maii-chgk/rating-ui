@@ -21,7 +21,10 @@ class RCalculator
     players_ratings = @model.players_ratings_on_date(players:, date:).pluck("rating")
     rt = calculate_rt(players_ratings)
     base_players = @model.base_roster_on_date(team_id:, date:).pluck("player_id")
-    return Rs.new(rt:, rg: rt, r: 0, rb: 0) unless is_continuous_to?(base_players)
+
+    unless RosterContinuity.has_continuity?(players:, base_players:, date:)
+      return Rs.new(rt:, rg: rt, r: 0, rb: 0)
+    end
 
     base_players_ratings = @model.players_ratings_on_date(players: base_players, date:).pluck("rating")
 
@@ -50,14 +53,5 @@ class RCalculator
 
     rg = Float(r) * rt / rb
     Integer(rg.clamp(0.5 * r, [rt, r].max))
-  end
-
-  def is_continuous_to?(base_players)
-    base_team_player_count = Set.new(base_players).intersection(Set.new(@players)).size
-    has_continuity?(base_team_player_count, @players.size - base_team_player_count)
-  end
-
-  def has_continuity?(base_players, legionnaires)
-    (base_players >= 3) && (legionnaires < base_players) && (legionnaires <= 3)
   end
 end

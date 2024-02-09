@@ -231,7 +231,7 @@ module ReleaseQueries
         on r.player_id = prev.player_id
             and prev.release_id = (select prev_release_id from releases where release_id = $1)
       where r.release_id = $1
-      order by row_number() over (order by r.rating desc)
+      order by r.place
       limit $2
       offset $3;
     SQL
@@ -262,7 +262,7 @@ module ReleaseQueries
       left join public.players p 
         on p.id = r.player_id
       where r.release_id = $1
-      order by row_number() over (order by r.rating desc)
+      order by r.place
       limit $2
       offset $3;
     SQL

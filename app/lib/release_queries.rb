@@ -70,7 +70,7 @@ module ReleaseQueries
         on r.team_id = prev.team_id
           and prev.release_id = (select prev_release_id from releases where release_id = $1)
       where r.release_id = $1
-      order by row_number() over (order by r.rating desc)
+      order by r.place
       limit $2
       offset $3;
     SQL
@@ -98,7 +98,7 @@ module ReleaseQueries
       left join public.teams t on t.id = r.team_id
       left join public.towns towns on t.town_id = towns.id
       where r.release_id = $1
-      order by row_number() over (order by r.rating desc)
+      order by r.place
       limit $2
       offset $3;
     SQL

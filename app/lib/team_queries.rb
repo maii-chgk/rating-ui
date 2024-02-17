@@ -89,22 +89,11 @@ module TeamQueries
   end
 
   def team_current_base_roster(team_id:)
-    sql = <<~SQL
-       select br.player_id, p.first_name || '&nbsp;' || p.last_name as name
-       from public.base_rosters br
-       left join public.players p on p.id = br.player_id
-       where br.season_id = #{CurrentSeason.id}
-         and current_date >= br.start_date
-         and (br.end_date < current_date or br.end_date is null)
-         and br.team_id = $1
-      order by p.last_name
-    SQL
-
-    exec_query_for_hash_array(query: sql, params: [team_id])
+    base_rosters_on_date(team_ids: [team_id], date: Time.zone.today)
   end
 
-  def teams_ranking(list_of_team_ids:, date:)
-    placeholders = build_placeholders(start_with: 2, count: list_of_team_ids.size)
+  def teams_ranking(team_ids:, date:)
+    placeholders = build_placeholders(start_with: 2, count: team_ids.size)
 
     sql = <<~SQL
       select tr.team_id, tr.place, tr.rating
@@ -114,21 +103,24 @@ module TeamQueries
     SQL
 
     thursday = date.beginning_of_week(:thursday)
-    exec_query_for_hash(query: sql, params: [thursday] + list_of_team_ids, group_by: "team_id")
+    exec_query_for_hash(query: sql, params: [thursday] + team_ids, group_by: "team_id")
   end
 
-  def base_roster_on_date(team_id:, date:)
+  def base_rosters_on_date(team_ids:, date:)
+    placeholders = build_placeholders(start_with: 2, count: team_ids.size)
+
     sql = <<~SQL
-       select br.player_id, p.first_name || '&nbsp;' || p.last_name as name
+       select br.player_id, br.team_id, p.first_name || '&nbsp;' || p.last_name as name
        from public.base_rosters br
        left join public.players p on p.id = br.player_id
-       where br.season_id = #{CurrentSeason.id}
-         and $1 >= br.start_date
+       left join public.seasons on br.season_id = seasons.id
+       where $1 >= br.start_date
          and (br.end_date < $1 or br.end_date is null)
-         and br.team_id = $2
+         and br.team_id in (#{placeholders})
+         and $1 between seasons.start and seasons."end"
       order by p.last_name
     SQL
 
-    exec_query_for_hash_array(query: sql, params: [date, team_id])
+    exec_query_for_hash_array(query: sql, params: [date] + team_ids)
   end
 end

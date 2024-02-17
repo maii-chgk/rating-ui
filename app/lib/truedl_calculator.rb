@@ -30,6 +30,18 @@ class TrueDLCalculator
     @tournament_id = tournament_id
   end
 
+  def tournament
+    @tournament ||= model.tournament_details(tournament_id:)
+  end
+
+  def date
+    @date ||= tournament.start
+  end
+
+  def tournament_results
+    @tournament_results ||= model.tournament_results(tournament_id:)
+  end
+
   def run
     unless model
       Rails.logger.info "no model with the name #{model_name}"
@@ -68,30 +80,35 @@ class TrueDLCalculator
   end
 
   def fetch_data_for_true_dl
-    tournament = model.tournament_details(tournament_id:)
-    if tournament.questions_count.blank?
-      Rails.logger.info "no questions data for the tournament ##{tournament_id}"
-      return
-    end
+    return if tournament.questions_count.blank?
+    return if tournament_results_invalid?
 
-    tournament_results = model.tournament_results(tournament_id:)
-    if tournament_results_invalid?(tournament_results)
-      Rails.logger.info "no results for the tournament ##{tournament_id}"
-      return
-    end
+    filter_by_continuity!
+    return if tournament_results.empty?
 
-    rankings = model.teams_ranking(list_of_team_ids: tournament_results.map(&:team_id), date: tournament.start)
-    if rankings.blank?
-      Rails.logger.info "no rankings for teams in the tournament ##{tournament_id}"
-      return
-    end
+    rankings = model.teams_ranking(team_ids: tournament_results.map(&:team_id), date:)
+    return if rankings.blank?
 
-    teams = join_results_and_rankings(tournament_results, rankings)
+    teams = join_results_and_rankings(rankings)
 
     TrueDLInput[teams:, questions_count: tournament.questions_count]
   end
 
-  def join_results_and_rankings(tournament_results, rankings)
+  def filter_by_continuity!
+    team_ids = tournament_results.map(&:team_id)
+    tournament_rosters = model.tournament_players(tournament_id:)
+    base_rosters = model.base_rosters_on_date(team_ids:, date:).pluck("player_id", "team_id")
+
+    team_ids.each do |team_id|
+      players = tournament_rosters[team_id].pluck("player_id")
+      base_players = base_rosters.filter { |_, roster_id| roster_id == team_id }.map(&:first)
+      next if RosterContinuity.has_continuity?(players:, base_players:, date:)
+
+      tournament_results.delete_if { |result| result.team_id == team_id }
+    end
+  end
+
+  def join_results_and_rankings(rankings)
     tournament_results.map do |result|
       next if rankings[result.team_id].blank?
 
@@ -99,7 +116,7 @@ class TrueDLCalculator
     end.compact
   end
 
-  def tournament_results_invalid?(tournament_results)
+  def tournament_results_invalid?
     return true if tournament_results.blank?
 
     places = tournament_results.map(&:place)

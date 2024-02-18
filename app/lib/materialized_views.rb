@@ -52,7 +52,7 @@ class MaterializedViews
   def player_ranking
     ViewDefinition.new(
       name: "player_ranking",
-      index_columns: ["player_id"],
+      index_columns: %w[player_id release_id place],
       query: <<~SQL
         select rank() over (partition by release_id order by rating desc) as place,
             player_id, rating, rating_change, release_id
@@ -64,7 +64,7 @@ class MaterializedViews
   def team_ranking
     ViewDefinition.new(
       name: "team_ranking",
-      index_columns: ["team_id"],
+      index_columns: %w[team_id release_id place],
       query: <<~SQL
         select rank() over (partition by release_id order by rating desc) as place,
             team_id, rating, rating_change, release_id, trb

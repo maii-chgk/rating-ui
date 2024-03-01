@@ -70,7 +70,8 @@ COPY --from=build --chown=rails:rails /rails /rails
 # Deployment options
 ENV RAILS_LOG_TO_STDOUT="1" \
     RAILS_SERVE_STATIC_FILES="true" \
-    DATABASE_STATEMENT_TIMEOUT=5000
+    DATABASE_STATEMENT_TIMEOUT=5000 \
+    RAILS_MAX_THREADS=3
 
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]

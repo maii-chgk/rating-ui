@@ -1,0 +1,3 @@
+# we only load action_cable as a workaround (https://github.com/maii-chgk/rating-ui/commit/a87d74163bd1af171131eef05d7e7e6f92b89a9a)
+# and don’t actually use it (or need any config for it)
+# however, if this file does not exist, action_cable’s test helper crashes

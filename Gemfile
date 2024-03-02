@@ -36,4 +36,9 @@ group :development do
   gem "web-console", ">= 4.1.0"
 end
 
+group :test do
+  gem "capybara"
+  gem "minitest"
+end
+
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]

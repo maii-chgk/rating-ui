@@ -3,7 +3,48 @@ name: CI
 on: push
 
 jobs:
-  ci:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PostgreSQL client
+        run: sudo apt-get -yqq install postgresql-client
+      - name: Create schema
+        run: psql -h localhost -U postgres -d test_db -c "DROP SCHEMA public CASCADE;"
+        env:
+          PGPASSWORD: postgres
+      - name: Restore database from backup
+        run: pg_restore --no-owner -h localhost -U postgres -d test_db test/test_db.backup
+        env:
+          PGPASSWORD: postgres
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Install Bun
+        run: | 
+          curl -fsSL https://bun.sh/install | bash -s "bun-v1.0.20"
+          echo "${HOME}/.bun/bin" >> $GITHUB_PATH
+      - name: Compile frontend assets
+        run: bundle exec rake assets:precompile
+      - name: Run tests
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
+        run: bundle exec rake test
+
+  linter:
     runs-on: ubuntu-latest
     steps:
       - name: Check out

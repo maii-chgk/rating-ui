@@ -56,8 +56,10 @@ FROM base
 
 # Install packages needed for deployment
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y postgresql-client && \
+    apt-get install --no-install-recommends -y postgresql-client libjemalloc2 && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
 
 # Run and own the application files as a non-root user for security
 RUN useradd rails --home /rails --shell /bin/bash

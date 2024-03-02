@@ -149,6 +149,11 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.5.6)
+    propshaft (0.8.0)
+      actionpack (>= 7.0.0)
+      activesupport (>= 7.0.0)
+      rack
+      railties (>= 7.0.0)
     psych (5.1.2)
       stringio
     puma (6.4.2)
@@ -233,13 +238,6 @@ GEM
       rubocop (>= 1.33.0, < 2.0)
       rubocop-ast (>= 1.30.0, < 2.0)
     ruby-progressbar (1.13.0)
-    sprockets (4.2.1)
-      concurrent-ruby (~> 1.0)
-      rack (>= 2.2.4, < 4)
-    sprockets-rails (3.4.2)
-      actionpack (>= 5.2)
-      activesupport (>= 5.2)
-      sprockets (>= 3.0.0)
     standard (1.34.0)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.0)
@@ -297,6 +295,7 @@ DEPENDENCIES
   newrelic_rpm
   nokogiri (>= 1.13.6)
   pg (< 2)
+  propshaft
   puma (< 7)
   rack (~> 3.0)
   rack-mini-profiler
@@ -307,7 +306,6 @@ DEPENDENCIES
   redis
   rubocop
   rubocop-rails
-  sprockets-rails
   standard
   stimulus-rails
   truedl (~> 0.1.0)

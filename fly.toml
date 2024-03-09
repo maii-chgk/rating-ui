@@ -41,3 +41,7 @@ kill_timeout = "5s"
 [[statics]]
   guest_path = "/rails/public"
   url_prefix = "/"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"

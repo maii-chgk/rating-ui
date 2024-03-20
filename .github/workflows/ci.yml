@@ -34,7 +34,7 @@ jobs:
           bundler-cache: true
       - name: Install Bun
         run: | 
-          curl -fsSL https://bun.sh/install | bash -s "bun-v1.0.20"
+          curl -fsSL https://bun.sh/install | bash -s "bun-v1.0.33"
           echo "${HOME}/.bun/bin" >> $GITHUB_PATH
       - name: Compile frontend assets
         run: bundle exec rake assets:precompile

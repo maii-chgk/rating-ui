@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  rescue_from ActiveRecord::StatementInvalid, with: :show_model_errors
-
   unless Rails.env.local?
     rescue_from NoMethodError, with: :show_missing_model_error
+    rescue_from ActiveRecord::StatementInvalid, with: :show_model_errors
   end
 
   before_action :validate_model_name

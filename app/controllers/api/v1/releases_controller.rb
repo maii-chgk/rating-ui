@@ -18,6 +18,7 @@ module Api
             in_rating: grouped.fetch(true, []).map { |tournament| tournament["id"] },
             not_in_rating: grouped.fetch(false, []).map { |tournament| tournament["id"] }
           }
+          release["q"] = Float(release["q"], exception: false)
         end
 
         render json: metadata.merge({items: releases}), status: :ok

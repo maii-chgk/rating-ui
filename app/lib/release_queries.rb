@@ -132,7 +132,7 @@ module ReleaseQueries
 
   def all_releases
     sql = <<~SQL
-      select date, id, updated_at
+      select date, id, updated_at, q
       from #{name}.release
       order by date desc
     SQL

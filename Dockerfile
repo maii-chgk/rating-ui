@@ -28,7 +28,7 @@ RUN apt-get update -qq && \
 
 ENV BUN_INSTALL=/usr/local/bun
 ENV PATH=/usr/local/bun/bin:$PATH
-ARG BUN_VERSION=1.1.5
+ARG BUN_VERSION=1.1.10
 RUN curl -fsSL https://bun.sh/install | bash -s -- "bun-v${BUN_VERSION}"
 
 # Install application gems

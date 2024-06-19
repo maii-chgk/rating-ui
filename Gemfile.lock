@@ -105,7 +105,7 @@ GEM
     globalid (1.2.1)
       activesupport (>= 6.1)
     hiredis (0.6.3)
-    honeybadger (5.12.0)
+    honeybadger (5.13.0)
     i18n (1.14.5)
       concurrent-ruby (~> 1.0)
     io-console (0.7.2)
@@ -307,7 +307,7 @@ DEPENDENCIES
   capybara
   cssbundling-rails (~> 1.4)
   hiredis
-  honeybadger (~> 5.12)
+  honeybadger (~> 5.13)
   jsbundling-rails (~> 1.0)
   lograge
   minitest

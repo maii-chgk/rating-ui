@@ -112,7 +112,7 @@ GEM
     irb (1.14.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
-    jsbundling-rails (1.3.0)
+    jsbundling-rails (1.3.1)
       railties (>= 6.0.0)
     json (2.7.2)
     language_server-protocol (3.17.0.3)
@@ -293,7 +293,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.6.16)
+    zeitwerk (2.6.17)
 
 PLATFORMS
   aarch64-linux
@@ -308,7 +308,7 @@ DEPENDENCIES
   cssbundling-rails (~> 1.4)
   hiredis
   honeybadger (~> 5.15)
-  jsbundling-rails (~> 1.0)
+  jsbundling-rails (~> 1.3)
   lograge
   minitest
   newrelic_rpm

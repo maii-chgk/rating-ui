@@ -4,6 +4,8 @@ class MaterializedViews
   ViewDefinition = Struct.new("ViewDefinition", :name, :query, :index_columns, keyword_init: true)
 
   def self.recreate_all(model:)
+    return if model.blank?
+
     MaterializedViews.new(model).recreate_all
   end
 

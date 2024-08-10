@@ -7,6 +7,6 @@ class MaterializedViewsController < ApplicationController
   end
 
   def params_model
-    params.require(:model)
+    Model.find_sole_by(name: params.require(:model))&.name
   end
 end

@@ -37,6 +37,7 @@ group :development do
 end
 
 group :test do
+  gem "brakeman"
   gem "capybara"
   gem "minitest"
 end

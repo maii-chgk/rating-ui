@@ -23,21 +23,25 @@ class TeamPageTest < ActionDispatch::IntegrationTest
 
     roster_query = <<~SQL
       insert into base_rosters (player_id, team_id, start_date, season_id)
-      values (4270, 49804, '#{start_date.strftime("%Y-%m-%d")}', #{season_id}),
-             (27403, 49804, '#{start_date.strftime("%Y-%m-%d")}', #{season_id});
+      values (4270, #{team_id}, '#{start_date.strftime("%Y-%m-%d")}', #{season_id}),
+             (27403, #{team_id}, '#{start_date.strftime("%Y-%m-%d")}', #{season_id});
     SQL
     ActiveRecord::Base.connection.exec_query(roster_query)
   end
 
+  def team_id
+    62868
+  end
+
   def team_url
-    "/b/team/49804"
+    "/b/team/#{team_id}/"
   end
 
   test "team page has its name and link to rating.chgk.info" do
     visit team_url
 
-    assert_text "Борский корабел (Москва)"
-    assert_equal "Страница на rating.chgk.info", find_link(href: "https://rating.chgk.info/teams/49804").text
+    assert_text "Gay Guerrilla (сборная)"
+    assert_equal "Страница на rating.chgk.info", find_link(href: "https://rating.chgk.info/teams/#{team_id}").text
   end
 
   test "team page has its base roster" do

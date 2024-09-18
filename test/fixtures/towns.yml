@@ -1,0 +1,39 @@
+town_1:
+  id: 1
+  title: "Bled"
+
+town_2:
+  id: 2
+  title: "Hallstatt"
+
+town_3:
+  id: 3
+  title: "Giethoorn"
+
+town_4:
+  id: 4
+  title: "Colmar"
+
+town_5:
+  id: 5
+  title: "Cesky Krumlov"
+
+town_6:
+  id: 6
+  title: "Reine"
+
+town_7:
+  id: 7
+  title: "Rothenburg ob der Tauber"
+
+town_8:
+  id: 8
+  title: "Bibury"
+
+town_9:
+  id: 9
+  title: "Gruyères"
+
+town_10:
+  id: 10
+  title: "Eze"

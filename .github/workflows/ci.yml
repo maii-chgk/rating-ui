@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:15
+        image: maiili/rating-db-schema:latest
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -20,14 +20,6 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install PostgreSQL client
         run: sudo apt-get -yqq install postgresql-client
-      - name: Create schema
-        run: psql -h localhost -U postgres -d test_db -c "DROP SCHEMA public CASCADE;"
-        env:
-          PGPASSWORD: postgres
-      - name: Restore database from backup
-        run: pg_restore --no-owner -h localhost -U postgres -d test_db test/test_db.backup
-        env:
-          PGPASSWORD: postgres
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:

@@ -34,7 +34,7 @@ jobs:
           bundler-cache: true
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: 1.1.21
+          bun-version: 1.1.27
       - name: Compile frontend assets
         run: bundle exec rake assets:precompile
       - name: Run tests

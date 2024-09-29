@@ -20,3 +20,8 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+
+  - package-ecosystem: github-actions
+    schedule:
+      directory: "/"
+      interval: "weekly"

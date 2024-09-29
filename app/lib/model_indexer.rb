@@ -24,14 +24,14 @@ class ModelIndexer
 
   def self.has_teams_table?(schema)
     sql = <<~SQL
-      select to_regclass($1);
+      select to_regclass($1) IS NOT NULL;
     SQL
     ActiveRecord::Base.connection.exec_query(sql, nil, ["#{schema}.teams"]).rows.first.first.present?
   end
 
   def self.has_rosters_table?(schema)
     sql = <<~SQL
-      select to_regclass($1);
+      select to_regclass($1) IS NOT NULL;
     SQL
     ActiveRecord::Base.connection.exec_query(sql, nil, ["#{schema}.rosters"]).rows.first.first.present?
   end

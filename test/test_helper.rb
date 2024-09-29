@@ -7,3 +7,6 @@ require_relative "../config/environment"
 require "rails/test_help"
 require "capybara/rails"
 Capybara.default_driver = :rack_test
+
+ModelIndexer.run
+MaterializedViews.recreate_all(model: InModel::DEFAULT_MODEL)

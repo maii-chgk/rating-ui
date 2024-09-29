@@ -1,0 +1,249 @@
+player_1:
+  id: 1
+  first_name: "Hiroshi"
+  last_name: "Tanaka"
+
+player_2:
+  id: 2
+  first_name: "Aisha"
+  last_name: "Khan"
+
+player_3:
+  id: 3
+  first_name: "Carlos"
+  last_name: "Garcia"
+
+player_4:
+  id: 4
+  first_name: "Alena"
+  last_name: "Ivanova"
+
+player_5:
+  id: 5
+  first_name: "Liam"
+  last_name: "O'Connor"
+
+player_6:
+  id: 6
+  first_name: "Fatima"
+  last_name: "Hassan"
+
+player_7:
+  id: 7
+  first_name: "Jin"
+  last_name: "Park"
+
+player_8:
+  id: 8
+  first_name: "Sofia"
+  last_name: "Rossi"
+
+player_9:
+  id: 9
+  first_name: "Ahmed"
+  last_name: "Ali"
+
+player_10:
+  id: 10
+  first_name: "Maria"
+  last_name: "Fernandez"
+
+player_11:
+  id: 11
+  first_name: "Yuki"
+  last_name: "Sato"
+
+player_12:
+  id: 12
+  first_name: "Nina"
+  last_name: "Piatrou"
+
+player_13:
+  id: 13
+  first_name: "Omar"
+  last_name: "Abdullah"
+
+player_14:
+  id: 14
+  first_name: "Isabella"
+  last_name: "Martinez"
+
+player_15:
+  id: 15
+  first_name: "Chen"
+  last_name: "Wang"
+
+player_16:
+  id: 16
+  first_name: "Ananya"
+  last_name: "Sharma"
+
+player_17:
+  id: 17
+  first_name: "David"
+  last_name: "Smith"
+
+player_18:
+  id: 18
+  first_name: "Leila"
+  last_name: "Rahman"
+
+player_19:
+  id: 19
+  first_name: "Ravi"
+  last_name: "Kuzniacou"
+
+player_20:
+  id: 20
+  first_name: "Hana"
+  last_name: "Kimura"
+
+player_21:
+  id: 21
+  first_name: "Ravi"
+  last_name: "Patel"
+
+player_22:
+  id: 22
+  first_name: "Sara"
+  last_name: "Jensen"
+
+player_23:
+  id: 23
+  first_name: "Ali"
+  last_name: "Yilmaz"
+
+player_24:
+  id: 24
+  first_name: "Marta"
+  last_name: "Nowak"
+
+player_25:
+  id: 25
+  first_name: "Juan"
+  last_name: "Lopez"
+
+player_26:
+  id: 26
+  first_name: "Amina"
+  last_name: "Mohamed"
+
+player_27:
+  id: 27
+  first_name: "Viktor"
+  last_name: "Novak"
+
+player_28:
+  id: 28
+  first_name: "Emily"
+  last_name: "Brown"
+
+player_29:
+  id: 29
+  first_name: "Hassan"
+  last_name: "Ahmed"
+
+player_30:
+  id: 30
+  first_name: "Sven"
+  last_name: "Larsson"
+
+player_31:
+  id: 31
+  first_name: "Yara"
+  last_name: "Haddad"
+
+player_32:
+  id: 32
+  first_name: "Luca"
+  last_name: "Bianchi"
+
+player_33:
+  id: 33
+  first_name: "Nadia"
+  last_name: "Silva"
+
+player_34:
+  id: 34
+  first_name: "Pedro"
+  last_name: "Silva"
+
+player_35:
+  id: 35
+  first_name: "Aiko"
+  last_name: "Nakamura"
+
+player_36:
+  id: 36
+  first_name: "Mohammed"
+  last_name: "Hussein"
+
+player_37:
+  id: 37
+  first_name: "Anna"
+  last_name: "Schmidt"
+
+player_38:
+  id: 38
+  first_name: "Igor"
+  last_name: "Popov"
+
+player_39:
+  id: 39
+  first_name: "Fatou"
+  last_name: "Diop"
+
+player_40:
+  id: 40
+  first_name: "Lucas"
+  last_name: "Muller"
+
+player_41:
+  id: 41
+  first_name: "Sofia"
+  last_name: "Gonzalez"
+
+player_42:
+  id: 42
+  first_name: "Khalid"
+  last_name: "Saeed"
+
+player_43:
+  id: 43
+  first_name: "Mia"
+  last_name: "Johansson"
+
+player_44:
+  id: 44
+  first_name: "Raj"
+  last_name: "Singh"
+
+player_45:
+  id: 45
+  first_name: "Elif"
+  last_name: "Demir"
+
+player_46:
+  id: 46
+  first_name: "Olga"
+  last_name: "Smirnova"
+
+player_47:
+  id: 47
+  first_name: "Diego"
+  last_name: "Torres"
+
+player_48:
+  id: 48
+  first_name: "Zara"
+  last_name: "Khan"
+
+player_49:
+  id: 49
+  first_name: "Mikalai"
+  last_name: "Ivanou"
+
+player_50:
+  id: 50
+  first_name: "Chloe"
+  last_name: "Martin"

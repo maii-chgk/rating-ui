@@ -1,0 +1,124 @@
+team_1:
+  id: 1
+  town_id: 7
+  title: "The Pun-believables"
+
+team_2:
+  id: 2
+  town_id: 3
+  title: "Trivia Newton John"
+
+team_3:
+  id: 3
+  town_id: 9
+  title: "The Fact Furious"
+
+team_4:
+  id: 4
+  town_id: 2
+  title: "Brainiac's Maniacs"
+
+team_5:
+  id: 5
+  town_id: 6
+  title: "The Smarty Pants Dance"
+
+team_6:
+  id: 6
+  town_id: 1
+  title: "Knowledgeable Nightowls"
+
+team_7:
+  id: 7
+  town_id: 8
+  title: "The Thinking Caps"
+
+team_8:
+  id: 8
+  town_id: 4
+  title: "Witty Titty Committee"
+
+team_9:
+  id: 9
+  town_id: 10
+  title: "The Nerd Herd"
+
+team_10:
+  id: 10
+  town_id: 5
+  title: "Certified Pre-Owned Geniuses"
+
+team_11:
+  id: 11
+  town_id: 2
+  title: "The Periodic Table Dancers"
+
+team_12:
+  id: 12
+  town_id: 7
+  title: "Intellectual Intercourse"
+
+team_13:
+  id: 13
+  town_id: 1
+  title: "The Brainstormtroopers"
+
+team_14:
+  id: 14
+  town_id: 9
+  title: "Cunning Linguists"
+
+team_15:
+  id: 15
+  town_id: 3
+  title: "The Fact Checkers"
+
+team_16:
+  id: 16
+  town_id: 6
+  title: "Ale Capone and the Beer Pressure"
+
+team_17:
+  id: 17
+  town_id: 8
+  title: "The Dewey Decibels"
+
+team_18:
+  id: 18
+  town_id: 4
+  title: "Mindful Misfits"
+
+team_19:
+  id: 19
+  town_id: 10
+  title: "The Socratic Method Actors"
+
+team_20:
+  id: 20
+  town_id: 5
+  title: "Tequila Mockingbird"
+
+team_21:
+  id: 21
+  town_id: 2
+  title: "The Cocktail Chemists"
+
+team_22:
+  id: 22
+  town_id: 7
+  title: "Liver Let Die"
+
+team_23:
+  id: 23
+  town_id: 1
+  title: "The Usual Suspects"
+
+team_24:
+  id: 24
+  town_id: 9
+  title: "No More Mr. Trivia Guy"
+
+team_25:
+  id: 25
+  town_id: 3
+  title: "The Lexicon Artists"

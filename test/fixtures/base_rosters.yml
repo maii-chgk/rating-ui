@@ -1,0 +1,20 @@
+base_roster_entry_1:
+  id: 1
+  player_id: 1
+  team_id: 2
+  season_id: 4
+  start_date: 2024-09-02
+
+base_roster_entry_2:
+  id: 2
+  player_id: 2
+  team_id: 2
+  season_id: 4
+  start_date: 2024-09-03
+
+base_roster_entry_3:
+  id: 3
+  player_id: 3
+  team_id: 2
+  season_id: 4
+  start_date: 2024-09-03

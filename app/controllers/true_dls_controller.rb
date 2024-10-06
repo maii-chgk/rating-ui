@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "../lib/truedl_calculator"
-
 class TrueDlsController < ApplicationController
   def recalculate
-    TrueDLCalculator.calculate_for_all_maii_tournaments(model_name: params_model)
+    TrueDLForMAIITournamentsJob.perform_later(params_model)
     redirect_to :root
   end
 

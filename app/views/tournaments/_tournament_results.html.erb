@@ -13,6 +13,7 @@
     <th class="bg-blue-100 text-center px-2">R</th>
     <th class="bg-blue-100 text-center px-2">RT</th>
     <th class="bg-blue-100 text-center px-2">RB</th>
+    <th class="bg-blue-100 text-center px-2">TrueDL</th>
   </tr>
   </thead>
 
@@ -63,6 +64,7 @@
       <td class="px-2 text-center border-y"><%= result.r %></td>
       <td class="px-2 text-center border-y"><%= result.rt %></td>
       <td class="px-2 text-center border-y"><%= result.rb %></td>
+      <td class="px-2 text-center border-y"><%= round_true_dl(result.truedl) %></td>
     </tr>
   <% end %>
   </tbody>

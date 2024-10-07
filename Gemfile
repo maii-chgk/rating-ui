@@ -20,7 +20,7 @@ gem "rails-i18n"
 gem "rapidjson"
 gem "redis"
 gem "stimulus-rails"
-gem "truedl", "~> 0.1.3"
+gem "truedl", "~> 1.0.0"
 gem "turbo-rails"
 gem "view_component"
 

@@ -21,6 +21,8 @@ class TournamentsController < ApplicationController
     results.each { |tr| tr.players = all_players[tr["team_id"]] }
 
     @tournament = TournamentPresenter.new(id:, details:, results:)
-    @true_dl = TrueDl.find_by(model: current_model, tournament_id: id)&.true_dl
+    @true_dls_by_team = TrueDLCalculator.tournament_dl_by_team(tournament_id: id, model: current_model)
+    @true_dl = @true_dls_by_team.values.sum / @true_dls_by_team.size.to_f
+    # console
   end
 end

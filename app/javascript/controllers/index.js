@@ -15,3 +15,6 @@ application.register("player-rating-details", PlayerRatingDetailsController)
 
 import SingleRosterController from "./single_roster_controller"
 application.register("single-roster", SingleRosterController)
+
+import TrueDLDetailsController from "./truedl_details_controller"
+application.register("true-dl-details", TrueDLDetailsController)

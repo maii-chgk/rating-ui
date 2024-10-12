@@ -3,6 +3,14 @@
 class TrueDLCalculator
   TrueDLInput = Data.define(:teams, :questions_count)
 
+  def self.tournament_dl(tournament_id:, model:)
+    TrueDl.where(model:, tournament_id:).average(:true_dl)
+  end
+
+  def self.tournament_dl_by_team(tournament_id:, model:)
+    TrueDl.where(model:, tournament_id:).pluck(:team_id, :true_dl).to_h
+  end
+
   def self.calculate_for_tournament(tournament_id:, model_name:)
     TrueDLCalculator.new(tournament_id, model_name).run
   end
@@ -61,15 +69,11 @@ class TrueDLCalculator
   private
 
   def save_to_database(dl_values)
-    dl_values.each do |dl_value|
-      TrueDl.find_or_create_by(model_id: model.id, tournament_id:, team_id: dl_value.id) do |record|
-        record.true_dl = dl_value.dl if different_values?(record.true_dl, dl_value.dl)
-      end
+    upsert_entries = dl_values.map do |dl_value|
+      {model_id: model.id, tournament_id:, team_id: dl_value.id, true_dl: dl_value.dl}
     end
-  end
 
-  def different_values?(first, second)
-    (first - second).abs > 0.0001
+    TrueDl.upsert_all(upsert_entries, unique_by: %i[model_id tournament_id team_id]) # rubocop:disable Rails/SkipsModelValidations
   end
 
   def fetch_data_for_true_dl

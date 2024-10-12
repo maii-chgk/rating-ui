@@ -31,6 +31,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_06_211401) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "team_id"
+    t.index ["model_id", "team_id", "tournament_id"], name: "index_true_dls_on_model_id_and_team_id_and_tournament_id", unique: true
     t.index ["model_id"], name: "index_true_dls_on_model_id"
   end
 

@@ -22,7 +22,7 @@ gem "redis"
 gem "stimulus-rails"
 gem "truedl", "~> 1.0.0"
 gem "turbo-rails"
-gem "view_component"
+gem "view_component", "3.14.0"
 
 group :development, :test do
   gem "byebug", platforms: %i[mri mingw x64_mingw]

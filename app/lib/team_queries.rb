@@ -51,17 +51,6 @@ module TeamQueries
     exec_query(query: sql, params: [team_id], result_class: TeamOldTournament)
   end
 
-  def team_details(team_id:)
-    sql = <<~SQL
-      select t.title as name, town.title as city
-      from public.teams t
-      left join public.towns town on t.town_id = town.id
-      where t.id = $1
-    SQL
-
-    exec_query_for_single_row(query: sql, params: [team_id])
-  end
-
   def team_players(team_id:)
     sql = <<~SQL
       select rr.tournament_id, p.id as player_id,

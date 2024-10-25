@@ -1,11 +1,11 @@
-<% @title="#{@name} — рейтинг МАИИ" %>
+<% @title="#{@team.name} — рейтинг МАИИ" %>
 
 <div class="text-center text-xl">
-  <h1><%= @name %> (<%= @city %>)</h1>
+  <h1><%= @team.name %> (<%= @team.city %>)</h1>
 </div>
 
 <div class="text-center py-2 text-l hover:underline">
-  <%= link_to("Страница на rating.chgk.info", "https://rating.chgk.info/teams/#{@team_id}") %>
+  <%= link_to("Страница на rating.chgk.info", "https://rating.chgk.info/teams/#{@team.id}") %>
 </div>
 
 <% unless @base_roster.empty? %>
@@ -34,7 +34,7 @@
   </button>
 
   <div class="py-2 px-2">
-    <% cache "team_tournaments_list/#{@model_name}/#{@team_id}" do %>
+    <% cache "team_tournaments_list/#{@model_name}/#{@team.id}" do %>
       <%= render "tournaments_list" %>
     <% end %>
   </div>
@@ -42,7 +42,7 @@
 
 <h4 class="text-l text-center py-2">Турниры до МАИИ</h4>
 <div class="py-2">
-  <% cache "old_team_tournaments_list/#{@model_name}/#{@team_id}" do %>
+  <% cache "old_team_tournaments_list/#{@model_name}/#{@team.id}" do %>
     <%= render "old_tournaments_list" %>
   <% end %>
 </div>

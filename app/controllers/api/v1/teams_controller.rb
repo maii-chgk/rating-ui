@@ -72,9 +72,9 @@ module Api
         }
 
         if add_names?
-          name, city = current_model.team_details(team_id:)
-          metadata[:team_name] = name
-          metadata[:city] = city
+          team = Team.team_details_by_id(team_id)
+          metadata[:team_name] = team.name
+          metadata[:city] = team.city
         end
 
         metadata

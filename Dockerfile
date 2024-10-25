@@ -74,7 +74,8 @@ COPY --from=build --chown=rails:rails /rails /rails
 ENV RAILS_LOG_TO_STDOUT="1" \
     RAILS_SERVE_STATIC_FILES="true" \
     DATABASE_STATEMENT_TIMEOUT=10000 \
-    RAILS_MAX_THREADS=3
+    RAILS_MAX_THREADS=3 \
+    NEW_RELIC_INSTRUMENTATION_VIEW_COMPONENT=disabled
 
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]

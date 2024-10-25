@@ -88,7 +88,8 @@ module Api
           model: current_model.name,
           player_id:
         }
-        metadata[:name] = current_model.player_name_api(player_id:) if add_names?
+
+        metadata[:name] = Player.find(player_id).full_name if add_names?
         metadata
       end
     end

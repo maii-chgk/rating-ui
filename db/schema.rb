@@ -23,6 +23,15 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_06_211401) do
     t.index ["name"], name: "index_models_on_name", unique: true
   end
 
+  create_table "players", id: false, force: :cascade do |t|
+    t.integer "id"
+    t.text "first_name"
+    t.text "patronymic"
+    t.text "last_name"
+    t.datetime "updated_at", precision: nil
+    t.index ["id"], name: "players_id_index"
+  end
+
   create_table "teams", id: false, force: :cascade do |t|
     t.integer "id"
     t.text "title"

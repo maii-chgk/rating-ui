@@ -2,8 +2,7 @@ class RatingPredictionsController < ApplicationController
   include InModel
   def show
     id = params[:tournament_id].to_i
-    details = current_model.tournament_details(tournament_id: id)
-    return render_404 if details.name.nil?
+    tournament = Tournament.find(id)
 
     results = current_model.tournament_results(tournament_id: id)
 
@@ -19,7 +18,9 @@ class RatingPredictionsController < ApplicationController
     results.sort_by! { |result| -result.rg }
     results.each_with_index { |result, i| result.place = i + 1 }
 
-    @tournament = TournamentPresenter.new(id:, details:, results:)
+    @tournament = TournamentPresenter.new(id:, tournament:, results:)
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def calculate_ratings(team)

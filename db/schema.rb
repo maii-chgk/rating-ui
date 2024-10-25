@@ -23,6 +23,33 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_06_211401) do
     t.index ["name"], name: "index_models_on_name", unique: true
   end
 
+  create_table "tournaments", id: false, force: :cascade do |t|
+    t.integer "id"
+    t.text "title"
+    t.datetime "start_datetime", precision: nil
+    t.datetime "end_datetime", precision: nil
+    t.datetime "last_edited_at", precision: nil
+    t.integer "questions_count"
+    t.integer "typeoft_id"
+    t.text "type"
+    t.boolean "maii_rating"
+    t.datetime "maii_rating_updated_at", precision: nil
+    t.boolean "maii_aegis"
+    t.datetime "maii_aegis_updated_at", precision: nil
+    t.boolean "in_old_rating"
+    t.datetime "updated_at", precision: nil
+    t.index ["end_datetime"], name: "tournaments_end_datetime_index", order: :desc
+    t.index ["id"], name: "tournaments_id_index"
+    t.index ["start_datetime"], name: "tournaments_start_datetime_index", order: :desc
+    t.index ["type"], name: "tournaments_type_index"
+  end
+
+  create_table "towns", id: false, force: :cascade do |t|
+    t.integer "id"
+    t.text "title"
+    t.datetime "updated_at", precision: nil
+  end
+
   create_table "true_dls", force: :cascade do |t|
     t.bigint "id"
     t.integer "tournament_id"

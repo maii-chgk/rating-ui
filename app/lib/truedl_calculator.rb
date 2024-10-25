@@ -22,11 +22,11 @@ class TrueDLCalculator
       return
     end
 
-    tournaments = model.all_tournaments_after_date(date: "2021-09-01")
+    tournaments = Tournament.where("start_datetime >= '2021-09-01'").pluck(:id)
     Rails.logger.info "calculating truedl for #{tournaments.size} tournaments"
 
-    tournaments.each_with_index do |tournament, index|
-      calculate_for_tournament(tournament_id: tournament["id"], model_name:)
+    tournaments.each_with_index do |tournament_id, index|
+      calculate_for_tournament(tournament_id:, model_name:)
       Rails.logger.info "Progress: #{index + 1}/#{tournaments.size}" if (index + 1) % 10 == 0
     end
   end
@@ -39,7 +39,7 @@ class TrueDLCalculator
   end
 
   def tournament
-    @tournament ||= model.tournament_details(tournament_id:)
+    @tournament ||= Tournament.find(tournament_id)
   end
 
   def date

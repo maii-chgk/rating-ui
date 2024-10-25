@@ -3,6 +3,14 @@
 class TrueDLCalculator
   TrueDLInput = Data.define(:teams, :questions_count)
 
+  def self.tournament_dl(tournament_id:, model:)
+    TrueDl.where(model:, tournament_id:).average(:true_dl)
+  end
+
+  def self.tournament_dl_by_team(tournament_id:, model:)
+    TrueDl.where(model:, tournament_id:).pluck(:team_id, :true_dl).to_h
+  end
+
   def self.calculate_for_tournament(tournament_id:, model_name:)
     TrueDLCalculator.new(tournament_id, model_name).run
   end
@@ -51,32 +59,21 @@ class TrueDLCalculator
     true_dl_input = fetch_data_for_true_dl
     return unless true_dl_input
 
-    dl_value = TrueDL.true_dl_for_tournament(teams: true_dl_input.teams,
+    dl_values = TrueDL.true_dls_for_tournament(teams: true_dl_input.teams,
       number_of_questions: true_dl_input.questions_count)
-    return if dl_value.nil?
+    return if dl_values.blank?
 
-    save_to_database(dl_value)
+    save_to_database(dl_values)
   end
 
   private
 
-  def save_to_database(dl_value)
-    existing_record = TrueDl.find_by(model_id: model.id, tournament_id:)
-    if existing_record.present?
-      if existing_record.true_dl.nil? || different_values?(existing_record.true_dl, dl_value)
-        existing_record.update(true_dl: dl_value)
-        Rails.logger.info "updated value for model #{model.name} and tournament ##{tournament_id}"
-      else
-        Rails.logger.info "value stayed the same for model #{model.name} and tournament ##{tournament_id}"
-      end
-    else
-      TrueDl.create({model_id: model.id, true_dl: dl_value, tournament_id:})
-      Rails.logger.info "created value for model #{model.name} and tournament ##{tournament_id}"
+  def save_to_database(dl_values)
+    upsert_entries = dl_values.map do |dl_value|
+      {model_id: model.id, tournament_id:, team_id: dl_value.id, true_dl: dl_value.dl}
     end
-  end
 
-  def different_values?(first, second)
-    (first - second).abs > 0.0001
+    TrueDl.upsert_all(upsert_entries, unique_by: %i[model_id tournament_id team_id]) # rubocop:disable Rails/SkipsModelValidations
   end
 
   def fetch_data_for_true_dl
@@ -112,7 +109,7 @@ class TrueDLCalculator
     tournament_results.map do |result|
       next if rankings[result.team_id].blank?
 
-      {points: result.points, ranking: rankings[result.team_id].first["place"]}
+      {id: result.team_id, points: result.points, ranking: rankings[result.team_id].first["place"]}
     end.compact
   end
 

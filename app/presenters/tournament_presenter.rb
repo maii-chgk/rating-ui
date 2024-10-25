@@ -3,13 +3,21 @@
 class TournamentPresenter
   attr_reader :id, :results
 
+  Results = Struct.new(:team_id, :team_name, :team_city, :place, :points,
+    :rating, :rating_change, :in_rating, :predicted_rating, :predicted_place,
+    :d1, :d2, :players, :r, :rt, :rg, :rb,
+    :truedl)
+
   # @param [integer] id
   # @param [TournamentPageDetails] details
   # @param [Array<TournamentResults>] results
-  def initialize(id:, details:, results:)
+  # @param [Hash] truedls
+  def initialize(id:, details:, results:, truedls: {})
     @id = id
     @details = details
-    @results = results
+    @results = results.map do |result|
+      Results.new(**result.to_h, truedl: truedls[result.team_id])
+    end
   end
 
   def name

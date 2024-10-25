@@ -6,7 +6,8 @@ class TournamentsController < ApplicationController
   def index
     @tournaments = current_model.tournaments_list
     @true_dls = TrueDl.where(model: current_model, tournament_id: @tournaments.map(&:id))
-      .pluck(:tournament_id, :true_dl)
+      .group(:tournament_id)
+      .average(:true_dl)
       .to_h
   end
 

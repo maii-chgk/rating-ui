@@ -32,6 +32,12 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_06_211401) do
     t.index ["id"], name: "players_id_index"
   end
 
+  create_table "seasons", id: false, force: :cascade do |t|
+    t.integer "id"
+    t.date "start"
+    t.date "end"
+    t.datetime "updated_at", precision: nil
+  end
   create_table "teams", id: false, force: :cascade do |t|
     t.integer "id"
     t.text "title"

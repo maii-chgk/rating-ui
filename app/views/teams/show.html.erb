@@ -10,7 +10,7 @@
 
 <% unless @base_roster.empty? %>
   <div class="px-2 py-2">
-    <h2 class="py-1 font-semibold">Базовый состав на сезон <%= CurrentSeason.title %></h2>
+    <h2 class="py-1 font-semibold">Базовый состав на сезон <%= @current_season.title %></h2>
     <div class="w-1 pl-1 bg-gray-200">
       <div class="px-2">
         <%= render(PlayerComponent.with_collection(@base_roster)) %>

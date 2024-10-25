@@ -13,6 +13,7 @@ class TeamsController < ApplicationController
     all_players = current_model.team_players(team_id:)
 
     @rows = ReleaseTournamentBuilder.build(releases, tournaments, all_players)
+    @current_season = Season.current_season
 
     @old_tournaments = current_model.old_tournaments(team_id:)
     @old_tournaments.each { |t| t.players = all_players[t["id"]] }

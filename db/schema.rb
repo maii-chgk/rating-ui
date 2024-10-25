@@ -45,6 +45,38 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_06_211401) do
     t.datetime "updated_at", precision: nil
   end
 
+  create_table "tournament_results", id: false, force: :cascade do |t|
+    t.bigserial "id", null: false
+    t.integer "tournament_id"
+    t.integer "team_id"
+    t.text "team_title"
+    t.integer "total"
+    t.float "position"
+    t.integer "old_rating"
+    t.integer "old_rating_delta"
+    t.datetime "updated_at", precision: nil
+    t.integer "team_city_id"
+    t.integer "points"
+    t.text "points_mask"
+    t.index ["team_id", "tournament_id"], name: "tournament_results_team_id_tournament_id_index"
+    t.index ["team_id"], name: "tournament_results_team_id_index"
+    t.index ["tournament_id"], name: "tournament_results_tournament_id_index"
+  end
+
+  create_table "tournament_rosters", id: false, force: :cascade do |t|
+    t.serial "id", null: false
+    t.integer "tournament_id"
+    t.integer "team_id"
+    t.integer "player_id"
+    t.text "flag"
+    t.boolean "is_captain"
+    t.datetime "updated_at", precision: nil
+    t.index ["player_id", "tournament_id", "team_id"], name: "tournament_rosters_uindex", unique: true
+    t.index ["player_id"], name: "tournaments_roster_player_id_index"
+    t.index ["team_id", "tournament_id"], name: "tournament_rosters_team_id_tournament_id_index"
+    t.index ["tournament_id"], name: "tournaments_roster_tournament_id_index"
+  end
+
   create_table "tournaments", id: false, force: :cascade do |t|
     t.integer "id"
     t.text "title"

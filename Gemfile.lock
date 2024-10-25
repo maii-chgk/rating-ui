@@ -267,7 +267,7 @@ GEM
     thor (1.3.2)
     timeout (0.4.1)
     truedl (1.0.0)
-    turbo-rails (2.0.10)
+    turbo-rails (2.0.11)
       actionpack (>= 6.0.0)
       railties (>= 6.0.0)
     tzinfo (2.0.6)

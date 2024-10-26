@@ -44,10 +44,6 @@ module TeamQueries
     exec_query(query: sql, params: [team_id], result_class: TeamRelease)
   end
 
-  def team_current_base_roster(team_id:)
-    base_rosters_on_date(team_ids: [team_id], date: Time.zone.today)
-  end
-
   def teams_ranking(team_ids:, date:)
     placeholders = build_placeholders(start_with: 2, count: team_ids.size)
 

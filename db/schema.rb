@@ -14,6 +14,18 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_06_211401) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "base_rosters", id: false, force: :cascade do |t|
+    t.serial "id", null: false
+    t.integer "player_id"
+    t.integer "team_id"
+    t.integer "season_id"
+    t.date "start_date"
+    t.date "end_date"
+    t.datetime "updated_at", precision: nil
+    t.index ["player_id"], name: "base_rosters_player_id_index"
+    t.index ["team_id"], name: "base_rosters_team_id_index"
+  end
+
   create_table "models", force: :cascade do |t|
     t.text "name"
     t.boolean "changes_teams"
@@ -38,6 +50,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_06_211401) do
     t.date "end"
     t.datetime "updated_at", precision: nil
   end
+
   create_table "teams", id: false, force: :cascade do |t|
     t.integer "id"
     t.text "title"

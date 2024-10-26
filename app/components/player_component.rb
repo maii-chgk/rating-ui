@@ -3,8 +3,13 @@
 class PlayerComponent < ViewComponent::Base
   def initialize(player:)
     @player = player
-    @bold = @player.flag == "Б" || @player.flag == "К"
-    @italic = @player.flag == "Л"
+    flag = if @player.respond_to?(:flag)
+      @player.flag
+    elsif @player.respond_to?(:[])
+      @player["flag"]
+    end
+    @bold = flag == "Б" || flag == "К"
+    @italic = flag == "Л"
     @name = "#{@player.first_name}&nbsp;#{@player.last_name}"
   end
 

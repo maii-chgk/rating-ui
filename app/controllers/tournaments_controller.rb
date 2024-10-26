@@ -17,7 +17,7 @@ class TournamentsController < ApplicationController
 
     results = current_model.tournament_results(tournament_id: id)
 
-    all_players = current_model.tournament_players(tournament_id: id)
+    all_players = tournament.players_with_names.group_by(&:team_id)
     results.each { |tr| tr.players = all_players[tr["team_id"]] }
 
     true_dls_by_team = TrueDLCalculator.tournament_dl_by_team(tournament_id: id, model: current_model)

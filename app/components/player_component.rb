@@ -1,27 +1,29 @@
 # frozen_string_literal: true
 
 class PlayerComponent < ViewComponent::Base
+  attr_reader :player_id, :name
   def initialize(player:)
     @player = player
-    flag = if @player.respond_to?(:flag)
-      @player.flag
-    elsif @player.respond_to?(:[])
-      @player["flag"]
+
+    if @player.is_a?(Hash)
+      flag = @player["flag"]
+      @name = "#{@player["first_name"]}&nbsp;#{@player["last_name"]}"
+      @player_id = @player["player_id"]
+    else
+      flag = @player.try(:flag)
+      @name = "#{@player.first_name}&nbsp;#{@player.last_name}"
+      @player_id = @player.player_id
     end
+
     @bold = flag == "Б" || flag == "К"
     @italic = flag == "Л"
-    @name = "#{@player.first_name}&nbsp;#{@player.last_name}"
   end
 
   def before_render
-    return if @name.blank?
+    return if player_id.blank?
 
-    @player_link = link_to(sanitize(@name),
-      player_path(player_id: @player.player_id),
+    @player_link = link_to(sanitize(name),
+      player_path(player_id:),
       class: "hover:underline text-sm")
-  end
-
-  def render?
-    @player.present? && @name.present?
   end
 end

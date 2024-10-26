@@ -16,4 +16,10 @@ class Tournament < ApplicationRecord
         "tournament_results.old_rating as rating",
         "tournament_results.old_rating_delta as rating_change")
   end
+
+  def players_with_names
+    tournament_rosters.joins("left join players on tournament_rosters.player_id = players.id")
+      .order("tournament_rosters.team_id, tournament_rosters.flag, players.last_name")
+      .select(:team_id, :flag, "players.id as player_id", players: [:first_name, :last_name])
+  end
 end

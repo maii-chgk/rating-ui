@@ -1,0 +1,31 @@
+tournament_1:
+  id: 1
+  maii_rating: true
+  type: "Обычный"
+  title: "Bled Cup"
+  start_datetime: 2024-10-02 10:00:00
+  end_datetime: 2024-10-03 18:00:00
+
+tournament_2:
+  id: 2
+  maii_rating: true
+  type: "Синхрон"
+  title: "Bled Cup Mirror"
+  start_datetime: 2024-10-04 10:00:00
+  end_datetime: 2024-10-10 18:00:00
+
+tournament_3:
+  id: 3
+  maii_rating: false
+  type: "Асинхрон"
+  title: "Random Cup"
+  start_datetime: 2023-10-04 10:00:00
+  end_datetime: 2023-10-10 18:00:00
+
+tournament_4:
+  id: 4
+  maii_rating: false
+  type: "Строго синхронный"
+  title: "Cesky Krumlov Championship"
+  start_datetime: 2024-07-24 10:00:00
+  end_datetime: 2024-07-24 15:00:00

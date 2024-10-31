@@ -2,10 +2,12 @@
   "name": "app",
   "private": "true",
   "dependencies": {
-    "@hotwired/stimulus": "^3.0.1",
-    "@hotwired/turbo-rails": "^7.2.0",
+    "@hotwired/stimulus": "^3.2.2",
+    "@hotwired/turbo-rails": "^7.3.0",
     "autoprefixer": "latest",
+    "braces": "^3.0.3",
     "esbuild": "^0.14.54",
+    "micromatch": "^4.0.8",
     "postcss": "latest",
     "tailwindcss": "latest"
   },

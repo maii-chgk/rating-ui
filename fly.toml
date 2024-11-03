@@ -4,7 +4,7 @@
 #
 
 app = "rating"
-primary_region = "waw"
+primary_region = "ams"
 kill_signal = "SIGINT"
 kill_timeout = "5s"
 
@@ -12,7 +12,7 @@ kill_timeout = "5s"
   auto_rollback = true
 
 [env]
-  PRIMARY_REGION = "waw"
+  PRIMARY_REGION = "ams"
 
 [[services]]
   protocol = "tcp"

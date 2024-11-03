@@ -1,0 +1,26 @@
+tournament_result_1:
+  id: 1
+  tournament_id: 1
+  team_id: 2
+  team_title: "Trivia Newton John"
+  total: 30
+  position: 1.0
+  team_city_id: 3
+
+tournament_result_2:
+  id: 2
+  tournament_id: 1
+  team_id: 7
+  team_title: "Knowledgeable Nightowls"
+  total: 22
+  position: 2.0
+  team_city_id: 1
+
+tournament_result_3:
+  id: 3
+  tournament_id: 1
+  team_id: 13
+  team_title: "One-off"
+  total: 21
+  position: 3.0
+  team_city_id: 2

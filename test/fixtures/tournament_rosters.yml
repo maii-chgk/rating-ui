@@ -1,0 +1,27 @@
+tournament_roster_1:
+  id: 1
+  tournament_id: 1
+  team_id: 2
+  player_id: 1
+  flag: "Б"
+
+tournament_roster_2:
+  id: 2
+  tournament_id: 1
+  team_id: 2
+  player_id: 2
+  flag: "Б"
+
+tournament_roster_3:
+  id: 3
+  tournament_id: 1
+  team_id: 2
+  player_id: 3
+  flag: "Б"
+
+tournament_roster_4:
+  id: 4
+  tournament_id: 1
+  team_id: 2
+  player_id: 31
+  flag: "Л"

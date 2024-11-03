@@ -1,18 +1,18 @@
-<% @title="#{@name.gsub("&nbsp;", " ")} — рейтинг МАИИ" %>
+<% @title="#{@player.full_name} — рейтинг МАИИ" %>
 <div class="text-center text-xl">
-  <h1><%= @name.html_safe %></h1>
+  <h1><%= @player.first_name %>&nbsp;<%= @player.last_name %></h1>
 </div>
 <div class="text-center py-2 text-l hover:underline">
-<%= link_to("Страница на rating.chgk.info", "https://rating.chgk.info/player/#{@player_id}") %>
+<%= link_to("Страница на rating.chgk.info", "https://rating.chgk.info/player/#{@player.id}") %>
 </div>
 <div class="py-2">
-  <% cache "player_tournaments_list/#{@model_name}/#{@player_id}" do %>
+  <% cache "player_tournaments_list/#{@model_name}/#{@player.id}" do %>
     <%= render "tournaments_list" %>
   <% end %>
 </div>
 <h4 class="text-l text-center py-2">Турниры до МАИИ</h4>
 <div class="py-2">
-  <% cache "player_old_tournaments_list/#{@model_name}/#{@player_id}" do %>
+  <% cache "player_old_tournaments_list/#{@model_name}/#{@player.id}" do %>
     <%= render "old_tournaments_list" %>
   <% end %>
 </div>

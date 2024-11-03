@@ -11,8 +11,6 @@ module TournamentQueries
     :r, :rt, :rg, :rb,
     keyword_init: true)
 
-  TournamentPageDetails = Struct.new(:name, :start, :end, :maii_rating, :questions_count)
-
   TournamentListDetails = Struct.new(:id, :name, :type, :date, :rating, keyword_init: true)
 
   def tournament_results(tournament_id:)
@@ -86,17 +84,6 @@ module TournamentQueries
     exec_query_for_hash(query: sql, params: [tournament_id], group_by: "team_id")
   end
 
-  def tournament_details(tournament_id:)
-    sql = <<~SQL
-      select t.title as name, start_datetime, end_datetime, maii_rating, questions_count
-      from public.tournaments t
-      where t.id = $1
-    SQL
-
-    row = exec_query_for_single_row(query: sql, params: [tournament_id])
-    TournamentPageDetails.new(*row)
-  end
-
   def tournaments_list
     sql = <<~SQL
       with winners as (
@@ -115,15 +102,5 @@ module TournamentQueries
     SQL
 
     exec_query(query: sql, result_class: TournamentListDetails)
-  end
-
-  def all_tournaments_after_date(date:)
-    sql = <<~SQL
-      select id
-      from public.tournaments
-      where end_datetime >= $1
-    SQL
-
-    exec_query_for_hash_array(query: sql, params: [date])
   end
 end

@@ -4,19 +4,21 @@ class TeamsController < ApplicationController
   include InModel
 
   def show
-    @team_id = params[:team_id].to_i
-    @name, @city = current_model.team_details(team_id: @team_id)
-    return render_404 if @name.nil?
+    team_id = params[:team_id].to_i
+    @team = Team.team_details_by_id(team_id)
+    return render_404 if @team.nil?
 
-    releases = current_model.team_releases(team_id: @team_id)
-    tournaments = current_model.team_tournaments(team_id: @team_id)
-    all_players = current_model.team_players(team_id: @team_id)
+    releases = current_model.team_releases(team_id:)
+    tournaments = current_model.team_tournaments(team_id:)
 
-    @rows = ReleaseTournamentBuilder.build(releases, tournaments, all_players)
+    @all_players = Team.players_in_all_tournaments(team_id)
 
-    @old_tournaments = current_model.old_tournaments(team_id: @team_id)
-    @old_tournaments.each { |t| t.players = all_players[t["id"]] }
+    @rows = ReleaseTournamentBuilder.build(releases, tournaments, @all_players)
+    @current_season = Season.current_season
 
-    @base_roster = current_model.team_current_base_roster(team_id: @team_id)
+    @old_tournaments = Tournament.pre_maii_tournaments_for_team(team_id).map(&:attributes)
+    @old_tournaments.each { |t| t["players"] = @all_players[t["id"]] }
+
+    @base_roster = @team.current_base_roster
   end
 end

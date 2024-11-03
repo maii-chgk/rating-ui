@@ -32,10 +32,10 @@ module Api
         }
 
         if add_names?
-          tournament_details = current_model.tournament_details(tournament_id:)
-          metadata[:title] = tournament_details.name
-          metadata[:start_date] = tournament_details.start
-          metadata[:end_date] = tournament_details.end
+          tournament_details = Tournament.find(tournament_id)
+          metadata[:title] = tournament_details.title
+          metadata[:start_date] = tournament_details.start_datetime
+          metadata[:end_date] = tournament_details.end_datetime
         end
 
         metadata

@@ -13,17 +13,18 @@ class TournamentsController < ApplicationController
 
   def show
     id = params[:tournament_id].to_i
-    details = current_model.tournament_details(tournament_id: id)
-    return render_404 if details.name.nil?
+    tournament = Tournament.find(id)
 
     results = current_model.tournament_results(tournament_id: id)
 
-    all_players = current_model.tournament_players(tournament_id: id)
+    all_players = tournament.players_with_names.group_by(&:team_id)
     results.each { |tr| tr.players = all_players[tr["team_id"]] }
 
     true_dls_by_team = TrueDLCalculator.tournament_dl_by_team(tournament_id: id, model: current_model)
     @true_dl = true_dls_by_team.values.sum / true_dls_by_team.size.to_f unless true_dls_by_team.empty?
 
-    @tournament = TournamentPresenter.new(id:, details:, results:, truedls: true_dls_by_team)
+    @tournament = TournamentPresenter.new(id:, tournament:, results:, truedls: true_dls_by_team)
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 end

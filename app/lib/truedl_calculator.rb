@@ -43,7 +43,7 @@ class TrueDLCalculator
   end
 
   def date
-    @date ||= tournament.start
+    @date ||= tournament.start_datetime
   end
 
   def tournament_results

@@ -1,1 +1,1 @@
-# Витрина для рейтингов МАИИ
+# Display of various quiz team ranking models

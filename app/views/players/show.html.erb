@@ -1,4 +1,4 @@
-<% @title="#{@player.full_name} — рейтинг МАИИ" %>
+<% @title="#{@player.full_name} — рейтинг" %>
 <div class="text-center text-xl">
   <h1><%= @player.first_name %>&nbsp;<%= @player.last_name %></h1>
 </div>
@@ -10,7 +10,7 @@
     <%= render "tournaments_list" %>
   <% end %>
 </div>
-<h4 class="text-l text-center py-2">Турниры до МАИИ</h4>
+<h4 class="text-l text-center py-2">Турниры до рейтинга</h4>
 <div class="py-2">
   <% cache "player_old_tournaments_list/#{@model_name}/#{@player.id}" do %>
     <%= render "old_tournaments_list" %>

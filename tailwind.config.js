@@ -14,5 +14,6 @@ module.exports = {
       sans: "Inter var, ui-sans-serif, system-ui",
       serif: "Inter var, ui-sans-serif, system-ui"
     }
-  }
+  },
+  darkMode: 'media'
 }

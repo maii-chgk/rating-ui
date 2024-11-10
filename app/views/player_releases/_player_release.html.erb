@@ -1,26 +1,26 @@
-<table class="shadow-lg bg-white">
+<table class="rating-table">
   <thead>
-  <tr>
+  <tr class="rating-table-header">
     <% if @filtered %>
-      <th class="bg-blue-100 text-center px-2 py-2">#</th>
+      <th class="px-2 py-2">#</th>
     <% end %>
-    <th class="bg-blue-100 text-center px-2 py-2">Место</th>
-    <th class="bg-blue-100 text-center px-2">Игрок</th>
-    <th class="bg-blue-100 text-center px-2">Рейтинг</th>
-    <th class="bg-blue-100 text-center px-2">Дельта</th>
+    <th class="px-2 py-2">Место</th>
+    <th class="px-2">Игрок</th>
+    <th class="px-2">Рейтинг</th>
+    <th class="px-2">Дельта</th>
   </tr>
   </thead>
 
   <tbody>
   <% @players.each_with_index do |player, index| %>
-    <tr class="border-y py-2 hover:bg-gray-100">
+    <tr class="border-b rating-table-row">
       <% if @filtered %>
-        <td class="text-center border-y px-2"><%= @paging.from + index %></td>
+        <td class="text-center px-2"><%= @paging.from + index %></td>
       <% end %>
-      <td class="text-center border-y py-2"><%= player['place'] %></td>
-      <td class="border-y px-2 hover:underline"><%= link_to(raw(player['name']), player_path(player_id: player['player_id'])) %></td>
-      <td class="text-center border-y"><%= player['rating'] %></td>
-      <td class="text-center border-y"><%= player['rating_change'] %></td>
+      <td class="text-center py-2"><%= player['place'] %></td>
+      <td class="px-2 hover:underline"><%= link_to(raw(player['name']), player_path(player_id: player['player_id'])) %></td>
+      <td class="text-center"><%= player['rating'] %></td>
+      <td class="text-center"><%= player['rating_change'] %></td>
     </tr>
   <% end %>
   </tbody>

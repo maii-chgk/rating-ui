@@ -1,37 +1,37 @@
-<table class="shadow-lg bg-white table-auto min-w-full">
+<table class="rating-table table-auto min-w-full">
   <thead>
-  <tr>
-    <th class="bg-blue-100 text-center px-2 py-2">Место</th>
-    <th class="bg-blue-100 text-center px-2 w-1/4">Команда</th>
-    <th class="bg-blue-100 text-center px-2">Город</th>
-    <th class="bg-blue-100 text-center px-2">Взятые</th>
-    <th class="bg-blue-100 text-center px-2">Рейтинг</th>
-    <th class="bg-blue-100 text-center px-2">Прогноз</th>
-    <th class="bg-blue-100 text-center px-2">D1</th>
-    <th class="bg-blue-100 text-center pl-2 pr-4">D2</th>
-    <th class="bg-blue-100 text-center pl-4 pr-2">RG</th>
-    <th class="bg-blue-100 text-center px-2">R</th>
-    <th class="bg-blue-100 text-center px-2">RT</th>
-    <th class="bg-blue-100 text-center px-2">RB</th>
-    <th class="bg-blue-100 text-center px-2">TrueDL</th>
+  <tr class="rating-table-header">
+    <th class="px-2 py-2">Место</th>
+    <th class="px-2 w-1/4">Команда</th>
+    <th class="px-2">Город</th>
+    <th class="px-2">Взятые</th>
+    <th class="px-2">Рейтинг</th>
+    <th class="px-2">Прогноз</th>
+    <th class="px-2">D1</th>
+    <th class="pl-2 pr-4">D2</th>
+    <th class="pl-4 pr-2">RG</th>
+    <th class="px-2">R</th>
+    <th class="px-2">RT</th>
+    <th class="px-2">RB</th>
+    <th class="px-2">TrueDL</th>
   </tr>
   </thead>
 
   <tbody>
   <% @tournament.results.each do |result| %>
-    <tr class="py-2 hover:bg-gray-100">
-      <td class="px-2 text-center border-y border-r">
+    <tr class="rating-table-row border-b">
+      <td class="px-2 text-center border-r dark:border-blue-900">
         <%= render(PlaceChangeComponent.new(place: result.place, previous_place: result.predicted_place)) %>
       </td>
 
-      <td class="px-2 py-1 border-y">
+      <td class="px-2 py-1">
         <%= link_to(result['team_name'], team_path(team_id: result.team_id), class: 'hover:underline') %>
         <div data-controller="single-roster">
           <a href="" data-all-rosters-target="toggle" data-single-roster-target="show" data-action="single-roster#show"
              class="underline decoration-1 decoration-blue-300 underline-offset-2 decoration-solid text-sm">
             Состав
           </a>
-          <div class="w-1 pl-1 bg-blue-100 hover:bg-blue-300"
+          <div class="w-1 pl-1 bg-blue-100 hover:bg-blue-300 dark:bg-blue-900 dark:hover:bg-blue-800"
                  data-single-roster-target="hide"
                  data-action="click->single-roster#hide">
             <div class="hidden px-2" data-all-rosters-target="roster" data-single-roster-target="roster">
@@ -41,11 +41,11 @@
         </div>
       </td>
 
-      <td class="px-2 md:text-left text-center border-y"><%= result.team_city %></td>
+      <td class="px-2 md:text-left text-center"><%= result.team_city %></td>
 
-      <td class="px-2 text-center border-y"><%= result.points %></td>
+      <td class="px-2 text-center"><%= result.points %></td>
 
-      <td class="px-2 text-center border-y">
+      <td class="px-2 text-center">
         <%= result.rating %>
         <% unless result.in_rating %>
           <s>
@@ -57,14 +57,14 @@
         <% end %>
       </td>
 
-      <td class="px-2 text-center border-y"><%= result.predicted_rating %></td>
-      <td class="px-2 text-center border-y"><%= result.d1 %></td>
-      <td class="pl-2 pr-4 text-center border-y"><%= result.d2 %></td>
-      <td class="pl-4 pr-2 text-center border-y border-l"><%= result.rg %></td>
-      <td class="px-2 text-center border-y"><%= result.r %></td>
-      <td class="px-2 text-center border-y"><%= result.rt %></td>
-      <td class="px-2 text-center border-y"><%= result.rb %></td>
-      <td class="px-2 text-center border-y"><%= round_true_dl(result.truedl) %></td>
+      <td class="px-2 text-center"><%= result.predicted_rating %></td>
+      <td class="px-2 text-center"><%= result.d1 %></td>
+      <td class="pl-2 pr-4 text-center"><%= result.d2 %></td>
+      <td class="pl-4 pr-2 text-center border-l dark:border-blue-900"><%= result.rg %></td>
+      <td class="px-2 text-center"><%= result.r %></td>
+      <td class="px-2 text-center"><%= result.rt %></td>
+      <td class="px-2 text-center"><%= result.rb %></td>
+      <td class="px-2 text-center"><%= round_true_dl(result.truedl) %></td>
     </tr>
   <% end %>
   </tbody>

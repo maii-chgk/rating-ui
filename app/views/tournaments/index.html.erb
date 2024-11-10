@@ -1,27 +1,27 @@
 <% @title="Рейтинг" %>
 <h1 class="text-center py-4 text-xl">Турниры</h1>
 
-<table class="shadow-lg bg-white table-fixed">
+<table class="rating-table table-fixed">
   <thead>
-  <tr>
-    <th class="bg-blue-100 text-center px-2 py-2 w-1/8">Дата</th>
-    <th class="bg-blue-100 text-center px-2 w-1/4">Турнир</th>
-    <th class="bg-blue-100 text-center px-2 w-1/8">Тип</th>
-    <th class="bg-blue-100 text-center px-2 w-1/8">Бонус победителя</th>
-    <th class="bg-blue-100 text-center px-2 w-1/8">TrueDL</th>
+  <tr class="rating-table-header">
+    <th class="px-2 w-1/8">Дата</th>
+    <th class="px-2 w-1/4">Турнир</th>
+    <th class="px-2 w-1/8">Тип</th>
+    <th class="px-2 w-1/8">Бонус победителя</th>
+    <th class="px-2 w-1/8">TrueDL</th>
   </tr>
   </thead>
 
   <tbody>
   <% @tournaments.each do |tournament| %>
-    <tr class="border-y py-2 hover:bg-gray-100">
-      <td class="border-y px-2 py-2 text-center"><%= I18n.l(tournament["date"].to_date, format: :short) %></td>
-      <td class="border-y px-2 hover:underline">
+    <tr class="rating-table-row border-b py-2">
+      <td class="px-2 py-2 text-center"><%= I18n.l(tournament["date"].to_date, format: :short) %></td>
+      <td class="px-2 hover:underline">
         <%= link_to(tournament["name"], tournament_path(tournament_id: tournament["id"])) %>
       </td>
-      <td class="border-y px-2 text-center"><%= tournament["type"] %></td>
-      <td class="border-y px-2 text-center"><%= tournament["rating"] %></td>
-      <td class="border-y px-2 text-center"><%= round_true_dl(@true_dls[tournament["id"]]) %></td>
+      <td class="px-2 text-center"><%= tournament["type"] %></td>
+      <td class="px-2 text-center"><%= tournament["rating"] %></td>
+      <td class="px-2 text-center"><%= round_true_dl(@true_dls[tournament["id"]]) %></td>
     </tr>
   <% end %>
   </tbody>

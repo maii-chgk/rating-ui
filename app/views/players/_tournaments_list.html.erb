@@ -1,28 +1,28 @@
-<table class="shadow-lg bg-white table-fixed">
+<table class="rating-table table-fixed">
   <thead>
-  <tr>
-    <th class="bg-blue-100 border text-center px-2 py-2">Релиз</th>
-    <th class="bg-blue-100 border text-center px-2 py-2">Место</th>
-    <th class="bg-blue-100 border text-center px-2 py-2">Рейтинг</th>
-    <th class="bg-blue-100 border text-center px-2">Турнир</th>
-    <th class="bg-blue-100 border text-center px-2">Команда</th>
-    <th class="bg-blue-100 border text-center px-2">Место</th>
-    <th class="bg-blue-100 border text-center px-2">Бонус</th>
-    <th class="bg-blue-100 border text-center px-2">Δ</th>
+  <tr class="rating-table-header">
+    <th class="px-2 py-2">Релиз</th>
+    <th class="px-2 py-2">Место</th>
+    <th class="px-2 py-2">Рейтинг</th>
+    <th class="px-2">Турнир</th>
+    <th class="px-2">Команда</th>
+    <th class="px-2">Место</th>
+    <th class="px-2">Бонус</th>
+    <th class="px-2">Δ</th>
   </tr>
   </thead>
 
   <tbody>
   <% @rows.each do |tournament| %>
-    <tr class="border py-2 hover:bg-gray-100">
+    <tr class="border-b py-2 rating-table-row">
     <% if tournament.rows > 0 %>
-      <td rowspan="<%= tournament.rows %>" class="border px-2 py-2">
+      <td rowspan="<%= tournament.rows %>" class="px-2 py-2">
         <%= tournament.release_date %>
       </td>
-      <td rowspan="<%= tournament.rows %>" class="border px-2 text-center">
+      <td rowspan="<%= tournament.rows %>" class="px-2 text-center">
         <%= round_place(tournament.release_place) %>
       </td>
-      <td rowspan="<%= tournament.rows %>" class="border px-2 text-center">
+      <td rowspan="<%= tournament.rows %>" class="px-2 text-center">
         <div data-controller="player-rating-details">
           <a href="" data-action="click->player-rating-details#toggle"
              class="underline decoration-1 decoration-blue-300 underline-offset-3 decoration-solid">
@@ -35,19 +35,19 @@
       </td>
     <% end %>
     <% if tournament.tournament_id.present? %>
-      <td class="border px-2">
+      <td class="px-2 py-2">
           <%= link_to(tournament.name, tournament_path(tournament_id: tournament.tournament_id)) %>
       </td>
-      <td class="border px-2 text-left">
+      <td class="px-2 text-left">
         <%= link_to(tournament.team_name, team_path(team_id: tournament.team_id)) %>
       </td>
-      <td class="border px-2 text-center">
+      <td class="px-2 text-center">
         <%= round_place(tournament.place) %>
       </td>
-      <td class="border px-2 text-center">
+      <td class="px-2 text-center">
         <%= tournament.rating %>
       </td>
-      <td class="border px-2 text-center">
+      <td class=" px-2 text-center">
         <%= tournament.rating_change %>
       </td>
     <% else %>

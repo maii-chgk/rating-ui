@@ -1,3 +1,4 @@
 <%= select_tag "releases[]",
                options_for_select(@releases_in_dropdown, player_release_path(release_id: @release_id)),
-               {:onchange => "location = this.value;", :class => "mt-1 block w-full rounded-md border-gray-300 shadow-sm py-2"} %>
+               {:onchange => "location = this.value;",
+                :class => "mt-1 block w-full rounded-md border-gray-300 shadow-sm py-2 dark:bg-gray-500 dark:border-gray-500"} %>

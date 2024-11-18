@@ -1,6 +1,7 @@
 module.exports = {
   content: [
     './app/views/**/*.html.erb',
+    './app/views/**/*.html',
     './app/helpers/**/*.rb',
     './app/components/**/*.{erb,html}',
     './app/assets/stylesheets/**/*.css',
@@ -8,6 +9,7 @@ module.exports = {
   ],
   plugins: [
     require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
   ],
   theme: {
     fontFamily: {

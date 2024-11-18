@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get "recreate_views/:model", to: "materialized_views#recreate_views"
   get "recalculate_truedl/:model", to: "true_dls#recalculate"
   get "mau", to: "reports#mau"
+  get "rules", to: "rules#index"
 
   get ":model/tournaments/", to: "tournaments#index", as: "tournaments"
   get ":model/tournament/:tournament_id", to: "tournaments#show", as: "tournament"

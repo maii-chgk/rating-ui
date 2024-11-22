@@ -14,10 +14,17 @@ kill_timeout = "5s"
 [env]
   PRIMARY_REGION = "ams"
 
+[deploy]
+  release_command = "bin/rails db:prepare"
+
+[processes]
+server = "bin/rails server"
+worker = "bundle exec sidekiq"
+
 [[services]]
   protocol = "tcp"
   internal_port = 3000
-  processes = ["app"]
+  processes = ["server"]
 
   [[services.ports]]
     port = 80
@@ -45,3 +52,4 @@ kill_timeout = "5s"
 [[vm]]
   size = "shared-cpu-1x"
   memory = "512mb"
+  processes = ["server", "worker"]

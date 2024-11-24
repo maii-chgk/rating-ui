@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_06_211401) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_24_122023) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -71,7 +71,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_06_211401) do
     t.integer "team_city_id"
     t.integer "points"
     t.text "points_mask"
-    t.index ["team_id", "tournament_id"], name: "tournament_results_team_id_tournament_id_index"
+    t.index ["team_id", "tournament_id"], name: "index_tournament_results_on_team_id_and_tournament_id", unique: true
     t.index ["team_id"], name: "tournament_results_team_id_index"
     t.index ["tournament_id"], name: "tournament_results_tournament_id_index"
   end

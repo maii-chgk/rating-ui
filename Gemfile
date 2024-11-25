@@ -6,6 +6,7 @@ gem "bootsnap", ">= 1.4.4", require: false
 gem "cssbundling-rails", "~> 1.4"
 gem "hiredis"
 gem "honeybadger", "~> 5.24"
+gem "httparty"
 gem "jsbundling-rails", "~> 1.3"
 gem "lograge"
 gem "newrelic_rpm"
@@ -19,14 +20,12 @@ gem "rails", "~> 7.2"
 gem "rails-i18n"
 gem "rapidjson"
 gem "redis"
+gem "ruby-limiter"
+gem "sidekiq", "~> 7.3"
 gem "stimulus-rails"
 gem "truedl", "~> 1.0.0"
 gem "turbo-rails"
 gem "view_component"
-
-group :development, :test do
-  gem "byebug", platforms: %i[mri mingw x64_mingw]
-end
 
 group :development do
   gem "rack-mini-profiler"
@@ -41,7 +40,3 @@ group :test do
   gem "capybara"
   gem "minitest"
 end
-
-gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
-
-gem "sidekiq", "~> 7.3"

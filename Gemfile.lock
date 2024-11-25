@@ -253,6 +253,7 @@ GEM
       rack (>= 1.1)
       rubocop (>= 1.52.0, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
+    ruby-limiter (2.3.0)
     ruby-progressbar (1.13.0)
     securerandom (0.3.1)
     sidekiq (7.3.6)
@@ -333,6 +334,7 @@ DEPENDENCIES
   redis
   rubocop
   rubocop-rails
+  ruby-limiter
   sidekiq (~> 7.3)
   standard
   stimulus-rails
@@ -342,4 +344,4 @@ DEPENDENCIES
   web-console (>= 4.1.0)
 
 BUNDLED WITH
-   2.5.16
+   2.5.22

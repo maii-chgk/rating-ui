@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-module Api
+module API
   module V1
-    class ReleasesController < ApiController
+    class ReleasesController < APIController
       include InModel
 
       def index

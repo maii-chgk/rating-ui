@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-module Api
+module API
   module V1
-    class WrongTeamIdsController < ApiController
+    class WrongTeamIdsController < APIController
       def index
         render json: {items: WrongTeamId.all}, status: :ok
       end

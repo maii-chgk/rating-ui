@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-module Api
+module API
   module V1
-    class TournamentsController < ApiController
+    class TournamentsController < APIController
       include InModel
 
       def show

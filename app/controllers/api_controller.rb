@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ApiController < ActionController::Base
+class APIController < ActionController::Base
   rescue_from ActiveRecord::StatementInvalid, with: :show_model_errors
 
   DEFAULT_PAGE_SIZE = 500

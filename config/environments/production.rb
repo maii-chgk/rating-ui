@@ -54,9 +54,6 @@ Rails.application.configure do
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
 
-  # Don't log any deprecations.
-  config.active_support.report_deprecations = false
-
   config.log_formatter = NewRelic::Agent::Logging::DecoratingFormatter.new
   logger = ActiveSupport::Logger.new($stdout)
   logger.formatter = config.log_formatter
@@ -66,4 +63,6 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
   config.cache_store = :redis_cache_store, {url: ENV.fetch("REDIS_URL", nil)}
   config.secret_key_base = ENV.fetch("SECRET_KEY_BASE", nil)
+
+  config.active_support.deprecation = :silence
 end

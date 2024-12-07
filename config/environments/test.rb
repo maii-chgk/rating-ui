@@ -56,4 +56,6 @@ Rails.application.configure do
 
   config.active_record.migration_error = false
   config.active_record.maintain_test_schema = false
+
+  config.active_support.deprecation = :stderr
 end
